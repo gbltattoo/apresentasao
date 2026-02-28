@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Sistema de Cotação - Materiais</title>
+<title>Obras Tatuador LTDA • Sistema de Cotação</title>
 
 <style>
   body { font-family: Arial, sans-serif; margin: 20px; background:#f4f6fb; }
@@ -16,8 +16,14 @@
   }
   .brand h1 { margin:0; font-size:18px; line-height:1.2; }
   .brand .sub { font-size:12px; color:#6b7280; margin-top:2px; }
+
   .actions { display:flex; gap:10px; flex-wrap:wrap; }
-  .wrap { display:grid; grid-template-columns: 420px 1fr; gap:20px; margin-top:15px; }
+
+  .tabs { display:flex; gap:10px; flex-wrap:wrap; margin-top:14px; }
+  .tabbtn { padding:10px 12px; border-radius:10px; border:1px solid #d1d5db; background:#fff; cursor:pointer; font-weight:700; }
+  .tabbtn.active { background:#111827; color:#fff; border-color:#111827; }
+
+  .wrap { display:grid; grid-template-columns: 440px 1fr; gap:20px; margin-top:15px; }
   .card { background:#fff; padding:18px; border-radius:14px; box-shadow:0 2px 12px rgba(0,0,0,.06); }
   h2 { font-size:16px; margin:0 0 10px; }
   label { font-size:13px; margin-top:10px; display:block; color:#374151; }
@@ -28,15 +34,23 @@
   button.green { background:#065f46; }
   button.blue { background:#1d4ed8; }
   button.danger { background:#b91c1c; width:auto; padding:8px 10px; border-radius:10px; }
+  button.warn { background:#b45309; }
+
   table { width:100%; border-collapse:collapse; margin-top:10px; }
   th, td { padding:10px; border-bottom:1px solid #eee; font-size:13px; text-align:left; vertical-align:top; }
   th { background:#111827; color:#fff; }
+
   .totals { margin-top:15px; display:grid; grid-template-columns:1fr 1fr; gap:10px; }
   .box { background:#fff; padding:12px; border-radius:10px; border:1px solid #eee; }
   .value { font-weight:bold; font-size:16px; }
-  .badge { background:#dc2626; color:#fff; padding:4px 8px; border-radius:8px; font-size:12px; }
   .muted { font-size:12px; color:#6b7280; }
   .row2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .row3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; }
+
+  .pill { display:inline-block; padding:4px 8px; border-radius:999px; background:#eef2ff; color:#3730a3; font-size:12px; font-weight:800; }
+  .badge { background:#dc2626; color:#fff; padding:4px 8px; border-radius:8px; font-size:12px; font-weight:800; }
+
+  .hidden { display:none !important; }
 
   /* impressão (PDF) */
   @media print {
@@ -46,257 +60,474 @@
     .wrap { grid-template-columns: 1fr; }
     .logo { background:#000 !important; color:#fff !important; }
   }
+
+  /* modal simples */
+  .modalBack { position:fixed; inset:0; background:rgba(0,0,0,.45); display:none; align-items:center; justify-content:center; padding:16px; }
+  .modal { width:min(520px, 100%); background:#fff; border-radius:14px; padding:16px; box-shadow:0 8px 30px rgba(0,0,0,.25); }
+  .modalTop { display:flex; justify-content:space-between; align-items:center; gap:10px; }
+  .modalTop h3 { margin:0; font-size:16px; }
+  .xbtn { width:auto; padding:8px 10px; border-radius:10px; background:#111827; }
 </style>
 </head>
 
 <body>
 
-<!-- TOPO (marca + botões) -->
+<!-- TOPO -->
 <div class="topbar">
   <div class="brand">
-    <!-- LOGO: por padrão é um "M". Se quiser imagem, eu te ensino logo abaixo. -->
-    <div class="logo" id="logoBox">M</div>
+    <div class="logo">OT</div>
     <div>
-      <h1 id="empresaNome">Sua Empresa de Materiais</h1>
+      <h1>Obras Tatuador LTDA</h1>
       <div class="sub">
-        Cotação rápida • <span class="badge">ICMS 22% Fixo</span> • Frete fixo por nota: <b>R$ 20,00</b>
+        Cotação • Estoque • Relatórios • <span class="badge">ICMS 22% Fixo</span> • <span class="pill">Comissão vendedor 30%</span>
       </div>
     </div>
   </div>
 
   <div class="actions no-print">
+    <button class="secondary" onclick="abrirAdmin()">Admin</button>
     <button class="blue" onclick="copiarWhatsApp()">Copiar para WhatsApp</button>
-    <button class="green" onclick="gerarPDF()">Gerar PDF do Orçamento</button>
+    <button class="green" onclick="gerarPDF()">Gerar PDF</button>
   </div>
 </div>
 
-<div class="wrap">
+<!-- ABAS -->
+<div class="tabs no-print">
+  <button class="tabbtn active" id="tab-cotacao" onclick="setTab('cotacao')">Cotação</button>
+  <button class="tabbtn" id="tab-dashboard" onclick="setTab('dashboard')">Dashboard mensal</button>
+  <button class="tabbtn" id="tab-relatorios" onclick="setTab('relatorios')">Relatório por produto</button>
+  <button class="tabbtn" id="tab-estoque" onclick="setTab('estoque')">Estoque</button>
+</div>
 
-  <!-- Painel de entrada -->
-  <div class="card no-print">
-    <h2>Configuração (para demo)</h2>
+<!-- ÁREA: COTAÇÃO -->
+<section id="sec-cotacao">
+  <div class="wrap">
 
-    <label>Nome da empresa (aparece no PDF e WhatsApp)</label>
-    <input id="empresaInput" placeholder="Ex: Construmax Materiais" value="Sua Empresa de Materiais">
+    <!-- Painel de entrada -->
+    <div class="card no-print">
+      <h2>Dados do comprador</h2>
 
-    <div class="row2">
-      <div>
-        <label>Iniciais do logo (ex: CM)</label>
-        <input id="logoInput" placeholder="Ex: CM" value="M">
+      <div class="row2">
+        <div>
+          <label>Cliente / Empresa</label>
+          <input id="cliente" placeholder="Ex: João Silva / Construtora X">
+        </div>
+        <div>
+          <label>CPF ou CNPJ</label>
+          <input id="doc" placeholder="Ex: 123.456.789-00 ou 12.345.678/0001-00">
+        </div>
       </div>
-      <div>
-        <label>Telefone/WhatsApp (opcional)</label>
-        <input id="foneInput" placeholder="Ex: (21) 99999-9999" value="">
+
+      <label>Endereço de entrega</label>
+      <input id="endereco" placeholder="Rua, número, bairro, cidade - UF">
+
+      <label>Observações (opcional)</label>
+      <textarea id="obsInput" placeholder="Ex: prazo, condições, validade do orçamento..."></textarea>
+
+      <hr style="border:none;border-top:1px solid #eee;margin:14px 0;">
+
+      <h2>Adicionar material</h2>
+
+      <label>Material</label>
+      <select id="produto"></select>
+
+      <div class="row3">
+        <div>
+          <label>Quantidade</label>
+          <input type="number" id="quantidade" min="1" value="1">
+        </div>
+        <div>
+          <label>Frete (pago pelo cliente) R$</label>
+          <input type="number" id="frete" value="20" step="0.01">
+        </div>
+        <div>
+          <label>Comissão vendedor (%)</label>
+          <input type="number" id="comissaoPct" value="30" step="1" min="0" max="100">
+        </div>
       </div>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px;">
+        <button onclick="adicionarItem()">Adicionar na cotação</button>
+        <button class="secondary" onclick="limpar()">Limpar tudo</button>
+      </div>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:10px;">
+        <button class="warn" onclick="fecharVenda()">Fechar venda (baixa estoque)</button>
+        <button class="secondary" onclick="salvarRascunho()">Salvar rascunho</button>
+      </div>
+
+      <p class="muted" style="margin-top:12px;">
+        <b>Cliente paga:</b> Materiais + ICMS + Frete + Comissão (separado).<br>
+        <b>Lucro estimado:</b> (Venda materiais − ICMS − Custo).<br>
+        *Comissão aparece separada e entra no total final cobrado.
+      </p>
     </div>
 
-    <label>Mensagem/observação (opcional)</label>
-    <textarea id="obsInput" placeholder="Ex: Prazo de entrega, condições, validade do orçamento..."></textarea>
-
-    <hr style="border:none;border-top:1px solid #eee;margin:14px 0;">
-
-    <h2>Adicionar material</h2>
-
-    <label>Cliente / Empresa</label>
-    <input id="cliente" placeholder="Ex: Construtora X / João Silva">
-
-    <label>Material</label>
-    <select id="produto"></select>
-
-    <div class="row2">
-      <div>
-        <label>Quantidade</label>
-        <input type="number" id="quantidade" min="1" value="1">
+    <!-- Orçamento (imprimível) -->
+    <div class="card" id="areaOrcamento">
+      <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-start;">
+        <div>
+          <h2 style="margin-bottom:6px;">Orçamento</h2>
+          <div class="muted"><b>Empresa:</b> Obras Tatuador LTDA</div>
+          <div class="muted"><b>ICMS:</b> 22% (fixo)</div>
+        </div>
+        <div style="text-align:right;">
+          <div><b>Data:</b> <span id="dataOut"></span></div>
+        </div>
       </div>
-      <div>
-        <label>Frete fixo por nota (R$)</label>
-        <input type="number" id="frete" value="20" step="0.01">
-      </div>
-    </div>
 
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px;">
-      <button onclick="adicionarItem()">Adicionar na Cotação</button>
-      <button class="secondary" onclick="limpar()">Limpar Tudo</button>
-    </div>
-
-    <p class="muted" style="margin-top:12px;">
-      <b>Lucro líquido estimado</b> = (Venda − ICMS − Custo).<br/>
-      *Somente ICMS considerado (outros tributos não informados).
-    </p>
-  </div>
-
-  <!-- Orçamento (imprimível) -->
-  <div class="card" id="areaOrcamento">
-    <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-start;">
-      <div>
-        <h2 style="margin-bottom:6px;">Orçamento</h2>
-        <div class="muted"><b>Empresa:</b> <span id="empresaOut">Sua Empresa de Materiais</span></div>
-        <div class="muted"><b>Contato:</b> <span id="foneOut">—</span></div>
-      </div>
-      <div style="text-align:right;">
+      <div style="margin-top:10px" class="row2">
         <div><b>Cliente:</b> <span id="clienteOut">—</span></div>
-        <div><b>Data:</b> <span id="dataOut"></span></div>
+        <div><b>CPF/CNPJ:</b> <span id="docOut">—</span></div>
+      </div>
+      <div style="margin-top:6px"><b>Endereço:</b> <span id="enderecoOut">—</span></div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Material</th>
+            <th>Qtd</th>
+            <th>Preço Unit</th>
+            <th>Custo Unit</th>
+            <th>ICMS</th>
+            <th>Lucro</th>
+            <th>Total</th>
+            <th class="no-print"></th>
+          </tr>
+        </thead>
+        <tbody id="lista"></tbody>
+      </table>
+
+      <div class="totals">
+        <div class="box">
+          <div class="muted">Total materiais (sem extras)</div>
+          <div class="value" id="totalVenda">R$ 0,00</div>
+        </div>
+
+        <div class="box">
+          <div class="muted">Total ICMS (22%)</div>
+          <div class="value" id="totalICMS">R$ 0,00</div>
+        </div>
+
+        <div class="box">
+          <div class="muted">Lucro estimado (materiais)</div>
+          <div class="value" id="totalLucro">R$ 0,00</div>
+        </div>
+
+        <div class="box">
+          <div class="muted">Comissão vendedor (paga pelo cliente)</div>
+          <div class="value" id="totalComissao">R$ 0,00</div>
+        </div>
+
+        <div class="box">
+          <div class="muted">Frete (pago pelo cliente)</div>
+          <div class="value" id="totalFrete">R$ 0,00</div>
+        </div>
+
+        <div class="box">
+          <div class="muted">Total final (cliente paga)</div>
+          <div class="value" id="totalFinal">R$ 0,00</div>
+        </div>
+      </div>
+
+      <div class="muted" style="margin-top:12px;">
+        <b>Observações:</b> <span id="obsOut">—</span>
+      </div>
+
+      <div class="muted" style="margin-top:10px;">
+        Este sistema é uma demonstração. Para produção, recomenda-se backend e autenticação real.
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ÁREA: DASHBOARD -->
+<section id="sec-dashboard" class="hidden">
+  <div class="card">
+    <h2>📊 Dashboard mensal</h2>
+    <div class="muted">Mostra os resultados do mês atual com base nas vendas “Fechadas”.</div>
+
+    <div class="row2" style="margin-top:10px;">
+      <div>
+        <label>Mês/Ano</label>
+        <input id="mesRef" type="month">
+      </div>
+      <div style="display:flex; align-items:end; gap:10px;">
+        <button class="secondary" style="width:auto" onclick="recalcularDashboard()">Atualizar</button>
+      </div>
+    </div>
+
+    <div class="totals">
+      <div class="box"><div class="muted">Faturamento materiais</div><div class="value" id="dashFat">R$ 0,00</div></div>
+      <div class="box"><div class="muted">ICMS</div><div class="value" id="dashIcms">R$ 0,00</div></div>
+      <div class="box"><div class="muted">Comissão</div><div class="value" id="dashCom">R$ 0,00</div></div>
+      <div class="box"><div class="muted">Frete</div><div class="value" id="dashFrete">R$ 0,00</div></div>
+      <div class="box"><div class="muted">Lucro estimado (materiais)</div><div class="value" id="dashLucro">R$ 0,00</div></div>
+      <div class="box"><div class="muted">Vendas fechadas</div><div class="value" id="dashQtd">0</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ÁREA: RELATÓRIO POR PRODUTO -->
+<section id="sec-relatorios" class="hidden">
+  <div class="card">
+    <h2>📈 Relatório por produto</h2>
+    <div class="muted">Agrega as vendas fechadas no mês selecionado.</div>
+
+    <div class="row2" style="margin-top:10px;">
+      <div>
+        <label>Mês/Ano</label>
+        <input id="mesRef2" type="month">
+      </div>
+      <div style="display:flex; align-items:end; gap:10px;">
+        <button class="secondary" style="width:auto" onclick="renderRelatorioProduto()">Atualizar</button>
       </div>
     </div>
 
     <table>
       <thead>
         <tr>
-          <th>Material</th>
-          <th>Qtd</th>
-          <th>Preço Unit</th>
-          <th>Custo Unit</th>
-          <th>ICMS</th>
-          <th>Lucro</th>
-          <th>Total</th>
-          <th class="no-print"></th>
+          <th>Produto</th>
+          <th>Qtd vendida</th>
+          <th>Faturamento (materiais)</th>
+          <th>Lucro estimado</th>
         </tr>
       </thead>
-      <tbody id="lista"></tbody>
+      <tbody id="relProdBody"></tbody>
     </table>
+  </div>
+</section>
 
-    <div class="totals">
-      <div class="box">
-        <div class="muted">Total Venda (sem frete)</div>
-        <div class="value" id="totalVenda">R$ 0,00</div>
-      </div>
+<!-- ÁREA: ESTOQUE -->
+<section id="sec-estoque" class="hidden">
+  <div class="card">
+    <h2>📦 Controle de estoque</h2>
+    <div class="muted">O estoque baixa automaticamente quando você “Fecha venda”. Você também pode ajustar manualmente no Admin.</div>
 
-      <div class="box">
-        <div class="muted">Total ICMS (22%)</div>
-        <div class="value" id="totalICMS">R$ 0,00</div>
-      </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Produto</th>
+          <th>Em estoque</th>
+          <th>Custo</th>
+          <th>Venda</th>
+        </tr>
+      </thead>
+      <tbody id="estoqueBody"></tbody>
+    </table>
+  </div>
+</section>
 
-      <div class="box">
-        <div class="muted">Lucro Líquido Estimado</div>
-        <div class="value" id="totalLucro">R$ 0,00</div>
-      </div>
-
-      <div class="box">
-        <div class="muted">Frete</div>
-        <div class="value" id="totalFrete">R$ 0,00</div>
-      </div>
-
-      <div class="box">
-        <div class="muted">Total Final (com frete)</div>
-        <div class="value" id="totalFinal">R$ 0,00</div>
-      </div>
-
-      <div class="box">
-        <div class="muted">ICMS padrão</div>
-        <div class="value">22%</div>
-      </div>
+<!-- MODAL ADMIN -->
+<div class="modalBack" id="adminBack">
+  <div class="modal">
+    <div class="modalTop">
+      <h3>Área Administrativa</h3>
+      <button class="xbtn" onclick="fecharAdmin()">Fechar</button>
     </div>
 
-    <div class="muted" style="margin-top:12px;">
-      <b>Observações:</b> <span id="obsOut">—</span>
+    <div id="adminLogin">
+      <p class="muted">Para demonstração, esta senha é simples (lado do navegador). Em produção, usar autenticação real.</p>
+      <label>Senha admin</label>
+      <input id="adminPass" type="password" placeholder="Digite a senha">
+      <button style="margin-top:10px" onclick="loginAdmin()">Entrar</button>
+      <div class="muted" style="margin-top:8px;">Senha padrão demo: <b>admin123</b></div>
     </div>
 
-    <div class="muted" style="margin-top:10px;">
-      Este orçamento é uma simulação para fins de apresentação. Valores podem variar conforme condições de compra e logística.
+    <div id="adminPanel" class="hidden">
+      <h3 style="margin-top:12px; font-size:15px;">Ajustar estoque</h3>
+      <div class="row2">
+        <div>
+          <label>Produto</label>
+          <select id="adminProd"></select>
+        </div>
+        <div>
+          <label>Novo estoque (número)</label>
+          <input id="adminEstoque" type="number" step="1">
+        </div>
+      </div>
+      <button style="margin-top:10px" class="secondary" onclick="salvarEstoqueAdmin()">Salvar estoque</button>
+
+      <hr style="border:none;border-top:1px solid #eee;margin:14px 0;">
+
+      <h3 style="margin-top:12px; font-size:15px;">Configurar comissão (padrão)</h3>
+      <div class="row2">
+        <div>
+          <label>Comissão padrão (%)</label>
+          <input id="adminComissao" type="number" min="0" max="100" step="1">
+        </div>
+        <div style="display:flex; align-items:end;">
+          <button class="secondary" onclick="salvarComissaoAdmin()">Salvar</button>
+        </div>
+      </div>
+
+      <hr style="border:none;border-top:1px solid #eee;margin:14px 0;">
+      <button class="danger" onclick="zerarHistorico()">Zerar histórico de vendas (demo)</button>
     </div>
   </div>
-
 </div>
 
 <script>
-  const ICMS = 0.22; // 22% FIXO
+  // ===== CONFIG FIXA =====
+  const ICMS = 0.22;               // 22% padrão para tudo
+  const EMPRESA = "Obras Tatuador LTDA";
+  const ADMIN_PASSWORD = "admin123"; // DEMO (não é segurança real)
 
-  // Catálogo (custo e venda fixos)
-  const produtos = [
-    {nome:"Cimento 50kg", custo:13.00, venda:60.00},
-    {nome:"Conduítes (Rolo 100m)", custo:20.00, venda:50.00},
-    {nome:"Fio 2mm (metro)", custo:1.00, venda:7.00},
-    {nome:"Fio 4mm (metro)", custo:3.50, venda:10.00},
-    {nome:"Fio 15mm (metro)", custo:5.50, venda:17.00},
-    {nome:"Tijolo (unidade)", custo:0.10, venda:5.00}
+  // ===== PRODUTOS + ESTOQUE (padrão) =====
+  const defaultProdutos = [
+    { id:"MAT-001", nome:"Cimento 50kg", custo:13.00, venda:60.00, estoque:100 },
+    { id:"MAT-002", nome:"Conduítes (Rolo 100m)", custo:20.00, venda:50.00, estoque:50 },
+    { id:"MAT-003", nome:"Fio 2mm (metro)", custo:1.00, venda:7.00, estoque:1000 },
+    { id:"MAT-004", nome:"Fio 4mm (metro)", custo:3.50, venda:10.00, estoque:800 },
+    { id:"MAT-005", nome:"Fio 15mm (metro)", custo:5.50, venda:17.00, estoque:500 },
+    { id:"MAT-006", nome:"Tijolo (unidade)", custo:0.10, venda:5.00, estoque:5000 }
   ];
 
-  let itens = [];
+  // ===== STORAGE =====
+  const LS_PROD = "ot_produtos_v1";
+  const LS_SALES = "ot_vendas_v1";
+  const LS_DRAFT = "ot_rascunho_v1";
+  const LS_COMISSAO = "ot_comissao_v1";
 
-  // elementos
-  const select = document.getElementById("produto");
-  const clienteInput = document.getElementById("cliente");
-  const clienteOut = document.getElementById("clienteOut");
-  const dataOut = document.getElementById("dataOut");
+  function loadProdutos(){
+    const raw = localStorage.getItem(LS_PROD);
+    if (!raw) {
+      localStorage.setItem(LS_PROD, JSON.stringify(defaultProdutos));
+      return structuredClone(defaultProdutos);
+    }
+    try { return JSON.parse(raw); } catch { return structuredClone(defaultProdutos); }
+  }
+  function saveProdutos(arr){ localStorage.setItem(LS_PROD, JSON.stringify(arr)); }
 
-  const empresaInput = document.getElementById("empresaInput");
-  const logoInput = document.getElementById("logoInput");
-  const foneInput = document.getElementById("foneInput");
-  const obsInput = document.getElementById("obsInput");
+  function loadSales(){
+    const raw = localStorage.getItem(LS_SALES);
+    if (!raw) return [];
+    try { return JSON.parse(raw); } catch { return []; }
+  }
+  function saveSales(arr){ localStorage.setItem(LS_SALES, JSON.stringify(arr)); }
 
-  const empresaNome = document.getElementById("empresaNome");
-  const empresaOut = document.getElementById("empresaOut");
-  const logoBox = document.getElementById("logoBox");
-  const foneOut = document.getElementById("foneOut");
-  const obsOut = document.getElementById("obsOut");
-
-  function formatar(v){
-    return (Number(v)||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+  function getComissaoPadrao(){
+    const v = localStorage.getItem(LS_COMISSAO);
+    if (!v) return 30;
+    const n = Number(v);
+    return Number.isFinite(n) ? n : 30;
+  }
+  function setComissaoPadrao(n){
+    localStorage.setItem(LS_COMISSAO, String(n));
   }
 
-  function hoje(){
+  // ===== STATE =====
+  let produtos = loadProdutos();
+  let itens = [];
+
+  // ===== ELEMENTOS =====
+  const select = document.getElementById("produto");
+  const adminSelect = document.getElementById("adminProd");
+
+  const clienteInput = document.getElementById("cliente");
+  const docInput = document.getElementById("doc");
+  const enderecoInput = document.getElementById("endereco");
+  const obsInput = document.getElementById("obsInput");
+
+  const clienteOut = document.getElementById("clienteOut");
+  const docOut = document.getElementById("docOut");
+  const enderecoOut = document.getElementById("enderecoOut");
+  const obsOut = document.getElementById("obsOut");
+  const dataOut = document.getElementById("dataOut");
+
+  function brl(v){
+    return (Number(v)||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+  }
+  function hojeISO(){
+    const d = new Date();
+    const yyyy = d.getFullYear();
+    const mm = String(d.getMonth()+1).padStart(2,"0");
+    const dd = String(d.getDate()).padStart(2,"0");
+    return `${yyyy}-${mm}-${dd}`;
+  }
+  function hojeBR(){
     const d = new Date();
     const dd = String(d.getDate()).padStart(2,"0");
     const mm = String(d.getMonth()+1).padStart(2,"0");
-    const yy = d.getFullYear();
-    return `${dd}/${mm}/${yy}`;
+    const yyyy = d.getFullYear();
+    return `${dd}/${mm}/${yyyy}`;
   }
-  dataOut.textContent = hoje();
 
-  // carregar catálogo no select
-  produtos.forEach((p,i)=>{
-    let opt = document.createElement("option");
-    opt.value = i;
-    opt.textContent = p.nome;
-    select.appendChild(opt);
-  });
+  // ===== INIT =====
+  dataOut.textContent = hojeBR();
+  document.getElementById("comissaoPct").value = getComissaoPadrao();
 
-  // sincronizar campos da marca
-  function syncBrand(){
-    const emp = empresaInput.value.trim() || "Sua Empresa de Materiais";
-    const lg = logoInput.value.trim() || "M";
-    const fone = foneInput.value.trim() || "—";
-    const obs = obsInput.value.trim() || "—";
+  // month inputs default
+  const monthNow = new Date();
+  const m = String(monthNow.getMonth()+1).padStart(2,"0");
+  const y = monthNow.getFullYear();
+  document.getElementById("mesRef").value = `${y}-${m}`;
+  document.getElementById("mesRef2").value = `${y}-${m}`;
 
-    empresaNome.textContent = emp;
-    empresaOut.textContent = emp;
-    logoBox.textContent = lg.toUpperCase();
-    foneOut.textContent = fone;
-    obsOut.textContent = obs;
+  function renderSelects(){
+    select.innerHTML = "";
+    adminSelect.innerHTML = "";
+
+    produtos.forEach((p, i) => {
+      const label = `${p.nome} • Estoque: ${p.estoque}`;
+      const opt = document.createElement("option");
+      opt.value = p.id;
+      opt.textContent = label;
+      select.appendChild(opt);
+
+      const opt2 = document.createElement("option");
+      opt2.value = p.id;
+      opt2.textContent = p.nome;
+      adminSelect.appendChild(opt2);
+    });
   }
-  empresaInput.addEventListener("input", syncBrand);
-  logoInput.addEventListener("input", syncBrand);
-  foneInput.addEventListener("input", syncBrand);
-  obsInput.addEventListener("input", syncBrand);
 
-  // cliente -> saída
-  clienteInput.addEventListener("input", () => {
+  function syncBuyerOut(){
     clienteOut.textContent = clienteInput.value.trim() || "—";
-  });
+    docOut.textContent = docInput.value.trim() || "—";
+    enderecoOut.textContent = enderecoInput.value.trim() || "—";
+    obsOut.textContent = obsInput.value.trim() || "—";
+  }
+
+  clienteInput.addEventListener("input", syncBuyerOut);
+  docInput.addEventListener("input", syncBuyerOut);
+  enderecoInput.addEventListener("input", syncBuyerOut);
+  obsInput.addEventListener("input", syncBuyerOut);
+  document.getElementById("frete").addEventListener("input", atualizar);
+  document.getElementById("comissaoPct").addEventListener("input", atualizar);
+
+  // ===== COTAÇÃO =====
+  function getProdutoById(id){
+    return produtos.find(p => p.id === id);
+  }
 
   function adicionarItem(){
-    const index = Number(select.value);
+    const prodId = select.value;
     const qtd = Math.max(1, Number(document.getElementById("quantidade").value)||1);
-    const produto = produtos[index];
+    const p = getProdutoById(prodId);
+    if (!p) return;
 
-    const totalVenda = produto.venda * qtd;
-    const valorICMS = totalVenda * ICMS;
-    const lucroLiquido = (produto.venda - (produto.venda * ICMS) - produto.custo) * qtd;
+    // custo e venda unitários fixos
+    const totalVenda = p.venda * qtd;
+    const icmsValor = totalVenda * ICMS;
+    const lucro = (p.venda - (p.venda * ICMS) - p.custo) * qtd;
 
     itens.push({
-      nome: produto.nome,
-      qtd: qtd,
-      vendaUnit: produto.venda,
-      custoUnit: produto.custo,
-      totalVenda: totalVenda,
-      valorICMS: valorICMS,
-      lucroLiquido: lucroLiquido
+      prodId: p.id,
+      nome: p.nome,
+      qtd,
+      vendaUnit: p.venda,
+      custoUnit: p.custo,
+      totalVenda,
+      icmsValor,
+      lucro
     });
 
     atualizar();
   }
 
-  function remover(i){
+  function removerItem(i){
     itens.splice(i,1);
     atualizar();
   }
@@ -306,43 +537,57 @@
     atualizar();
   }
 
-  function atualizar(){
-    syncBrand();
-
+  function calcularTotais(){
     const frete = Number(document.getElementById("frete").value)||0;
+    const comPct = (Number(document.getElementById("comissaoPct").value)||0) / 100;
+
+    const totalVenda = itens.reduce((s,it)=>s+it.totalVenda,0); // materiais
+    const totalICMS = itens.reduce((s,it)=>s+it.icmsValor,0);
+    const totalLucro = itens.reduce((s,it)=>s+it.lucro,0);
+
+    // Comissão cobrada do cliente (valor separado)
+    const totalComissao = totalVenda * comPct;
+
+    // Total final cobrado do cliente:
+    // materiais + comissão + frete
+    const totalFinal = totalVenda + totalComissao + frete;
+
+    return { frete, comPct, totalVenda, totalICMS, totalLucro, totalComissao, totalFinal };
+  }
+
+  function atualizar(){
+    syncBuyerOut();
 
     const lista = document.getElementById("lista");
     lista.innerHTML = "";
 
-    let somaVenda = 0;
-    let somaICMS = 0;
-    let somaLucro = 0;
-
-    itens.forEach((item,i)=>{
-      somaVenda += item.totalVenda;
-      somaICMS += item.valorICMS;
-      somaLucro += item.lucroLiquido;
-
+    itens.forEach((it, i) => {
       lista.innerHTML += `
         <tr>
-          <td>${item.nome}</td>
-          <td>${item.qtd}</td>
-          <td>${formatar(item.vendaUnit)}</td>
-          <td>${formatar(item.custoUnit)}</td>
-          <td>${formatar(item.valorICMS)}</td>
-          <td>${formatar(item.lucroLiquido)}</td>
-          <td><b>${formatar(item.totalVenda)}</b></td>
-          <td class="no-print"><button class="danger" onclick="remover(${i})">X</button></td>
-        </tr>`;
+          <td>${it.nome}</td>
+          <td>${it.qtd}</td>
+          <td>${brl(it.vendaUnit)}</td>
+          <td>${brl(it.custoUnit)}</td>
+          <td>${brl(it.icmsValor)}</td>
+          <td>${brl(it.lucro)}</td>
+          <td><b>${brl(it.totalVenda)}</b></td>
+          <td class="no-print"><button class="danger" onclick="removerItem(${i})">X</button></td>
+        </tr>
+      `;
     });
 
-    document.getElementById("totalVenda").textContent = formatar(somaVenda);
-    document.getElementById("totalICMS").textContent = formatar(somaICMS);
-    document.getElementById("totalLucro").textContent = formatar(somaLucro);
-    document.getElementById("totalFrete").textContent = formatar(frete);
-    document.getElementById("totalFinal").textContent = formatar(somaVenda + frete);
+    const t = calcularTotais();
+    document.getElementById("totalVenda").textContent = brl(t.totalVenda);
+    document.getElementById("totalICMS").textContent = brl(t.totalICMS);
+    document.getElementById("totalLucro").textContent = brl(t.totalLucro);
+    document.getElementById("totalFrete").textContent = brl(t.frete);
+    document.getElementById("totalComissao").textContent = brl(t.totalComissao);
+    document.getElementById("totalFinal").textContent = brl(t.totalFinal);
 
-    clienteOut.textContent = clienteInput.value.trim() || "—";
+    // atualizar telas
+    renderEstoque();
+    recalcularDashboard();
+    renderRelatorioProduto();
   }
 
   function gerarPDF(){
@@ -353,39 +598,37 @@
   function copiarWhatsApp(){
     atualizar();
 
-    const emp = empresaInput.value.trim() || "Sua Empresa de Materiais";
-    const fone = foneInput.value.trim();
+    const t = calcularTotais();
     const cliente = clienteInput.value.trim() || "—";
-    const frete = Number(document.getElementById("frete").value)||0;
+    const doc = docInput.value.trim() || "—";
+    const end = enderecoInput.value.trim() || "—";
+    const obs = obsInput.value.trim();
 
-    let somaVenda = itens.reduce((s,it)=>s+it.totalVenda,0);
-    let somaICMS = itens.reduce((s,it)=>s+it.valorICMS,0);
-    let somaLucro = itens.reduce((s,it)=>s+it.lucroLiquido,0);
-    let totalFinal = somaVenda + frete;
-
-    let texto = `*ORÇAMENTO - ${emp}*\n`;
-    texto += `Data: ${hoje()}\n`;
+    let texto = `*ORÇAMENTO - ${EMPRESA}*\n`;
+    texto += `Data: ${hojeBR()}\n`;
     texto += `Cliente: ${cliente}\n`;
-    if (fone) texto += `Contato: ${fone}\n`;
-    texto += `ICMS: 22% (embutido)\n\n`;
+    texto += `CPF/CNPJ: ${doc}\n`;
+    texto += `Endereço: ${end}\n`;
+    texto += `ICMS: 22% (fixo)\n`;
+    texto += `Comissão vendedor: ${Math.round(t.comPct*100)}%\n\n`;
 
     if (itens.length === 0) {
       texto += `Nenhum item adicionado.\n`;
     } else {
       texto += `*Itens:*\n`;
       itens.forEach((it, idx) => {
-        texto += `${idx+1}) ${it.nome} | Qtd: ${it.qtd} | Unit: ${formatar(it.vendaUnit)} | Total: ${formatar(it.totalVenda)}\n`;
+        texto += `${idx+1}) ${it.nome} | Qtd: ${it.qtd} | Unit: ${brl(it.vendaUnit)} | Total: ${brl(it.totalVenda)}\n`;
       });
     }
 
     texto += `\n*Resumo:*\n`;
-    texto += `Total (sem frete): ${formatar(somaVenda)}\n`;
-    texto += `ICMS (22%): ${formatar(somaICMS)}\n`;
-    texto += `Lucro líquido estimado: ${formatar(somaLucro)}\n`;
-    texto += `Frete: ${formatar(frete)}\n`;
-    texto += `*Total final: ${formatar(totalFinal)}*\n`;
+    texto += `Materiais: ${brl(t.totalVenda)}\n`;
+    texto += `ICMS (22%): ${brl(t.totalICMS)}\n`;
+    texto += `Comissão vendedor: ${brl(t.totalComissao)}\n`;
+    texto += `Frete: ${brl(t.frete)}\n`;
+    texto += `*Total final (cliente paga): ${brl(t.totalFinal)}*\n`;
+    texto += `Lucro estimado (materiais): ${brl(t.totalLucro)}\n`;
 
-    const obs = obsInput.value.trim();
     if (obs) texto += `\nObs: ${obs}\n`;
 
     navigator.clipboard.writeText(texto)
@@ -393,11 +636,230 @@
       .catch(() => alert("Não consegui copiar automaticamente. Se estiver no celular, tente copiar manualmente."));
   }
 
-  // atualização automática quando muda frete
-  document.getElementById("frete").addEventListener("input", atualizar);
+  // ===== FECHAR VENDA (baixa estoque + grava histórico) =====
+  function fecharVenda(){
+    atualizar();
+    if (itens.length === 0) {
+      alert("Adicione pelo menos 1 item antes de fechar a venda.");
+      return;
+    }
 
-  // inicializa
-  syncBrand();
+    // valida estoque
+    for (const it of itens) {
+      const p = getProdutoById(it.prodId);
+      if (!p) continue;
+      if (p.estoque < it.qtd) {
+        alert(`Estoque insuficiente para: ${p.nome}\nEm estoque: ${p.estoque} | Necessário: ${it.qtd}`);
+        return;
+      }
+    }
+
+    // baixa estoque
+    produtos = produtos.map(p => {
+      const usado = itens.filter(it => it.prodId === p.id).reduce((s,it)=>s+it.qtd,0);
+      return { ...p, estoque: p.estoque - usado };
+    });
+    saveProdutos(produtos);
+
+    // grava venda
+    const t = calcularTotais();
+    const vendas = loadSales();
+    vendas.push({
+      id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()),
+      dateISO: hojeISO(),
+      cliente: clienteInput.value.trim() || "",
+      doc: docInput.value.trim() || "",
+      endereco: enderecoInput.value.trim() || "",
+      obs: obsInput.value.trim() || "",
+      frete: t.frete,
+      comissaoPct: Math.round(t.comPct*100),
+      totalVenda: t.totalVenda,
+      totalICMS: t.totalICMS,
+      totalComissao: t.totalComissao,
+      totalFinal: t.totalFinal,
+      totalLucro: t.totalLucro,
+      itens: structuredClone(itens)
+    });
+    saveSales(vendas);
+
+    // limpa cotação
+    itens = [];
+    atualizar();
+
+    alert("Venda fechada com sucesso! Estoque atualizado e venda registrada.");
+  }
+
+  // ===== RASCUNHO =====
+  function salvarRascunho(){
+    const t = {
+      cliente: clienteInput.value,
+      doc: docInput.value,
+      endereco: enderecoInput.value,
+      obs: obsInput.value,
+      frete: document.getElementById("frete").value,
+      comissaoPct: document.getElementById("comissaoPct").value,
+      itens
+    };
+    localStorage.setItem(LS_DRAFT, JSON.stringify(t));
+    alert("Rascunho salvo.");
+  }
+  function carregarRascunho(){
+    const raw = localStorage.getItem(LS_DRAFT);
+    if (!raw) return;
+    try {
+      const d = JSON.parse(raw);
+      clienteInput.value = d.cliente || "";
+      docInput.value = d.doc || "";
+      enderecoInput.value = d.endereco || "";
+      obsInput.value = d.obs || "";
+      document.getElementById("frete").value = d.frete ?? 20;
+      document.getElementById("comissaoPct").value = d.comissaoPct ?? getComissaoPadrao();
+      itens = Array.isArray(d.itens) ? d.itens : [];
+    } catch {}
+  }
+
+  // ===== DASHBOARD / RELATÓRIOS =====
+  function filtrarVendasPorMes(yyyyMM){
+    const vendas = loadSales();
+    return vendas.filter(v => (v.dateISO || "").startsWith(yyyyMM));
+  }
+
+  function recalcularDashboard(){
+    const yyyyMM = document.getElementById("mesRef").value || `${new Date().getFullYear()}-${String(new Date().getMonth()+1).padStart(2,"0")}`;
+    const vendas = filtrarVendasPorMes(yyyyMM);
+
+    const fat = vendas.reduce((s,v)=>s+(Number(v.totalVenda)||0),0);
+    const icms = vendas.reduce((s,v)=>s+(Number(v.totalICMS)||0),0);
+    const com = vendas.reduce((s,v)=>s+(Number(v.totalComissao)||0),0);
+    const frete = vendas.reduce((s,v)=>s+(Number(v.frete)||0),0);
+    const lucro = vendas.reduce((s,v)=>s+(Number(v.totalLucro)||0),0);
+
+    document.getElementById("dashFat").textContent = brl(fat);
+    document.getElementById("dashIcms").textContent = brl(icms);
+    document.getElementById("dashCom").textContent = brl(com);
+    document.getElementById("dashFrete").textContent = brl(frete);
+    document.getElementById("dashLucro").textContent = brl(lucro);
+    document.getElementById("dashQtd").textContent = String(vendas.length);
+  }
+
+  function renderRelatorioProduto(){
+    const yyyyMM = document.getElementById("mesRef2").value || `${new Date().getFullYear()}-${String(new Date().getMonth()+1).padStart(2,"0")}`;
+    const vendas = filtrarVendasPorMes(yyyyMM);
+
+    const map = new Map(); // prodId -> agg
+    for (const v of vendas) {
+      for (const it of (v.itens || [])) {
+        const key = it.prodId || it.nome;
+        if (!map.has(key)) map.set(key, { nome: it.nome, qtd:0, fat:0, lucro:0 });
+        const agg = map.get(key);
+        agg.qtd += Number(it.qtd)||0;
+        agg.fat += Number(it.totalVenda)||0;
+        agg.lucro += Number(it.lucro)||0;
+      }
+    }
+
+    const rows = Array.from(map.values()).sort((a,b)=>b.fat-a.fat);
+    const body = document.getElementById("relProdBody");
+    body.innerHTML = "";
+    if (rows.length === 0) {
+      body.innerHTML = `<tr><td colspan="4" class="muted">Nenhuma venda fechada neste mês.</td></tr>`;
+      return;
+    }
+    for (const r of rows) {
+      body.innerHTML += `
+        <tr>
+          <td>${r.nome}</td>
+          <td>${r.qtd}</td>
+          <td>${brl(r.fat)}</td>
+          <td>${brl(r.lucro)}</td>
+        </tr>
+      `;
+    }
+  }
+
+  // ===== ESTOQUE =====
+  function renderEstoque(){
+    const body = document.getElementById("estoqueBody");
+    body.innerHTML = "";
+    produtos.forEach(p => {
+      body.innerHTML += `
+        <tr>
+          <td>${p.nome}</td>
+          <td><b>${p.estoque}</b></td>
+          <td>${brl(p.custo)}</td>
+          <td>${brl(p.venda)}</td>
+        </tr>
+      `;
+    });
+  }
+
+  // ===== ADMIN =====
+  function abrirAdmin(){
+    document.getElementById("adminBack").style.display = "flex";
+    document.getElementById("adminPass").value = "";
+    document.getElementById("adminLogin").classList.remove("hidden");
+    document.getElementById("adminPanel").classList.add("hidden");
+
+    // prefill admin fields
+    renderSelects();
+    document.getElementById("adminComissao").value = getComissaoPadrao();
+  }
+  function fecharAdmin(){
+    document.getElementById("adminBack").style.display = "none";
+  }
+  function loginAdmin(){
+    const pass = document.getElementById("adminPass").value;
+    if (pass !== ADMIN_PASSWORD) {
+      alert("Senha incorreta.");
+      return;
+    }
+    document.getElementById("adminLogin").classList.add("hidden");
+    document.getElementById("adminPanel").classList.remove("hidden");
+    // preencher estoque do produto selecionado
+    onAdminProdChange();
+    adminSelect.addEventListener("change", onAdminProdChange);
+  }
+  function onAdminProdChange(){
+    const id = adminSelect.value;
+    const p = getProdutoById(id);
+    document.getElementById("adminEstoque").value = p ? p.estoque : 0;
+  }
+  function salvarEstoqueAdmin(){
+    const id = adminSelect.value;
+    const novo = Math.max(0, Math.floor(Number(document.getElementById("adminEstoque").value)||0));
+    produtos = produtos.map(p => p.id === id ? { ...p, estoque: novo } : p);
+    saveProdutos(produtos);
+    renderSelects();
+    renderEstoque();
+    alert("Estoque atualizado.");
+  }
+  function salvarComissaoAdmin(){
+    const n = Math.max(0, Math.min(100, Math.floor(Number(document.getElementById("adminComissao").value)||0)));
+    setComissaoPadrao(n);
+    document.getElementById("comissaoPct").value = n;
+    atualizar();
+    alert("Comissão padrão atualizada.");
+  }
+  function zerarHistorico(){
+    if (!confirm("Tem certeza que deseja zerar o histórico de vendas?")) return;
+    localStorage.removeItem(LS_SALES);
+    recalcularDashboard();
+    renderRelatorioProduto();
+    alert("Histórico zerado.");
+  }
+
+  // ===== TABS =====
+  function setTab(tab){
+    const tabs = ["cotacao","dashboard","relatorios","estoque"];
+    tabs.forEach(t => {
+      document.getElementById(`tab-${t}`).classList.toggle("active", t===tab);
+      document.getElementById(`sec-${t}`).classList.toggle("hidden", t!==tab);
+    });
+  }
+
+  // ===== START =====
+  renderSelects();
+  carregarRascunho();
   atualizar();
 </script>
 
