@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Calculadora de Cotação</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; background:#f6f7fb; }
+    .wrap { display: grid; grid-template-columns: 380px 1fr; gap: 16px; align-items: start; }
+    .card { background:#fff; border:1px solid #e5e7eb; border-radius: 12px; padding: 14px; box-shadow: 0 1px 8px rgba(0,0,0,.04); }
+    h1 { margin: 0 0 10px; font-size: 18px; }
+    label { display:block; margin: 10px 0 6px; font-size: 13px; color:#374151; }
+    input, select, button { width: 100%; padding: 10px; border-radius: 10px; border:1px solid #d1d5db; }
+    .row { display:flex; gap:10px; }
+    .row > * { flex:1; }
+    button { cursor:pointer; border:0; background:#111827; color:#fff; font-weight: 700; }
+    button.secondary { background:#374151; }
+    button.danger { background:#b91c1c; }
+    table { width: 100%; border-collapse: collapse; background:#fff; border-radius: 12px; overflow:hidden; }
+    th, td { border-bottom:1px solid #e5e7eb; padding: 10px; text-align:left; font-size: 13px; }
+    th { background:#111827; color:#fff; font-weight: 700; }
+    .muted { color:#6b7280; font-size: 12px; }
+    .totals { display:grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+    .totals .box { border:1px solid #e5e7eb; border-radius: 10px; padding: 10px; background:#fff; }
+    .value { font-weight: 800; font-size: 16px; }
+    .small { font-size: 12px; color:#6b7280; }
+  </style>
+</head>
+<body>
+  <h1>Calculadora de Cotação (Demo)</h1>
+  <p class="muted">Selecione produto, quantidade e gere a cotação com ICMS embutido + margem + frete.</p>
+
+  <div class="wrap">
+    <div class="card">
+      <h1>Adicionar item</h1>
+
+      <label>Produto</label>
+      <select id="produtoSelect"></select>
+
+      <div class="row">
+        <div>
+          <label>Quantidade</label>
+          <input id="qtdInput" type="number" min="1" value="1" />
+        </div>
+        <div>
+          <label>Frete (R$) (opcional)</label>
+          <input id="freteInput" type="number" min="0" step="0.01" value="0" />
+        </div>
+      </div>
+
+      <label class="small">Configuração rápida (se quiser sobrescrever)</label>
+      <div class="row">
+        <div>
+          <label>ICMS padrão (ex: 0.18)</label>
+          <input id="icmsPadrao" type="number" min="0" max="0.99" step="0.01" value="0.18" />
+        </div>
+        <div>
+          <label>Markup padrão (ex: 0.30)</label>
+          <input id="markupPadrao" type="number" min="0" step="0.01" value="0.30" />
+        </div>
+      </div>
+
+      <div style="margin-top:12px" class="row">
+        <button id="addBtn">Adicionar na cotação</button>
+        <button id="clearBtn" class="secondary" type="button">Limpar lista</button>
+      </div>
+
+      <p class="muted" style="margin-top:10px">
+        Fórmula usada: <br/>
+        <b>CustoUnit</b> = material + fabricação + outros<br/>
+        <b>Preço</b> = (CustoUnit × (1+Markup)) ÷ (1−ICMS)  (ICMS embutido)
+      </p>
+    </div>
+
+    <div class="card">
+      <h1>Itens cotados</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>Produto</th>
+            <th>Qtd</th>
+            <th>Preço Unit (R$)</th>
+            <th>ICMS (R$)</th>
+            <th>Total Linha (R$)</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="listaBody"></tbody>
+      </table>
+
+      <div class="totals">
+        <div class="box">
+          <div class="small">Total venda (sem frete)</div>
+          <div class="value" id="totalVenda">R$ 0,00</div>
+        </div>
+        <div class="box">
+          <div class="small">Total ICMS (embutido)</div>
+          <div class="value" id="totalIcms">R$ 0,00</div>
+        </div>
+        <div class="box">
+          <div class="small">Frete</div>
+          <div class="value" id="totalFrete">R$ 0,00</div>
+        </div>
+        <div class="box">
+          <div class="small">Total final (com frete)</div>
+          <div class="value" id="totalFinal">R$ 0,00</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  // Produtos de exemplo (você pode editar depois)
+  const produtos = [
+    { id:"P001", nome:"Produto A", custoMaterial:12.50, custoFabricacao:3.00, outros:1.20, icms:0.18, markup:0.35 },
+    { id:"P002", nome:"Produto B", custoMaterial:25.00, custoFabricacao:6.00, outros:2.00, icms:0.18, markup:0.30 },
+    { id:"P003", nome:"Produto C", custoMaterial:8.00,  custoFabricacao:1.50, outros:0.80, icms:0.12, markup:0.40 },
+  ];
+
+  const brl = (n) => (Number(n)||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+
+  const select = document.getElementById("produtoSelect");
+  const qtdInput = document.getElementById("qtdInput");
+  const freteInput = document.getElementById("freteInput");
+  const icmsPadrao = document.getElementById("icmsPadrao");
+  const markupPadrao = document.getElementById("markupPadrao");
+
+  const listaBody = document.getElementById("listaBody");
+  const totalVendaEl = document.getElementById("totalVenda");
+  const totalIcmsEl = document.getElementById("totalIcms");
+  const totalFreteEl = document.getElementById("totalFrete");
+  const totalFinalEl = document.getElementById("totalFinal");
+
+  let itens = [];
+
+  function precoVenda(custo, markup, icms){
+    const precoSem = custo * (1 + markup);
+    if ((1 - icms) <= 0) return 0;
+    return precoSem / (1 - icms); // ICMS embutido
+  }
+
+  function calcIcmsValor(precoComIcms, icms){
+    return precoComIcms * icms;
+  }
+
+  function renderProdutos(){
+    select.innerHTML = "";
+    produtos.forEach(p => {
+      const opt = document.createElement("option");
+      opt.value = p.id;
+      opt.textContent = `${p.nome} (${p.id})`;
+      select.appendChild(opt);
+    });
+  }
+
+  function renderTabela(){
+    listaBody.innerHTML = "";
+    itens.forEach((it, idx) => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${it.nome}</td>
+        <td>${it.qtd}</td>
+        <td>${brl(it.precoUnit)}</td>
+        <td>${brl(it.icmsLinha)}</td>
+        <td><b>${brl(it.totalLinha)}</b></td>
+        <td><button class="danger" data-i="${idx}" style="padding:8px;border-radius:10px;">X</button></td>
+      `;
+      listaBody.appendChild(tr);
+    });
+
+    // Remover
+    listaBody.querySelectorAll("button.danger").forEach(btn => {
+      btn.addEventListener("click", (e) => {
+        const i = Number(e.currentTarget.getAttribute("data-i"));
+        itens.splice(i,1);
+        atualizarTotais();
+        renderTabela();
+      });
+    });
+  }
+
+  function atualizarTotais(){
+    const totalVenda = itens.reduce((s,it)=> s + it.totalLinha, 0);
+    const totalIcms = itens.reduce((s,it)=> s + it.icmsLinha, 0);
+    const frete = Number(freteInput.value) || 0;
+    totalVendaEl.textContent = brl(totalVenda);
+    totalIcmsEl.textContent = brl(totalIcms);
+    totalFreteEl.textContent = brl(frete);
+    totalFinalEl.textContent = brl(totalVenda + frete);
+  }
+
+  document.getElementById("addBtn").addEventListener("click", () => {
+    const p = produtos.find(x => x.id === select.value);
+    if (!p) return;
+
+    const qtd = Math.max(1, Number(qtdInput.value)||1);
+
+    // Usa do produto; se estiver vazio, usa padrão
+    const icms = (typeof p.icms === "number") ? p.icms : (Number(icmsPadrao.value)||0);
+    const markup = (typeof p.markup === "number") ? p.markup : (Number(markupPadrao.value)||0);
+
+    const custoUnit = (p.custoMaterial||0) + (p.custoFabricacao||0) + (p.outros||0);
+    const precoUnit = precoVenda(custoUnit, markup, icms);
+
+    const totalLinha = precoUnit * qtd;
+    const icmsLinha = calcIcmsValor(precoUnit, icms) * qtd;
+
+    itens.push({
+      produtoId: p.id,
+      nome: p.nome,
+      qtd,
+      custoUnit,
+      precoUnit,
+      icmsLinha,
+      totalLinha
+    });
+
+    atualizarTotais();
+    renderTabela();
+  });
+
+  document.getElementById("clearBtn").addEventListener("click", () => {
+    itens = [];
+    atualizarTotais();
+    renderTabela();
+  });
+
+  freteInput.addEventListener("input", atualizarTotais);
+
+  renderProdutos();
+  atualizarTotais();
+</script>
+</body>
+</html>
