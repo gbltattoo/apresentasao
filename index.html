@@ -25,21 +25,10 @@
     }
     *{ box-sizing:border-box; }
     html,body{ height:100%; }
-    body{
-      margin:0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      color:var(--ink);
-      background:var(--bg);
-    }
+    body{ margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; color:var(--ink); background:var(--bg); }
 
-    /* Layout principal (Sidebar + Conteúdo) */
-    .app{
-      display:grid;
-      grid-template-columns: 260px 1fr;
-      min-height:100vh;
-    }
+    .app{ display:grid; grid-template-columns: 260px 1fr; min-height:100vh; }
 
-    /* Sidebar */
     .sidebar{
       background:linear-gradient(180deg, #0b1220 0%, #0f172a 100%);
       color:#e2e8f0;
@@ -50,60 +39,28 @@
       overflow:auto;
     }
     .brand{
-      display:flex;
-      gap:10px;
-      align-items:center;
+      display:flex; gap:10px; align-items:center;
       padding:10px 10px 14px;
       border-bottom:1px solid rgba(226,232,240,.08);
       margin-bottom:12px;
     }
     .logo{
-      width:42px; height:42px;
-      border-radius:14px;
+      width:42px; height:42px; border-radius:14px;
       background:rgba(255,255,255,.10);
       display:flex; align-items:center; justify-content:center;
-      font-weight:900;
-      letter-spacing:.5px;
-      flex:0 0 auto;
+      font-weight:900; letter-spacing:.5px; flex:0 0 auto;
     }
-    .brand h1{
-      margin:0;
-      font-size:14px;
-      line-height:1.2;
-      font-weight:900;
-    }
-    .brand .sub{
-      margin-top:4px;
-      font-size:11px;
-      color:rgba(226,232,240,.75);
-    }
-    .chips{
-      display:flex; gap:8px; flex-wrap:wrap;
-      margin-top:10px;
-    }
-    .chip{
-      font-size:11px;
-      padding:4px 10px;
-      border-radius:999px;
-      background:rgba(255,255,255,.10);
-      border:1px solid rgba(255,255,255,.10);
-      font-weight:800;
-      white-space:nowrap;
-    }
+    .brand h1{ margin:0; font-size:14px; line-height:1.2; font-weight:900; }
+    .brand .sub{ margin-top:4px; font-size:11px; color:rgba(226,232,240,.75); }
+    .chips{ display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
+    .chip{ font-size:11px; padding:4px 10px; border-radius:999px; background:rgba(255,255,255,.10); border:1px solid rgba(255,255,255,.10); font-weight:800; white-space:nowrap; }
     .chip.red{ background:rgba(220,38,38,.2); border-color:rgba(220,38,38,.3); }
     .chip.indigo{ background:rgba(99,102,241,.18); border-color:rgba(99,102,241,.28); }
 
-    .nav{
-      margin-top:14px;
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-    }
+    .nav{ margin-top:14px; display:flex; flex-direction:column; gap:8px; }
     .navbtn{
       width:100%;
-      display:flex;
-      gap:10px;
-      align-items:center;
+      display:flex; gap:10px; align-items:center;
       padding:10px 12px;
       border-radius:12px;
       border:1px solid rgba(226,232,240,.10);
@@ -115,40 +72,21 @@
       text-align:left;
     }
     .navbtn:hover{ background:rgba(255,255,255,.10); }
-    .navbtn.active{
-      background:rgba(255,255,255,.16);
-      border-color:rgba(255,255,255,.22);
-      box-shadow:0 10px 18px rgba(0,0,0,.15) inset;
-    }
+    .navbtn.active{ background:rgba(255,255,255,.16); border-color:rgba(255,255,255,.22); box-shadow:0 10px 18px rgba(0,0,0,.15) inset; }
     .ico{
-      width:26px; height:26px;
-      border-radius:10px;
+      width:26px; height:26px; border-radius:10px;
       background:rgba(255,255,255,.10);
       display:flex; align-items:center; justify-content:center;
       flex:0 0 auto;
       font-size:14px;
     }
 
-    .sideActions{
-      margin-top:14px;
-      padding-top:12px;
-      border-top:1px solid rgba(226,232,240,.08);
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-    }
+    .sideActions{ margin-top:14px; padding-top:12px; border-top:1px solid rgba(226,232,240,.08); display:flex; flex-direction:column; gap:8px; }
     .btn{
-      border:0;
-      cursor:pointer;
-      font-weight:900;
-      border-radius:12px;
-      padding:10px 12px;
-      font-size:13px;
+      border:0; cursor:pointer; font-weight:900;
+      border-radius:12px; padding:10px 12px; font-size:13px;
       width:100%;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:8px;
+      display:flex; align-items:center; justify-content:center; gap:8px;
       color:#fff;
       background:rgba(255,255,255,.10);
       border:1px solid rgba(255,255,255,.12);
@@ -157,8 +95,8 @@
     .btn.blue{ background:rgba(29,78,216,.85); border-color:rgba(29,78,216,.9); }
     .btn.green{ background:rgba(6,95,70,.9); border-color:rgba(6,95,70,.95); }
     .btn.purple{ background:rgba(109,40,217,.9); border-color:rgba(109,40,217,.95); }
-    .btn.gray{ background:rgba(148,163,184,.14); }
     .btn.orange{ background:rgba(180,83,9,.9); border-color:rgba(180,83,9,.95); }
+    .btn.gray{ background:rgba(148,163,184,.14); }
 
     .sideFoot{
       margin-top:14px;
@@ -170,59 +108,32 @@
       background:rgba(255,255,255,.04);
     }
 
-    /* Conteúdo */
-    .main{
-      padding:18px;
-    }
+    .main{ padding:18px; }
 
     .topbar{
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-start;
-      gap:12px;
-      flex-wrap:wrap;
-      margin-bottom:14px;
+      display:flex; justify-content:space-between; align-items:flex-start;
+      gap:12px; flex-wrap:wrap; margin-bottom:14px;
     }
-    .titleBlock{
+    .titleBlock, .status{
       background:var(--card);
       border:1px solid var(--line);
       border-radius:var(--radius);
       box-shadow:var(--shadow2);
       padding:12px 14px;
-      min-width:280px;
     }
-    .titleBlock h2{
-      margin:0;
-      font-size:15px;
-      font-weight:1000;
-    }
-    .titleBlock .muted{
-      margin-top:4px;
-      font-size:12px;
-      color:var(--muted);
-    }
+    .titleBlock{ min-width:280px; }
+    .titleBlock h2{ margin:0; font-size:15px; font-weight:1000; }
+    .titleBlock .muted{ margin-top:4px; font-size:12px; color:var(--muted); }
 
     .status{
-      background:var(--card);
-      border:1px solid var(--line);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow2);
-      padding:12px 14px;
-      min-width:240px;
-      display:flex;
-      flex-direction:column;
-      gap:6px;
-      align-items:flex-end;
-      text-align:right;
+      min-width:280px;
+      display:flex; flex-direction:column; gap:6px;
+      align-items:flex-end; text-align:right;
     }
     .status .muted{ color:var(--muted); font-size:12px; }
     .status .big{ font-weight:1000; font-size:13px; }
 
-    .grid{
-      display:grid;
-      grid-template-columns: 420px 1fr;
-      gap:14px;
-    }
+    .grid{ display:grid; grid-template-columns: 420px 1fr; gap:14px; }
 
     .card{
       background:var(--card);
@@ -231,27 +142,17 @@
       box-shadow:var(--shadow);
       padding:14px;
     }
-    .card h3{
-      margin:0 0 10px;
-      font-size:14px;
-      font-weight:1000;
-    }
+    .card h3{ margin:0 0 10px; font-size:14px; font-weight:1000; }
+
     label{
-      display:block;
-      font-size:12px;
-      color:#334155;
-      font-weight:800;
-      margin-top:10px;
+      display:block; font-size:12px; color:#334155;
+      font-weight:800; margin-top:10px;
     }
     input, select, textarea{
-      width:100%;
-      margin-top:6px;
-      border-radius:12px;
-      border:1px solid var(--line);
-      padding:10px 12px;
-      font-size:13px;
-      outline:none;
-      background:#fff;
+      width:100%; margin-top:6px;
+      border-radius:12px; border:1px solid var(--line);
+      padding:10px 12px; font-size:13px;
+      outline:none; background:#fff;
     }
     input:focus, select:focus, textarea:focus{
       border-color:#94a3b8;
@@ -262,21 +163,11 @@
     .row2{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
     .row3{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; }
 
-    .btnRow{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:10px;
-      margin-top:12px;
-    }
+    .btnRow{ display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:12px; }
     .btn2{
-      border:0;
-      cursor:pointer;
-      font-weight:1000;
-      border-radius:12px;
-      padding:10px 12px;
-      font-size:13px;
-      color:#fff;
-      background:var(--btn);
+      border:0; cursor:pointer; font-weight:1000;
+      border-radius:12px; padding:10px 12px; font-size:13px;
+      color:#fff; background:var(--btn);
     }
     .btn2.secondary{ background:#334155; }
     .btn2.orange{ background:var(--orange); }
@@ -284,28 +175,15 @@
 
     table{ width:100%; border-collapse:collapse; margin-top:10px; }
     th, td{ font-size:13px; padding:10px; border-bottom:1px solid #eef2f7; text-align:left; vertical-align:top; }
-    th{
-      background:var(--ink);
-      color:#fff;
-      border-bottom:0;
-      font-weight:1000;
-    }
+    th{ background:var(--ink); color:#fff; border-bottom:0; font-weight:1000; }
+
     .xbtn{
-      border:0;
-      cursor:pointer;
-      font-weight:1000;
-      border-radius:10px;
-      padding:7px 10px;
-      color:#fff;
-      background:var(--red);
+      border:0; cursor:pointer; font-weight:1000;
+      border-radius:10px; padding:7px 10px;
+      color:#fff; background:var(--red);
     }
 
-    .totals{
-      margin-top:12px;
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:10px;
-    }
+    .totals{ margin-top:12px; display:grid; grid-template-columns:1fr 1fr; gap:10px; }
     .kpi{
       background:var(--soft);
       border:1px solid var(--line);
@@ -315,18 +193,11 @@
     .kpi .label{ color:var(--muted); font-size:12px; font-weight:900; margin:0; }
     .kpi .val{ font-size:16px; font-weight:1000; margin-top:4px; }
 
-    .note{
-      margin-top:10px;
-      color:var(--muted);
-      font-size:12px;
-      line-height:1.4;
-    }
-
-    /* Seções */
+    .note{ margin-top:10px; color:var(--muted); font-size:12px; line-height:1.4; }
     .section{ display:none; }
     .section.active{ display:block; }
 
-    /* Modal */
+    /* modal */
     .modalBack{
       position:fixed; inset:0;
       background:rgba(2,6,23,.55);
@@ -350,27 +221,29 @@
     .modalTop h3{ margin:0; font-size:15px; font-weight:1000; }
     .close{
       border:0; cursor:pointer;
-      background:#111827;
-      color:#fff;
-      font-weight:1000;
-      padding:8px 10px;
-      border-radius:12px;
-    }
-    .muted{ color:var(--muted); }
-
-    /* Responsivo */
-    @media (max-width: 1050px){
-      .app{ grid-template-columns: 1fr; }
-      .sidebar{ position:relative; height:auto; }
-      .grid{ grid-template-columns: 1fr; }
+      background:#111827; color:#fff;
+      font-weight:1000; padding:8px 10px; border-radius:12px;
     }
 
-    /* Print */
+    /* Print: mostra somente o documento escolhido */
     @media print{
       .sidebar, .topbar, .no-print{ display:none !important; }
       body{ background:#fff; }
       .main{ padding:0; }
+
+      #doc-orcamento, #doc-os, #doc-ns{ display:none; }
+      body.print-orcamento #doc-orcamento{ display:block; }
+      body.print-os #doc-os{ display:block; }
+      body.print-ns #doc-ns{ display:block; }
+
       .card{ box-shadow:none; border:0; }
+      table th{ background:#111827 !important; color:#fff !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    }
+
+    @media (max-width: 1050px){
+      .app{ grid-template-columns: 1fr; }
+      .sidebar{ position:relative; height:auto; }
+      .grid{ grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -378,7 +251,6 @@
 <body>
   <div class="app">
 
-    <!-- SIDEBAR -->
     <aside class="sidebar">
       <div class="brand">
         <div class="logo">OT</div>
@@ -393,34 +265,30 @@
       </div>
 
       <div class="nav">
-        <button class="navbtn active" id="nav-cotacao" onclick="setSection('cotacao')">
-          <span class="ico">🧾</span> Cotação
-        </button>
-        <button class="navbtn" id="nav-dashboard" onclick="setSection('dashboard')">
-          <span class="ico">📊</span> Vendas Mensal
-        </button>
-        <button class="navbtn" id="nav-relatorios" onclick="setSection('relatorios')">
-          <span class="ico">📈</span> Relatório
-        </button>
-        <button class="navbtn" id="nav-estoque" onclick="setSection('estoque')">
-          <span class="ico">📦</span> Estoque
-        </button>
+        <button class="navbtn active" id="nav-cotacao" onclick="setSection('cotacao')"><span class="ico">🧾</span> Cotação</button>
+        <button class="navbtn" id="nav-dashboard" onclick="setSection('dashboard')"><span class="ico">📊</span> Vendas Mensal</button>
+        <button class="navbtn" id="nav-relatorios" onclick="setSection('relatorios')"><span class="ico">📈</span> Relatório</button>
+        <button class="navbtn" id="nav-estoque" onclick="setSection('estoque')"><span class="ico">📦</span> Estoque</button>
       </div>
 
       <div class="sideActions">
         <button class="btn gray" onclick="abrirAdmin()">🔐 Admin</button>
         <button class="btn purple" onclick="gerarEtiqueta()">🏷️ Etiqueta</button>
         <button class="btn blue" onclick="enviarWhatsApp()">🟢 Enviar WhatsApp</button>
-        <button class="btn green" onclick="gerarPDF()">🧾 Gerar PDF</button>
+
+        <button class="btn green" onclick="imprimir('orcamento')">🧾 PDF Orçamento</button>
+        <button class="btn green" onclick="imprimir('os')">🧰 PDF Ordem de Serviço</button>
+        <button class="btn green" onclick="imprimir('ns')">🧑‍🔧 PDF Nota de Serviço</button>
+
         <button class="btn orange" onclick="fecharVenda()">✅ Fechar venda</button>
+        <button class="btn gray" onclick="novoDocumento()">➕ Novo documento</button>
       </div>
 
       <div class="sideFoot">
-        Dica: se não atualizar, abra com <b>?v=99</b> no final do link para evitar cache.
+        Se não atualizar, abra com <b>?v=200</b> no final do link.
       </div>
     </aside>
 
-    <!-- MAIN -->
     <main class="main">
 
       <div class="topbar">
@@ -432,7 +300,9 @@
         <div class="status">
           <div class="muted">Status</div>
           <div class="big" id="statusTop">Pronto.</div>
-          <div class="muted">Data: <span id="dataOut"></span></div>
+
+          <div class="muted"><b>Nº Documento:</b> <span id="numeroDocTop">—</span></div>
+          <div class="muted"><b>Data:</b> <span id="dataTop">—</span></div>
         </div>
       </div>
 
@@ -441,7 +311,19 @@
         <div class="grid">
 
           <div class="card">
-            <h3>Dados do comprador</h3>
+            <h3>Documento</h3>
+            <div class="row2">
+              <div>
+                <label>Número do documento</label>
+                <input id="numeroDoc" readonly>
+              </div>
+              <div>
+                <label>Data do documento</label>
+                <input id="dataDoc" type="date">
+              </div>
+            </div>
+
+            <h3 style="margin-top:14px;">Dados do comprador</h3>
 
             <div class="row2">
               <div>
@@ -457,51 +339,24 @@
             <label style="margin-top:12px;">Endereço de entrega</label>
 
             <div class="row2">
-              <div>
-                <label>Rua</label>
-                <input id="rua" placeholder="Ex: Rua Glaziou">
-              </div>
-              <div>
-                <label>Número</label>
-                <input id="numero" placeholder="Ex: 30">
-              </div>
+              <div><label>Rua</label><input id="rua" placeholder="Ex: Rua Glaziou"></div>
+              <div><label>Número</label><input id="numero" placeholder="Ex: 30"></div>
             </div>
 
             <div class="row2">
-              <div>
-                <label>Bairro</label>
-                <input id="bairro" placeholder="Ex: Pilares">
-              </div>
-              <div>
-                <label>Cidade</label>
-                <input id="cidade" placeholder="Ex: Rio de Janeiro">
-              </div>
+              <div><label>Bairro</label><input id="bairro" placeholder="Ex: Pilares"></div>
+              <div><label>Cidade</label><input id="cidade" placeholder="Ex: Rio de Janeiro"></div>
             </div>
 
             <div class="row3">
-              <div>
-                <label>UF</label>
-                <input id="uf" maxlength="2" placeholder="RJ">
-              </div>
-              <div>
-                <label>CEP</label>
-                <input id="cep" placeholder="20770-000">
-              </div>
-              <div>
-                <label>Referência</label>
-                <input id="referencia" placeholder="Ex: próximo ao mercado X">
-              </div>
+              <div><label>UF</label><input id="uf" maxlength="2" placeholder="RJ"></div>
+              <div><label>CEP</label><input id="cep" placeholder="20770-000"></div>
+              <div><label>Referência</label><input id="referencia" placeholder="Ex: próximo ao mercado X"></div>
             </div>
 
             <div class="row2">
-              <div>
-                <label>Número de contato</label>
-                <input id="contato" placeholder="(21) 99999-9999">
-              </div>
-              <div>
-                <label>Observações</label>
-                <input id="obsInput" placeholder="Condições, prazo, validade...">
-              </div>
+              <div><label>Número de contato</label><input id="contato" placeholder="(21) 99999-9999"></div>
+              <div><label>Observações</label><input id="obsInput" placeholder="Condições, prazo, validade..."></div>
             </div>
 
             <hr style="border:none;border-top:1px solid var(--line); margin:14px 0;">
@@ -510,20 +365,14 @@
 
             <label>Material</label>
             <select id="produto"></select>
+            <div class="note" id="hintProdutos" style="display:none;">
+              Lista vazia. Abra o <b>Admin</b> e clique em <b>Resetar produtos</b>.
+            </div>
 
             <div class="row3">
-              <div>
-                <label>Quantidade</label>
-                <input type="number" id="quantidade" min="1" value="1">
-              </div>
-              <div>
-                <label>Frete (R$)</label>
-                <input type="number" id="frete" value="20" step="0.01">
-              </div>
-              <div>
-                <label>Comissão (%)</label>
-                <input type="number" id="comissaoPct" value="30" step="1" min="0" max="100">
-              </div>
+              <div><label>Quantidade</label><input type="number" id="quantidade" min="1" value="1"></div>
+              <div><label>Frete (R$)</label><input type="number" id="frete" value="20" step="0.01"></div>
+              <div><label>Comissão (%)</label><input type="number" id="comissaoPct" value="30" step="1" min="0" max="100"></div>
             </div>
 
             <div class="btnRow">
@@ -542,8 +391,8 @@
             </div>
           </div>
 
-          <div class="card" id="areaOrcamento">
-            <h3>Orçamento</h3>
+          <div class="card">
+            <h3>Orçamento (visual)</h3>
 
             <div class="row2" style="margin-top:6px;">
               <div><b>Empresa:</b> Obras Tatuador LTDA</div>
@@ -551,69 +400,43 @@
             </div>
 
             <div class="row2" style="margin-top:10px;">
+              <div><b>Nº Documento:</b> <span id="numeroOut">—</span></div>
+              <div style="text-align:right;"><b>Data:</b> <span id="dataOut">—</span></div>
+            </div>
+
+            <div class="row2" style="margin-top:10px;">
               <div><b>Cliente:</b> <span id="clienteOut">—</span></div>
               <div style="text-align:right;"><b>CPF/CNPJ:</b> <span id="docOut">—</span></div>
             </div>
 
-            <div style="margin-top:8px;">
-              <b>Entrega:</b> <span id="enderecoOut">—</span>
-            </div>
+            <div style="margin-top:8px;"><b>Entrega:</b> <span id="enderecoOut">—</span></div>
 
             <div class="row2" style="margin-top:8px;">
               <div><b>CEP:</b> <span id="cepOut">—</span></div>
               <div style="text-align:right;"><b>Contato:</b> <span id="contatoOut">—</span></div>
             </div>
 
-            <div style="margin-top:6px;">
-              <b>Referência:</b> <span id="refOut">—</span>
-            </div>
+            <div style="margin-top:6px;"><b>Referência:</b> <span id="refOut">—</span></div>
 
             <table>
               <thead>
                 <tr>
-                  <th>Material</th>
-                  <th>Qtd</th>
-                  <th>Preço Unit</th>
-                  <th>Custo Unit</th>
-                  <th>ICMS</th>
-                  <th>Lucro</th>
-                  <th>Total</th>
-                  <th class="no-print"></th>
+                  <th>Material</th><th>Qtd</th><th>Preço Unit</th><th>Custo Unit</th><th>ICMS</th><th>Lucro</th><th>Total</th><th class="no-print"></th>
                 </tr>
               </thead>
               <tbody id="lista"></tbody>
             </table>
 
             <div class="totals">
-              <div class="kpi">
-                <div class="label">Total materiais</div>
-                <div class="val" id="totalVenda">R$ 0,00</div>
-              </div>
-              <div class="kpi">
-                <div class="label">Total ICMS (22%)</div>
-                <div class="val" id="totalICMS">R$ 0,00</div>
-              </div>
-              <div class="kpi">
-                <div class="label">Comissão</div>
-                <div class="val" id="totalComissao">R$ 0,00</div>
-              </div>
-              <div class="kpi">
-                <div class="label">Frete</div>
-                <div class="val" id="totalFrete">R$ 0,00</div>
-              </div>
-              <div class="kpi">
-                <div class="label">Lucro estimado (materiais)</div>
-                <div class="val" id="totalLucro">R$ 0,00</div>
-              </div>
-              <div class="kpi">
-                <div class="label">Total final (cliente paga)</div>
-                <div class="val" id="totalFinal">R$ 0,00</div>
-              </div>
+              <div class="kpi"><div class="label">Total materiais</div><div class="val" id="totalVenda">R$ 0,00</div></div>
+              <div class="kpi"><div class="label">Total ICMS (22%)</div><div class="val" id="totalICMS">R$ 0,00</div></div>
+              <div class="kpi"><div class="label">Comissão</div><div class="val" id="totalComissao">R$ 0,00</div></div>
+              <div class="kpi"><div class="label">Frete</div><div class="val" id="totalFrete">R$ 0,00</div></div>
+              <div class="kpi"><div class="label">Lucro estimado (materiais)</div><div class="val" id="totalLucro">R$ 0,00</div></div>
+              <div class="kpi"><div class="label">Total final (cliente paga)</div><div class="val" id="totalFinal">R$ 0,00</div></div>
             </div>
 
-            <div class="note">
-              <b>Observações:</b> <span id="obsOut">—</span>
-            </div>
+            <div class="note"><b>Observações:</b> <span id="obsOut">—</span></div>
           </div>
 
         </div>
@@ -623,16 +446,11 @@
       <section class="section" id="sec-dashboard">
         <div class="card">
           <h3>📊 Vendas Mensal</h3>
-          <div class="muted">Resumo do mês selecionado (vendas fechadas).</div>
+          <div class="note">Resumo do mês selecionado (vendas fechadas).</div>
 
           <div class="row2" style="margin-top:10px;">
-            <div>
-              <label>Mês/Ano</label>
-              <input id="mesRef" type="month">
-            </div>
-            <div style="display:flex; align-items:end;">
-              <button class="btn2 secondary" style="width:220px;" onclick="recalcularDashboard()">Atualizar</button>
-            </div>
+            <div><label>Mês/Ano</label><input id="mesRef" type="month"></div>
+            <div style="display:flex; align-items:end;"><button class="btn2 secondary" style="width:220px;" onclick="recalcularDashboard()">Atualizar</button></div>
           </div>
 
           <div class="totals" style="margin-top:12px;">
@@ -650,27 +468,15 @@
       <section class="section" id="sec-relatorios">
         <div class="card">
           <h3>📈 Relatório por Produto</h3>
-          <div class="muted">Produtos mais vendidos no mês selecionado.</div>
+          <div class="note">Produtos mais vendidos no mês selecionado.</div>
 
           <div class="row2" style="margin-top:10px;">
-            <div>
-              <label>Mês/Ano</label>
-              <input id="mesRef2" type="month">
-            </div>
-            <div style="display:flex; align-items:end;">
-              <button class="btn2 secondary" style="width:220px;" onclick="renderRelatorioProduto()">Atualizar</button>
-            </div>
+            <div><label>Mês/Ano</label><input id="mesRef2" type="month"></div>
+            <div style="display:flex; align-items:end;"><button class="btn2 secondary" style="width:220px;" onclick="renderRelatorioProduto()">Atualizar</button></div>
           </div>
 
           <table>
-            <thead>
-              <tr>
-                <th>Produto</th>
-                <th>Qtd vendida</th>
-                <th>Faturamento</th>
-                <th>Lucro estimado</th>
-              </tr>
-            </thead>
+            <thead><tr><th>Produto</th><th>Qtd vendida</th><th>Faturamento</th><th>Lucro estimado</th></tr></thead>
             <tbody id="relProdBody"></tbody>
           </table>
         </div>
@@ -680,19 +486,89 @@
       <section class="section" id="sec-estoque">
         <div class="card">
           <h3>📦 Estoque</h3>
-          <div class="muted">Baixa automática quando fecha venda. Ajuste manual pelo Admin.</div>
+          <div class="note">Baixa automática quando fecha venda. Ajuste manual pelo Admin.</div>
 
           <table>
-            <thead>
-              <tr>
-                <th>Produto</th>
-                <th>Em estoque</th>
-                <th>Custo</th>
-                <th>Venda</th>
-              </tr>
-            </thead>
+            <thead><tr><th>Produto</th><th>Em estoque</th><th>Custo</th><th>Venda</th></tr></thead>
             <tbody id="estoqueBody"></tbody>
           </table>
+        </div>
+      </section>
+
+      <!-- DOCUMENTOS PARA IMPRESSÃO -->
+      <section id="doc-orcamento" class="card" style="display:none;">
+        <h3 style="margin:0 0 10px;">ORÇAMENTO</h3>
+        <div class="row2">
+          <div><b>Empresa:</b> Obras Tatuador LTDA</div>
+          <div style="text-align:right;"><b>ICMS:</b> 22% (fixo)</div>
+        </div>
+        <div class="row2" style="margin-top:8px;">
+          <div><b>Nº:</b> <span id="p_numero"></span></div>
+          <div style="text-align:right;"><b>Data:</b> <span id="p_data"></span></div>
+        </div>
+        <div class="row2" style="margin-top:8px;">
+          <div><b>Cliente:</b> <span id="p_cliente"></span></div>
+          <div style="text-align:right;"><b>CPF/CNPJ:</b> <span id="p_doc"></span></div>
+        </div>
+        <div style="margin-top:6px;"><b>Entrega:</b> <span id="p_endereco"></span></div>
+        <div class="row2" style="margin-top:6px;">
+          <div><b>CEP:</b> <span id="p_cep"></span></div>
+          <div style="text-align:right;"><b>Contato:</b> <span id="p_contato"></span></div>
+        </div>
+        <div style="margin-top:6px;"><b>Referência:</b> <span id="p_ref"></span></div>
+
+        <table>
+          <thead><tr><th>Material</th><th>Qtd</th><th>Preço Unit</th><th>Total</th></tr></thead>
+          <tbody id="p_itens"></tbody>
+        </table>
+
+        <div class="totals">
+          <div class="kpi"><div class="label">Materiais</div><div class="val" id="p_totalVenda"></div></div>
+          <div class="kpi"><div class="label">ICMS</div><div class="val" id="p_totalICMS"></div></div>
+          <div class="kpi"><div class="label">Comissão</div><div class="val" id="p_totalCom"></div></div>
+          <div class="kpi"><div class="label">Frete</div><div class="val" id="p_totalFrete"></div></div>
+          <div class="kpi"><div class="label">Total Final</div><div class="val" id="p_totalFinal"></div></div>
+          <div class="kpi"><div class="label">Observações</div><div class="val" style="font-size:12px;" id="p_obs"></div></div>
+        </div>
+      </section>
+
+      <section id="doc-os" class="card" style="display:none;">
+        <h3 style="margin:0 0 10px;">ORDEM DE SERVIÇO</h3>
+        <div class="row2">
+          <div><b>Empresa:</b> Obras Tatuador LTDA</div>
+          <div style="text-align:right;"><b>Nº:</b> <span id="os_numero"></span></div>
+        </div>
+        <div class="row2" style="margin-top:8px;">
+          <div><b>Cliente:</b> <span id="os_cliente"></span></div>
+          <div style="text-align:right;"><b>Data:</b> <span id="os_data"></span></div>
+        </div>
+        <div style="margin-top:6px;"><b>Endereço de entrega:</b> <span id="os_endereco"></span></div>
+        <div class="note" style="margin-top:10px;">
+          Esta Ordem de Serviço formaliza a separação e envio dos materiais descritos no orçamento vinculado.
+        </div>
+        <table>
+          <thead><tr><th>Material</th><th>Qtd</th></tr></thead>
+          <tbody id="os_itens"></tbody>
+        </table>
+        <div class="note" style="margin-top:16px;">
+          Assinatura do responsável: _______________________________________
+        </div>
+      </section>
+
+      <section id="doc-ns" class="card" style="display:none;">
+        <h3 style="margin:0 0 10px;">NOTA DE SERVIÇO</h3>
+        <div class="row2">
+          <div><b>Empresa:</b> Obras Tatuador LTDA</div>
+          <div style="text-align:right;"><b>Nº:</b> <span id="ns_numero"></span></div>
+        </div>
+        <div class="row2" style="margin-top:8px;">
+          <div><b>Cliente:</b> <span id="ns_cliente"></span></div>
+          <div style="text-align:right;"><b>Data:</b> <span id="ns_data"></span></div>
+        </div>
+        <div style="margin-top:6px;"><b>Descrição do serviço:</b> Separação, conferência, embalagem e expedição de materiais conforme orçamento.</div>
+        <div style="margin-top:8px;"><b>Total cobrado do cliente:</b> <span id="ns_totalFinal"></span></div>
+        <div class="note" style="margin-top:16px;">
+          Assinatura do cliente: _______________________________________
         </div>
       </section>
 
@@ -708,12 +584,12 @@
       </div>
 
       <div id="adminLogin" style="margin-top:12px;">
-        <div class="muted">Demo: senha simples (lado do navegador). Em produção, usar autenticação real.</div>
+        <div class="note">Demo: senha simples (lado do navegador). Em produção, usar autenticação real.</div>
         <label>Senha admin</label>
         <input id="adminPass" type="password" placeholder="Digite a senha">
         <div style="display:flex; gap:10px; margin-top:10px; flex-wrap:wrap;">
           <button class="btn2" style="width:220px;" onclick="loginAdmin()">Entrar</button>
-          <div class="muted" style="align-self:center;">Senha demo: <b>admin123</b></div>
+          <div class="note" style="align-self:center;">Senha demo: <b>admin123</b></div>
         </div>
       </div>
 
@@ -721,80 +597,45 @@
         <h3>🏷️ Remetente (Etiqueta)</h3>
 
         <div class="row2">
-          <div>
-            <label>Nome</label>
-            <input id="remNome" placeholder="Ex: Obras Tatuador LTDA">
-          </div>
-          <div>
-            <label>Contato</label>
-            <input id="remContato" placeholder="(21) 99999-9999">
-          </div>
+          <div><label>Nome</label><input id="remNome" placeholder="Ex: Obras Tatuador LTDA"></div>
+          <div><label>Contato</label><input id="remContato" placeholder="(21) 99999-9999"></div>
         </div>
 
         <div class="row2">
-          <div>
-            <label>Rua</label>
-            <input id="remRua" placeholder="Rua...">
-          </div>
-          <div>
-            <label>Número</label>
-            <input id="remNumero" placeholder="Nº">
-          </div>
+          <div><label>Rua</label><input id="remRua" placeholder="Rua..."></div>
+          <div><label>Número</label><input id="remNumero" placeholder="Nº"></div>
         </div>
 
         <div class="row2">
-          <div>
-            <label>Bairro</label>
-            <input id="remBairro" placeholder="Bairro">
-          </div>
-          <div>
-            <label>Cidade</label>
-            <input id="remCidade" placeholder="Cidade">
-          </div>
+          <div><label>Bairro</label><input id="remBairro" placeholder="Bairro"></div>
+          <div><label>Cidade</label><input id="remCidade" placeholder="Cidade"></div>
         </div>
 
         <div class="row3">
-          <div>
-            <label>UF</label>
-            <input id="remUF" maxlength="2" placeholder="RJ">
-          </div>
-          <div>
-            <label>CEP</label>
-            <input id="remCEP" placeholder="20770-000">
-          </div>
-          <div>
-            <label>Referência</label>
-            <input id="remRef" placeholder="Referência">
-          </div>
+          <div><label>UF</label><input id="remUF" maxlength="2" placeholder="RJ"></div>
+          <div><label>CEP</label><input id="remCEP" placeholder="20770-000"></div>
+          <div><label>Referência</label><input id="remRef" placeholder="Referência"></div>
         </div>
 
         <hr style="border:none;border-top:1px solid var(--line); margin:14px 0;">
 
         <h3>📦 Ajustar estoque</h3>
         <div class="row2">
-          <div>
-            <label>Produto</label>
-            <select id="adminProd"></select>
-          </div>
-          <div>
-            <label>Novo estoque</label>
-            <input id="adminEstoque" type="number" step="1">
-          </div>
+          <div><label>Produto</label><select id="adminProd"></select></div>
+          <div><label>Novo estoque</label><input id="adminEstoque" type="number" step="1"></div>
         </div>
 
         <div class="row2">
-          <div>
-            <label>Comissão padrão (%)</label>
-            <input id="adminComissao" type="number" min="0" max="100" step="1">
-          </div>
+          <div><label>Comissão padrão (%)</label><input id="adminComissao" type="number" min="0" max="100" step="1"></div>
           <div style="display:flex; align-items:end; gap:10px;">
             <button class="btn2 secondary" style="width:220px;" onclick="salvarEstoqueAdmin()">Salvar estoque</button>
             <button class="btn2 secondary" style="width:220px;" onclick="salvarComissaoAdmin()">Salvar comissão</button>
           </div>
         </div>
 
-        <div style="margin-top:14px;">
+        <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
           <button class="btn2" style="background:var(--red); width:260px;" onclick="zerarHistorico()">Zerar histórico (demo)</button>
+          <button class="btn2 secondary" style="width:260px;" onclick="resetarProdutos()">Resetar produtos</button>
         </div>
 
         <div class="note">Remetente é salvo automaticamente enquanto você digita.</div>
@@ -810,7 +651,7 @@
     const EMPRESA = "Obras Tatuador LTDA";
     const ADMIN_PASSWORD = "admin123";
 
-    // ✅ Materiais ajustados exatamente como você pediu:
+    // Materiais (custos/vendas) - conforme você pediu
     const defaultProdutos = [
       { id:"MAT-001", nome:"Cimento 50kg", custo:13.00, venda:60.00, estoque:100 },
       { id:"MAT-002", nome:"Conduítes (Rolo 100m)", custo:20.00, venda:50.00, estoque:50 },
@@ -821,25 +662,46 @@
     ];
 
     // storage keys
-    const LS_PROD = "ot_produtos_pro_v1";
-    const LS_SALES = "ot_vendas_pro_v1";
-    const LS_DRAFT = "ot_rascunho_pro_v1";
-    const LS_COMISSAO = "ot_comissao_pro_v1";
-    const LS_REM = "ot_remetente_pro_v1";
+    const LS_PROD = "ot_produtos_pro_v2";
+    const LS_SALES = "ot_vendas_pro_v2";
+    const LS_DRAFT = "ot_rascunho_pro_v2";
+    const LS_COMISSAO = "ot_comissao_pro_v2";
+    const LS_REM = "ot_remetente_pro_v2";
+    const LS_DOCNUM = "ot_docnum_pro_v2"; // numeração do documento
 
     function brl(v){
       return (Number(v)||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
-    }
-    function hojeBR(){
-      const d = new Date();
-      return String(d.getDate()).padStart(2,"0") + "/" +
-        String(d.getMonth()+1).padStart(2,"0") + "/" + d.getFullYear();
     }
     function hojeISO(){
       const d = new Date();
       return d.getFullYear() + "-" +
         String(d.getMonth()+1).padStart(2,"0") + "-" +
         String(d.getDate()).padStart(2,"0");
+    }
+    function isoParaBR(iso){
+      if(!iso) return "—";
+      const [y,m,d] = iso.split("-");
+      return `${d}/${m}/${y}`;
+    }
+
+    // Numeração
+    function nextDocNumber(){
+      const raw = localStorage.getItem(LS_DOCNUM);
+      const n = raw ? Number(raw) : 0;
+      const next = Number.isFinite(n) ? (n + 1) : 1;
+      localStorage.setItem(LS_DOCNUM, String(next));
+      return next;
+    }
+    function formatDocNumber(n){
+      const num = String(n).padStart(6,"0");
+      return `OT-${num}`;
+    }
+    function ensureDocNumber(){
+      // se não tiver número no input, cria um
+      const el = document.getElementById("numeroDoc");
+      if(!el.value){
+        el.value = formatDocNumber(nextDocNumber());
+      }
     }
 
     function loadProdutos(){
@@ -848,7 +710,15 @@
         localStorage.setItem(LS_PROD, JSON.stringify(defaultProdutos));
         return structuredClone(defaultProdutos);
       }
-      try { return JSON.parse(raw); } catch { return structuredClone(defaultProdutos); }
+      try {
+        const arr = JSON.parse(raw);
+        // se veio vazio/corrompido, reseta
+        if(!Array.isArray(arr) || arr.length === 0) throw new Error("produtos inválidos");
+        return arr;
+      } catch {
+        localStorage.setItem(LS_PROD, JSON.stringify(defaultProdutos));
+        return structuredClone(defaultProdutos);
+      }
     }
     function saveProdutos(arr){ localStorage.setItem(LS_PROD, JSON.stringify(arr)); }
 
@@ -888,7 +758,15 @@
     const pageTitle = document.getElementById("pageTitle");
     const pageSub = document.getElementById("pageSub");
     const statusTop = document.getElementById("statusTop");
-    document.getElementById("dataOut").textContent = hojeBR();
+
+    const numeroDocTop = document.getElementById("numeroDocTop");
+    const dataTop = document.getElementById("dataTop");
+
+    const numeroDoc = document.getElementById("numeroDoc");
+    const dataDoc = document.getElementById("dataDoc");
+
+    // Default data
+    dataDoc.value = hojeISO();
 
     const selectProduto = document.getElementById("produto");
     const adminProd = document.getElementById("adminProd");
@@ -907,6 +785,8 @@
     const obsInput = document.getElementById("obsInput");
 
     // outputs
+    const numeroOut = document.getElementById("numeroOut");
+    const dataOut = document.getElementById("dataOut");
     const clienteOut = document.getElementById("clienteOut");
     const docOut = document.getElementById("docOut");
     const enderecoOut = document.getElementById("enderecoOut");
@@ -957,7 +837,17 @@
       return [parts1, parts2].filter(Boolean).join(" | ") || "—";
     }
 
+    function syncHeaderDoc(){
+      ensureDocNumber();
+      numeroDocTop.textContent = numeroDoc.value || "—";
+      dataTop.textContent = isoParaBR(dataDoc.value);
+    }
+
     function syncBuyerOut(){
+      syncHeaderDoc();
+      numeroOut.textContent = numeroDoc.value || "—";
+      dataOut.textContent = isoParaBR(dataDoc.value);
+
       clienteOut.textContent = clienteInput.value.trim() || "—";
       docOut.textContent = docInput.value.trim() || "—";
       enderecoOut.textContent = enderecoCompleto();
@@ -967,8 +857,12 @@
       obsOut.textContent = obsInput.value.trim() || "—";
     }
 
-    [clienteInput, docInput, ruaInput, numeroInput, bairroInput, cidadeInput, ufInput, cepInput, refInput, contatoInput, obsInput]
-      .forEach(el => el.addEventListener("input", syncBuyerOut));
+    [
+      numeroDoc, dataDoc,
+      clienteInput, docInput, ruaInput, numeroInput, bairroInput, cidadeInput,
+      ufInput, cepInput, refInput, contatoInput, obsInput
+    ].forEach(el => el.addEventListener("input", syncBuyerOut));
+
     freteInput.addEventListener("input", atualizar);
     comInput.addEventListener("input", atualizar);
 
@@ -978,6 +872,14 @@
     function renderSelects(){
       selectProduto.innerHTML = "";
       adminProd.innerHTML = "";
+
+      // Se por algum motivo estiver vazio, mostra dica
+      const hint = document.getElementById("hintProdutos");
+      if(!Array.isArray(produtos) || produtos.length === 0){
+        hint.style.display = "block";
+        return;
+      }
+      hint.style.display = "none";
 
       produtos.forEach(p=>{
         const opt = document.createElement("option");
@@ -1046,10 +948,11 @@
       AÇÕES
     ====================== */
     function adicionarItem(){
+      ensureDocNumber();
       const prodId = selectProduto.value;
       const qtd = Math.max(1, Number(qtdInput.value)||1);
       const p = getProdutoById(prodId);
-      if(!p) return;
+      if(!p){ alert("Produtos não carregaram. Abra Admin > Resetar produtos."); return; }
 
       const totalVenda = p.venda * qtd;
       const icmsValor = totalVenda * ICMS;
@@ -1061,12 +964,89 @@
     function removerItem(i){ itens.splice(i,1); atualizar(); }
     function limpar(){ itens = []; atualizar(); }
 
-    function gerarPDF(){ atualizar(); window.print(); }
+    // Impressão por tipo
+    function preencherDocImpressao(){
+      const t = calcularTotais();
 
-    // ✅ abre WhatsApp com a mensagem pronta (sem copiar/colar)
+      const num = numeroDoc.value || "—";
+      const data = isoParaBR(dataDoc.value);
+
+      const cliente = clienteInput.value.trim() || "—";
+      const doc = docInput.value.trim() || "—";
+      const end = enderecoCompleto();
+      const cep = cepInput.value.trim() || "—";
+      const contato = contatoInput.value.trim() || "—";
+      const ref = refInput.value.trim() || "—";
+      const obs = obsInput.value.trim() || "—";
+
+      // orçamento
+      document.getElementById("p_numero").textContent = num;
+      document.getElementById("p_data").textContent = data;
+      document.getElementById("p_cliente").textContent = cliente;
+      document.getElementById("p_doc").textContent = doc;
+      document.getElementById("p_endereco").textContent = end;
+      document.getElementById("p_cep").textContent = cep;
+      document.getElementById("p_contato").textContent = contato;
+      document.getElementById("p_ref").textContent = ref;
+      document.getElementById("p_obs").textContent = obs;
+
+      const p_itens = document.getElementById("p_itens");
+      p_itens.innerHTML = itens.map(it => `
+        <tr>
+          <td>${it.nome}</td><td>${it.qtd}</td><td>${brl(it.vendaUnit)}</td><td><b>${brl(it.totalVenda)}</b></td>
+        </tr>
+      `).join("");
+
+      document.getElementById("p_totalVenda").textContent = brl(t.totalVenda);
+      document.getElementById("p_totalICMS").textContent = brl(t.totalICMS);
+      document.getElementById("p_totalCom").textContent = brl(t.totalComissao);
+      document.getElementById("p_totalFrete").textContent = brl(t.frete);
+      document.getElementById("p_totalFinal").textContent = brl(t.totalFinal);
+
+      // OS
+      document.getElementById("os_numero").textContent = num;
+      document.getElementById("os_data").textContent = data;
+      document.getElementById("os_cliente").textContent = cliente;
+      document.getElementById("os_endereco").textContent = `${end} | CEP: ${cep}`;
+
+      const os_itens = document.getElementById("os_itens");
+      os_itens.innerHTML = itens.map(it => `<tr><td>${it.nome}</td><td>${it.qtd}</td></tr>`).join("");
+
+      // NS
+      document.getElementById("ns_numero").textContent = num;
+      document.getElementById("ns_data").textContent = data;
+      document.getElementById("ns_cliente").textContent = cliente;
+      document.getElementById("ns_totalFinal").textContent = brl(t.totalFinal);
+    }
+
+    function imprimir(tipo){
+      if(itens.length === 0 && tipo !== "os" && tipo !== "ns"){
+        // Orçamento precisa ter itens. OS/NS pode até imprimir vazio, mas fica feio.
+        alert("Adicione materiais antes de gerar o PDF.");
+        return;
+      }
+      preencherDocImpressao();
+
+      document.body.classList.remove("print-orcamento","print-os","print-ns");
+      if(tipo === "orcamento") document.body.classList.add("print-orcamento");
+      if(tipo === "os") document.body.classList.add("print-os");
+      if(tipo === "ns") document.body.classList.add("print-ns");
+
+      window.print();
+
+      // volta ao normal
+      setTimeout(()=>{
+        document.body.classList.remove("print-orcamento","print-os","print-ns");
+      }, 300);
+    }
+
+    // WhatsApp com texto pronto (inclui número e data)
     function enviarWhatsApp(){
       atualizar();
       const t = calcularTotais();
+
+      const num = numeroDoc.value || "—";
+      const data = isoParaBR(dataDoc.value);
 
       const cliente = clienteInput.value.trim() || "—";
       const doc = docInput.value.trim() || "—";
@@ -1077,7 +1057,8 @@
       const obs = obsInput.value.trim();
 
       let texto = `ORÇAMENTO - ${EMPRESA}\n`;
-      texto += `Data: ${hojeBR()}\n`;
+      texto += `Nº: ${num}\n`;
+      texto += `Data: ${data}\n`;
       texto += `Cliente: ${cliente}\n`;
       texto += `CPF/CNPJ: ${doc}\n`;
       texto += `Entrega: ${end}\n`;
@@ -1116,7 +1097,6 @@
         return;
       }
 
-      // validar estoque
       for(const it of itens){
         const p = getProdutoById(it.prodId);
         if(p && p.estoque < it.qtd){
@@ -1125,19 +1105,19 @@
         }
       }
 
-      // baixar estoque
       produtos = produtos.map(p=>{
         const usado = itens.filter(it=>it.prodId===p.id).reduce((s,it)=>s+it.qtd,0);
         return { ...p, estoque: p.estoque - usado };
       });
       saveProdutos(produtos);
 
-      // gravar venda
       const t = calcularTotais();
       const vendas = loadSales();
       vendas.push({
         id: (crypto.randomUUID ? crypto.randomUUID() : String(Date.now())),
         dateISO: hojeISO(),
+        numeroDoc: numeroDoc.value,
+        dataDoc: dataDoc.value,
         cliente: clienteInput.value.trim() || "",
         doc: docInput.value.trim() || "",
         entrega:{
@@ -1162,15 +1142,14 @@
       });
       saveSales(vendas);
 
-      // limpar
-      itens = [];
-      renderSelects();
-      atualizar();
       alert("Venda fechada! Estoque atualizado e venda registrada.");
+      novoDocumento();
     }
 
     function salvarRascunho(){
       const d = {
+        numeroDoc: numeroDoc.value,
+        dataDoc: dataDoc.value,
         cliente: clienteInput.value, doc: docInput.value,
         rua: ruaInput.value, numero: numeroInput.value,
         bairro: bairroInput.value, cidade: cidadeInput.value,
@@ -1190,6 +1169,9 @@
       if(!raw) return;
       try{
         const d = JSON.parse(raw);
+        numeroDoc.value = d.numeroDoc || "";
+        dataDoc.value = d.dataDoc || hojeISO();
+
         clienteInput.value = d.cliente || "";
         docInput.value = d.doc || "";
         ruaInput.value = d.rua || "";
@@ -1205,6 +1187,27 @@
         comInput.value = d.comissaoPct ?? getComissaoPadrao();
         itens = Array.isArray(d.itens) ? d.itens : [];
       } catch {}
+    }
+
+    function novoDocumento(){
+      // limpa tudo e gera novo número
+      itens = [];
+      clienteInput.value = "";
+      docInput.value = "";
+      ruaInput.value = "";
+      numeroInput.value = "";
+      bairroInput.value = "";
+      cidadeInput.value = "";
+      ufInput.value = "";
+      cepInput.value = "";
+      refInput.value = "";
+      contatoInput.value = "";
+      obsInput.value = "";
+      freteInput.value = 20;
+      comInput.value = getComissaoPadrao();
+      dataDoc.value = hojeISO();
+      numeroDoc.value = formatDocNumber(nextDocNumber());
+      atualizar();
     }
 
     /* ======================
@@ -1252,17 +1255,14 @@
       const rows = Array.from(map.values()).sort((a,b)=>b.fat-a.fat);
       relBody.innerHTML = "";
       if(rows.length===0){
-        relBody.innerHTML = `<tr><td colspan="4" class="muted">Nenhuma venda fechada neste mês.</td></tr>`;
+        relBody.innerHTML = `<tr><td colspan="4" style="color:var(--muted);">Nenhuma venda fechada neste mês.</td></tr>`;
         return;
       }
 
       for(const r of rows){
         relBody.innerHTML += `
           <tr>
-            <td>${r.nome}</td>
-            <td>${r.qtd}</td>
-            <td>${brl(r.fat)}</td>
-            <td>${brl(r.lucro)}</td>
+            <td>${r.nome}</td><td>${r.qtd}</td><td>${brl(r.fat)}</td><td>${brl(r.lucro)}</td>
           </tr>
         `;
       }
@@ -1272,12 +1272,7 @@
       estoqueBody.innerHTML = "";
       produtos.forEach(p=>{
         estoqueBody.innerHTML += `
-          <tr>
-            <td>${p.nome}</td>
-            <td><b>${p.estoque}</b></td>
-            <td>${brl(p.custo)}</td>
-            <td>${brl(p.venda)}</td>
-          </tr>
+          <tr><td>${p.nome}</td><td><b>${p.estoque}</b></td><td>${brl(p.custo)}</td><td>${brl(p.venda)}</td></tr>
         `;
       });
     }
@@ -1286,7 +1281,6 @@
       ETIQUETA
     ====================== */
     function gerarEtiqueta(){
-      syncBuyerOut();
       const r = loadRemetente();
 
       const dest = {
@@ -1311,65 +1305,64 @@
       const linhaDest2 = `${dest.bairro} • ${dest.cidade} - ${dest.uf}`;
       const linhaRem1 = `${(r.rua||"")}${(r.numero ? ", Nº " + r.numero : "")}`.trim() || "—";
       const linhaRem2 = `${(r.bairro||"")} • ${(r.cidade||"")} - ${(r.uf||"")}`.replace(/^ • /,"").trim() || "—";
-      const pedido = String(Date.now()).slice(-6);
+      const pedido = (numeroDoc.value || "OT-000000");
 
-      const html = `
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Etiqueta</title>
-<style>
-  body{font-family:Arial,sans-serif;margin:0;padding:10mm;}
-  .label{border:2px solid #000;padding:8mm;}
-  .top{display:flex;justify-content:space-between;gap:8mm;align-items:flex-start;}
-  h1{font-size:14pt;margin:0 0 3mm;}
-  .line{font-size:11pt;margin:1.2mm 0;}
-  .small{font-size:10pt;}
-  .hr{border-top:2px solid #000;margin:6mm 0;}
-  .row{display:flex;justify-content:space-between;gap:8mm;}
-  .box{border:1px solid #000;padding:6mm;width:100%;}
-  .tag{font-weight:900;text-transform:uppercase;font-size:10pt;margin-bottom:2mm;}
-  .barcode{border:1px solid #000;padding:4mm;margin-top:5mm;font-family:monospace;letter-spacing:2px;}
-  @media print{body{padding:0}.label{border:0}}
-</style></head><body>
-<div class="label">
-  <div class="top">
-    <div>
-      <h1>ETIQUETA DE ENVIO</h1>
-      <div class="line small"><b>Data:</b> ${hojeBR()}</div>
-      <div class="line small"><b>Pedido:</b> ${pedido}</div>
-    </div>
-    <div style="text-align:right">
-      <div class="line"><b>CEP:</b> ${dest.cep}</div>
-      <div class="barcode">||| ${dest.cep.replace(/\\D/g,"").padEnd(8,"0")} |||</div>
-    </div>
-  </div>
+      const html = `<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>Etiqueta</title>
+      <style>
+        body{font-family:Arial,sans-serif;margin:0;padding:10mm;}
+        .label{border:2px solid #000;padding:8mm;}
+        .top{display:flex;justify-content:space-between;gap:8mm;align-items:flex-start;}
+        h1{font-size:14pt;margin:0 0 3mm;}
+        .line{font-size:11pt;margin:1.2mm 0;}
+        .small{font-size:10pt;}
+        .hr{border-top:2px solid #000;margin:6mm 0;}
+        .row{display:flex;justify-content:space-between;gap:8mm;}
+        .box{border:1px solid #000;padding:6mm;width:100%;}
+        .tag{font-weight:900;text-transform:uppercase;font-size:10pt;margin-bottom:2mm;}
+        .barcode{border:1px solid #000;padding:4mm;margin-top:5mm;font-family:monospace;letter-spacing:2px;}
+        @media print{body{padding:0}.label{border:0}}
+      </style></head><body>
+      <div class="label">
+        <div class="top">
+          <div>
+            <h1>ETIQUETA DE ENVIO</h1>
+            <div class="line small"><b>Data:</b> ${isoParaBR(dataDoc.value)}</div>
+            <div class="line small"><b>Pedido:</b> ${pedido}</div>
+          </div>
+          <div style="text-align:right">
+            <div class="line"><b>CEP:</b> ${dest.cep}</div>
+            <div class="barcode">||| ${dest.cep.replace(/\\D/g,"").padEnd(8,"0")} |||</div>
+          </div>
+        </div>
 
-  <div class="hr"></div>
+        <div class="hr"></div>
 
-  <div class="row">
-    <div class="box">
-      <div class="tag">REMETENTE</div>
-      <div class="line"><b>${(r.nome||EMPRESA)}</b></div>
-      <div class="line">${linhaRem1}</div>
-      <div class="line">${linhaRem2}</div>
-      <div class="line"><b>CEP:</b> ${(r.cep||"—")}</div>
-      <div class="line"><b>Contato:</b> ${(r.contato||"—")}</div>
-      <div class="line small"><b>Ref:</b> ${(r.ref||"—")}</div>
-    </div>
+        <div class="row">
+          <div class="box">
+            <div class="tag">REMETENTE</div>
+            <div class="line"><b>${(r.nome||EMPRESA)}</b></div>
+            <div class="line">${linhaRem1}</div>
+            <div class="line">${linhaRem2}</div>
+            <div class="line"><b>CEP:</b> ${(r.cep||"—")}</div>
+            <div class="line"><b>Contato:</b> ${(r.contato||"—")}</div>
+            <div class="line small"><b>Ref:</b> ${(r.ref||"—")}</div>
+          </div>
 
-    <div class="box">
-      <div class="tag">DESTINATÁRIO</div>
-      <div class="line"><b>${dest.nome}</b></div>
-      <div class="line">${linhaDest1}</div>
-      <div class="line">${linhaDest2}</div>
-      <div class="line"><b>CEP:</b> ${dest.cep}</div>
-      <div class="line"><b>Contato:</b> ${dest.contato}</div>
-      <div class="line small"><b>Ref:</b> ${dest.ref}</div>
-      <div class="line small"><b>Doc:</b> ${dest.doc}</div>
-    </div>
-  </div>
-</div>
-<script>window.onload=()=>{window.print();};</script>
-</body></html>`;
+          <div class="box">
+            <div class="tag">DESTINATÁRIO</div>
+            <div class="line"><b>${dest.nome}</b></div>
+            <div class="line">${linhaDest1}</div>
+            <div class="line">${linhaDest2}</div>
+            <div class="line"><b>CEP:</b> ${dest.cep}</div>
+            <div class="line"><b>Contato:</b> ${dest.contato}</div>
+            <div class="line small"><b>Ref:</b> ${dest.ref}</div>
+            <div class="line small"><b>Doc:</b> ${dest.doc}</div>
+          </div>
+        </div>
+      </div>
+      <script>window.onload=()=>{window.print();};</script>
+      </body></html>`;
 
       const w = window.open("", "_blank");
       if(!w){ alert("Pop-up bloqueado. Permita pop-ups para gerar a etiqueta."); return; }
@@ -1463,6 +1456,14 @@
       alert("Histórico zerado.");
     }
 
+    function resetarProdutos(){
+      produtos = structuredClone(defaultProdutos);
+      saveProdutos(produtos);
+      renderSelects();
+      renderEstoque();
+      alert("Produtos resetados para o padrão.");
+    }
+
     /* ======================
       NAVEGAÇÃO
     ====================== */
@@ -1473,23 +1474,12 @@
         document.getElementById("nav-"+s).classList.toggle("active", s===name);
       });
 
-      if(name==="cotacao"){
-        pageTitle.textContent = "Cotação";
-        pageSub.textContent = "Monte um orçamento e gere PDF / WhatsApp.";
-      }
-      if(name==="dashboard"){
-        pageTitle.textContent = "Vendas Mensal";
-        pageSub.textContent = "Resumo do mês selecionado (vendas fechadas).";
-      }
-      if(name==="relatorios"){
-        pageTitle.textContent = "Relatório";
-        pageSub.textContent = "Ranking por produto (mês selecionado).";
-      }
-      if(name==="estoque"){
-        pageTitle.textContent = "Estoque";
-        pageSub.textContent = "Controle automático e ajuste via Admin.";
-      }
-      statusTop.textContent = "Pronto.";
+      if(name==="cotacao"){ pageTitle.textContent="Cotação"; pageSub.textContent="Monte um orçamento e gere PDF / WhatsApp."; }
+      if(name==="dashboard"){ pageTitle.textContent="Vendas Mensal"; pageSub.textContent="Resumo do mês selecionado (vendas fechadas)."; }
+      if(name==="relatorios"){ pageTitle.textContent="Relatório"; pageSub.textContent="Ranking por produto (mês selecionado)."; }
+      if(name==="estoque"){ pageTitle.textContent="Estoque"; pageSub.textContent="Controle automático e ajuste via Admin."; }
+
+      statusTop.textContent="Pronto.";
     }
 
     /* ======================
@@ -1497,6 +1487,8 @@
     ====================== */
     renderSelects();
     carregarRascunho();
+    ensureDocNumber();
+    syncBuyerOut();
     atualizar();
   </script>
 </body>
