@@ -1,1252 +1,1503 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Obras Tatuador LTDA • Sistema de Cotação</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Obras Tatuador LTDA • Sistema de Vendas</title>
 
-<style>
-  :root{
-    --bg:#f4f6fb;
-    --card:#fff;
-    --ink:#111827;
-    --muted:#6b7280;
-    --border:#e5e7eb;
-    --shadow:0 2px 12px rgba(0,0,0,.06);
-  }
-  *{box-sizing:border-box}
-  body { font-family: Arial, sans-serif; margin: 18px; background:var(--bg); color:var(--ink); }
+  <style>
+    :root{
+      --bg:#f6f7fb;
+      --card:#ffffff;
+      --ink:#0f172a;
+      --muted:#64748b;
+      --line:#e5e7eb;
+      --soft:#f1f5f9;
+      --shadow:0 10px 30px rgba(2,6,23,.08);
+      --shadow2:0 4px 14px rgba(2,6,23,.08);
+      --radius:14px;
+      --btn:#111827;
+      --blue:#1d4ed8;
+      --green:#065f46;
+      --purple:#6d28d9;
+      --orange:#b45309;
+      --red:#b91c1c;
+    }
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--ink);
+      background:var(--bg);
+    }
 
-  /* Header compacto e organizado */
-  .header {
-    background:var(--card);
-    border:1px solid var(--border);
-    border-radius:14px;
-    box-shadow:var(--shadow);
-    padding:12px 12px 10px;
-  }
-  .headerTop{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:12px;
-    flex-wrap:wrap;
-  }
-  .brand { display:flex; align-items:center; gap:10px; min-width: 220px; }
-  .logo{
-    width:36px; height:36px; border-radius:12px;
-    background:var(--ink); color:#fff;
-    display:flex; align-items:center; justify-content:center;
-    font-weight:900; letter-spacing:.5px;
-    flex: 0 0 auto;
-  }
-  .brandText h1{ margin:0; font-size:16px; line-height:1.2; }
-  .brandText .sub{ font-size:11px; color:var(--muted); margin-top:2px; }
-  .badges { display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-top:6px; }
-  .badge { background:#dc2626; color:#fff; padding:3px 8px; border-radius:999px; font-size:11px; font-weight:900; }
-  .pill { background:#eef2ff; color:#3730a3; padding:3px 8px; border-radius:999px; font-size:11px; font-weight:900; }
+    /* Layout principal (Sidebar + Conteúdo) */
+    .app{
+      display:grid;
+      grid-template-columns: 260px 1fr;
+      min-height:100vh;
+    }
 
-  .actions { display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end; }
-  .btn{
-    width:auto;
-    padding:8px 10px;
-    border-radius:10px;
-    border:1px solid transparent;
-    font-weight:900;
-    cursor:pointer;
-    background:var(--ink);
-    color:#fff;
-    font-size:12px;
-    line-height:1;
-    white-space:nowrap;
-  }
-  .btn.secondary{ background:#374151; }
-  .btn.blue{ background:#1d4ed8; }
-  .btn.green{ background:#065f46; }
-  .btn.purple{ background:#6d28d9; }
+    /* Sidebar */
+    .sidebar{
+      background:linear-gradient(180deg, #0b1220 0%, #0f172a 100%);
+      color:#e2e8f0;
+      padding:18px 14px;
+      position:sticky;
+      top:0;
+      height:100vh;
+      overflow:auto;
+    }
+    .brand{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      padding:10px 10px 14px;
+      border-bottom:1px solid rgba(226,232,240,.08);
+      margin-bottom:12px;
+    }
+    .logo{
+      width:42px; height:42px;
+      border-radius:14px;
+      background:rgba(255,255,255,.10);
+      display:flex; align-items:center; justify-content:center;
+      font-weight:900;
+      letter-spacing:.5px;
+      flex:0 0 auto;
+    }
+    .brand h1{
+      margin:0;
+      font-size:14px;
+      line-height:1.2;
+      font-weight:900;
+    }
+    .brand .sub{
+      margin-top:4px;
+      font-size:11px;
+      color:rgba(226,232,240,.75);
+    }
+    .chips{
+      display:flex; gap:8px; flex-wrap:wrap;
+      margin-top:10px;
+    }
+    .chip{
+      font-size:11px;
+      padding:4px 10px;
+      border-radius:999px;
+      background:rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.10);
+      font-weight:800;
+      white-space:nowrap;
+    }
+    .chip.red{ background:rgba(220,38,38,.2); border-color:rgba(220,38,38,.3); }
+    .chip.indigo{ background:rgba(99,102,241,.18); border-color:rgba(99,102,241,.28); }
 
-  .headerBottom{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:10px;
-    margin-top:10px;
-    flex-wrap:wrap;
-  }
+    .nav{
+      margin-top:14px;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    .navbtn{
+      width:100%;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid rgba(226,232,240,.10);
+      background:rgba(255,255,255,.06);
+      color:#e2e8f0;
+      cursor:pointer;
+      font-weight:900;
+      font-size:13px;
+      text-align:left;
+    }
+    .navbtn:hover{ background:rgba(255,255,255,.10); }
+    .navbtn.active{
+      background:rgba(255,255,255,.16);
+      border-color:rgba(255,255,255,.22);
+      box-shadow:0 10px 18px rgba(0,0,0,.15) inset;
+    }
+    .ico{
+      width:26px; height:26px;
+      border-radius:10px;
+      background:rgba(255,255,255,.10);
+      display:flex; align-items:center; justify-content:center;
+      flex:0 0 auto;
+      font-size:14px;
+    }
 
-  /* Abas pequenas no canto */
-  .tabs { display:flex; gap:8px; flex-wrap:wrap; }
-  .tabbtn{
-    width:auto;
-    padding:7px 10px;
-    border-radius:999px;
-    border:1px solid var(--ink);
-    background:#e5e7eb;
-    cursor:pointer;
-    font-weight:900;
-    color:var(--ink);
-    font-size:12px;
-    line-height:1;
-  }
-  .tabbtn.active{ background:var(--ink); color:#fff; }
+    .sideActions{
+      margin-top:14px;
+      padding-top:12px;
+      border-top:1px solid rgba(226,232,240,.08);
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    .btn{
+      border:0;
+      cursor:pointer;
+      font-weight:900;
+      border-radius:12px;
+      padding:10px 12px;
+      font-size:13px;
+      width:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      color:#fff;
+      background:rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.12);
+    }
+    .btn:hover{ background:rgba(255,255,255,.14); }
+    .btn.blue{ background:rgba(29,78,216,.85); border-color:rgba(29,78,216,.9); }
+    .btn.green{ background:rgba(6,95,70,.9); border-color:rgba(6,95,70,.95); }
+    .btn.purple{ background:rgba(109,40,217,.9); border-color:rgba(109,40,217,.95); }
+    .btn.gray{ background:rgba(148,163,184,.14); }
+    .btn.orange{ background:rgba(180,83,9,.9); border-color:rgba(180,83,9,.95); }
 
-  /* Layout da página */
-  .wrap { display:grid; grid-template-columns: 480px 1fr; gap:18px; margin-top:16px; }
-  .card {
-    background:var(--card);
-    padding:16px;
-    border-radius:14px;
-    box-shadow:var(--shadow);
-    border:1px solid var(--border);
-  }
+    .sideFoot{
+      margin-top:14px;
+      font-size:11px;
+      color:rgba(226,232,240,.7);
+      padding:10px;
+      border-radius:12px;
+      border:1px dashed rgba(226,232,240,.14);
+      background:rgba(255,255,255,.04);
+    }
 
-  h2 { font-size:15px; margin:0 0 10px; }
-  label { font-size:12px; margin-top:10px; display:block; color:#374151; font-weight:700; }
-  input, select, textarea {
-    width:100%;
-    padding:10px;
-    border-radius:10px;
-    border:1px solid #ddd;
-    margin-top:6px;
-    font-size:13px;
-  }
-  textarea{ resize:vertical; min-height:74px; }
+    /* Conteúdo */
+    .main{
+      padding:18px;
+    }
 
-  .row2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-  .row3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; }
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-bottom:14px;
+    }
+    .titleBlock{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow2);
+      padding:12px 14px;
+      min-width:280px;
+    }
+    .titleBlock h2{
+      margin:0;
+      font-size:15px;
+      font-weight:1000;
+    }
+    .titleBlock .muted{
+      margin-top:4px;
+      font-size:12px;
+      color:var(--muted);
+    }
 
-  table { width:100%; border-collapse:collapse; margin-top:10px; }
-  th, td { padding:10px; border-bottom:1px solid #eee; font-size:13px; text-align:left; vertical-align:top; }
-  th { background:var(--ink); color:#fff; }
+    .status{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow2);
+      padding:12px 14px;
+      min-width:240px;
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      align-items:flex-end;
+      text-align:right;
+    }
+    .status .muted{ color:var(--muted); font-size:12px; }
+    .status .big{ font-weight:1000; font-size:13px; }
 
-  .totals { margin-top:14px; display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-  .box { background:#fff; padding:12px; border-radius:12px; border:1px solid #eee; }
-  .muted { font-size:12px; color:var(--muted); }
-  .value { font-weight:900; font-size:16px; }
+    .grid{
+      display:grid;
+      grid-template-columns: 420px 1fr;
+      gap:14px;
+    }
 
-  .inlineBtns{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px; }
-  .inlineBtns .btn{ width:100%; padding:10px 10px; border-radius:12px; }
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:14px;
+    }
+    .card h3{
+      margin:0 0 10px;
+      font-size:14px;
+      font-weight:1000;
+    }
+    label{
+      display:block;
+      font-size:12px;
+      color:#334155;
+      font-weight:800;
+      margin-top:10px;
+    }
+    input, select, textarea{
+      width:100%;
+      margin-top:6px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      padding:10px 12px;
+      font-size:13px;
+      outline:none;
+      background:#fff;
+    }
+    input:focus, select:focus, textarea:focus{
+      border-color:#94a3b8;
+      box-shadow:0 0 0 4px rgba(148,163,184,.18);
+    }
+    textarea{ min-height:76px; resize:vertical; }
 
-  .danger { background:#b91c1c !important; }
-  .warn { background:#b45309 !important; }
+    .row2{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .row3{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; }
 
-  .hidden { display:none !important; }
+    .btnRow{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+      margin-top:12px;
+    }
+    .btn2{
+      border:0;
+      cursor:pointer;
+      font-weight:1000;
+      border-radius:12px;
+      padding:10px 12px;
+      font-size:13px;
+      color:#fff;
+      background:var(--btn);
+    }
+    .btn2.secondary{ background:#334155; }
+    .btn2.orange{ background:var(--orange); }
+    .btn2:hover{ filter:brightness(1.05); }
 
-  /* modal */
-  .modalBack { position:fixed; inset:0; background:rgba(0,0,0,.45); display:none; align-items:center; justify-content:center; padding:16px; }
-  .modal { width:min(680px, 100%); background:#fff; border-radius:14px; padding:16px; box-shadow:0 8px 30px rgba(0,0,0,.25); }
-  .modalTop { display:flex; justify-content:space-between; align-items:center; gap:10px; }
-  .modalTop h3 { margin:0; font-size:16px; }
-  .xbtn { width:auto; padding:8px 10px; border-radius:10px; background:var(--ink); color:#fff; border:0; cursor:pointer; font-weight:900; }
+    table{ width:100%; border-collapse:collapse; margin-top:10px; }
+    th, td{ font-size:13px; padding:10px; border-bottom:1px solid #eef2f7; text-align:left; vertical-align:top; }
+    th{
+      background:var(--ink);
+      color:#fff;
+      border-bottom:0;
+      font-weight:1000;
+    }
+    .xbtn{
+      border:0;
+      cursor:pointer;
+      font-weight:1000;
+      border-radius:10px;
+      padding:7px 10px;
+      color:#fff;
+      background:var(--red);
+    }
 
-  @media (max-width: 980px){
-    .wrap{ grid-template-columns: 1fr; }
-  }
+    .totals{
+      margin-top:12px;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+    }
+    .kpi{
+      background:var(--soft);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      padding:12px;
+    }
+    .kpi .label{ color:var(--muted); font-size:12px; font-weight:900; margin:0; }
+    .kpi .val{ font-size:16px; font-weight:1000; margin-top:4px; }
 
-  /* print */
-  @media print{
-    body{ background:#fff; margin:0; }
-    .no-print{ display:none !important; }
-    .card{ box-shadow:none; border:0; }
-    .wrap{ grid-template-columns:1fr; }
-    .header{ box-shadow:none; border:0; }
-  }
-</style>
+    .note{
+      margin-top:10px;
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.4;
+    }
+
+    /* Seções */
+    .section{ display:none; }
+    .section.active{ display:block; }
+
+    /* Modal */
+    .modalBack{
+      position:fixed; inset:0;
+      background:rgba(2,6,23,.55);
+      display:none;
+      align-items:center; justify-content:center;
+      padding:14px;
+      z-index:999;
+    }
+    .modal{
+      width:min(760px, 100%);
+      background:#fff;
+      border-radius:16px;
+      box-shadow:0 24px 60px rgba(0,0,0,.28);
+      border:1px solid var(--line);
+      padding:14px;
+    }
+    .modalTop{
+      display:flex; justify-content:space-between; align-items:center; gap:10px;
+      padding-bottom:10px; border-bottom:1px solid var(--line);
+    }
+    .modalTop h3{ margin:0; font-size:15px; font-weight:1000; }
+    .close{
+      border:0; cursor:pointer;
+      background:#111827;
+      color:#fff;
+      font-weight:1000;
+      padding:8px 10px;
+      border-radius:12px;
+    }
+    .muted{ color:var(--muted); }
+
+    /* Responsivo */
+    @media (max-width: 1050px){
+      .app{ grid-template-columns: 1fr; }
+      .sidebar{ position:relative; height:auto; }
+      .grid{ grid-template-columns: 1fr; }
+    }
+
+    /* Print */
+    @media print{
+      .sidebar, .topbar, .no-print{ display:none !important; }
+      body{ background:#fff; }
+      .main{ padding:0; }
+      .card{ box-shadow:none; border:0; }
+    }
+  </style>
 </head>
 
 <body>
+  <div class="app">
 
-<!-- HEADER -->
-<div class="header no-print">
-  <div class="headerTop">
-    <div class="brand">
-      <div class="logo">OT</div>
-      <div class="brandText">
-        <h1>Obras Tatuador LTDA</h1>
-        <div class="sub">Sistema de Cotação • Estoque • Relatórios</div>
-        <div class="badges">
-          <span class="badge">ICMS 22% Fixo</span>
-          <span class="pill">Comissão 30%</span>
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo">OT</div>
+        <div>
+          <h1>Obras Tatuador LTDA</h1>
+          <div class="sub">Sistema Profissional de Vendas</div>
+          <div class="chips">
+            <span class="chip red">ICMS 22%</span>
+            <span class="chip indigo">Comissão 30%</span>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="actions">
-      <button class="btn secondary" onclick="abrirAdmin()">Admin</button>
-      <button class="btn purple" onclick="gerarEtiqueta()">Etiqueta</button>
-      <button class="btn blue" onclick="copiarWhatsApp()">WhatsApp</button>
-      <button class="btn green" onclick="gerarPDF()">PDF</button>
+      <div class="nav">
+        <button class="navbtn active" id="nav-cotacao" onclick="setSection('cotacao')">
+          <span class="ico">🧾</span> Cotação
+        </button>
+        <button class="navbtn" id="nav-dashboard" onclick="setSection('dashboard')">
+          <span class="ico">📊</span> Vendas Mensal
+        </button>
+        <button class="navbtn" id="nav-relatorios" onclick="setSection('relatorios')">
+          <span class="ico">📈</span> Relatório
+        </button>
+        <button class="navbtn" id="nav-estoque" onclick="setSection('estoque')">
+          <span class="ico">📦</span> Estoque
+        </button>
+      </div>
+
+      <div class="sideActions">
+        <button class="btn gray" onclick="abrirAdmin()">🔐 Admin</button>
+        <button class="btn purple" onclick="gerarEtiqueta()">🏷️ Etiqueta</button>
+        <button class="btn blue" onclick="enviarWhatsApp()">🟢 Enviar WhatsApp</button>
+        <button class="btn green" onclick="gerarPDF()">🧾 Gerar PDF</button>
+        <button class="btn orange" onclick="fecharVenda()">✅ Fechar venda</button>
+      </div>
+
+      <div class="sideFoot">
+        Dica: se não atualizar, abra com <b>?v=99</b> no final do link para evitar cache.
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+
+      <div class="topbar">
+        <div class="titleBlock">
+          <h2 id="pageTitle">Cotação</h2>
+          <div class="muted" id="pageSub">Monte um orçamento e gere PDF / WhatsApp.</div>
+        </div>
+
+        <div class="status">
+          <div class="muted">Status</div>
+          <div class="big" id="statusTop">Pronto.</div>
+          <div class="muted">Data: <span id="dataOut"></span></div>
+        </div>
+      </div>
+
+      <!-- COTAÇÃO -->
+      <section class="section active" id="sec-cotacao">
+        <div class="grid">
+
+          <div class="card">
+            <h3>Dados do comprador</h3>
+
+            <div class="row2">
+              <div>
+                <label>Cliente / Empresa</label>
+                <input id="cliente" placeholder="Ex: João Silva / Construtora X">
+              </div>
+              <div>
+                <label>CPF ou CNPJ</label>
+                <input id="doc" placeholder="Ex: 123.456.789-00 ou 12.345.678/0001-00">
+              </div>
+            </div>
+
+            <label style="margin-top:12px;">Endereço de entrega</label>
+
+            <div class="row2">
+              <div>
+                <label>Rua</label>
+                <input id="rua" placeholder="Ex: Rua Glaziou">
+              </div>
+              <div>
+                <label>Número</label>
+                <input id="numero" placeholder="Ex: 30">
+              </div>
+            </div>
+
+            <div class="row2">
+              <div>
+                <label>Bairro</label>
+                <input id="bairro" placeholder="Ex: Pilares">
+              </div>
+              <div>
+                <label>Cidade</label>
+                <input id="cidade" placeholder="Ex: Rio de Janeiro">
+              </div>
+            </div>
+
+            <div class="row3">
+              <div>
+                <label>UF</label>
+                <input id="uf" maxlength="2" placeholder="RJ">
+              </div>
+              <div>
+                <label>CEP</label>
+                <input id="cep" placeholder="20770-000">
+              </div>
+              <div>
+                <label>Referência</label>
+                <input id="referencia" placeholder="Ex: próximo ao mercado X">
+              </div>
+            </div>
+
+            <div class="row2">
+              <div>
+                <label>Número de contato</label>
+                <input id="contato" placeholder="(21) 99999-9999">
+              </div>
+              <div>
+                <label>Observações</label>
+                <input id="obsInput" placeholder="Condições, prazo, validade...">
+              </div>
+            </div>
+
+            <hr style="border:none;border-top:1px solid var(--line); margin:14px 0;">
+
+            <h3>Adicionar material</h3>
+
+            <label>Material</label>
+            <select id="produto"></select>
+
+            <div class="row3">
+              <div>
+                <label>Quantidade</label>
+                <input type="number" id="quantidade" min="1" value="1">
+              </div>
+              <div>
+                <label>Frete (R$)</label>
+                <input type="number" id="frete" value="20" step="0.01">
+              </div>
+              <div>
+                <label>Comissão (%)</label>
+                <input type="number" id="comissaoPct" value="30" step="1" min="0" max="100">
+              </div>
+            </div>
+
+            <div class="btnRow">
+              <button class="btn2" onclick="adicionarItem()">Adicionar</button>
+              <button class="btn2 secondary" onclick="limpar()">Limpar</button>
+            </div>
+
+            <div class="btnRow">
+              <button class="btn2 orange" onclick="fecharVenda()">Fechar venda</button>
+              <button class="btn2 secondary" onclick="salvarRascunho()">Salvar rascunho</button>
+            </div>
+
+            <div class="note">
+              <b>Cliente paga:</b> Materiais + ICMS + Frete + Comissão. <br>
+              <b>Lucro estimado (materiais):</b> Venda − ICMS − Custo.
+            </div>
+          </div>
+
+          <div class="card" id="areaOrcamento">
+            <h3>Orçamento</h3>
+
+            <div class="row2" style="margin-top:6px;">
+              <div><b>Empresa:</b> Obras Tatuador LTDA</div>
+              <div style="text-align:right;"><b>ICMS:</b> 22% (fixo)</div>
+            </div>
+
+            <div class="row2" style="margin-top:10px;">
+              <div><b>Cliente:</b> <span id="clienteOut">—</span></div>
+              <div style="text-align:right;"><b>CPF/CNPJ:</b> <span id="docOut">—</span></div>
+            </div>
+
+            <div style="margin-top:8px;">
+              <b>Entrega:</b> <span id="enderecoOut">—</span>
+            </div>
+
+            <div class="row2" style="margin-top:8px;">
+              <div><b>CEP:</b> <span id="cepOut">—</span></div>
+              <div style="text-align:right;"><b>Contato:</b> <span id="contatoOut">—</span></div>
+            </div>
+
+            <div style="margin-top:6px;">
+              <b>Referência:</b> <span id="refOut">—</span>
+            </div>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>Material</th>
+                  <th>Qtd</th>
+                  <th>Preço Unit</th>
+                  <th>Custo Unit</th>
+                  <th>ICMS</th>
+                  <th>Lucro</th>
+                  <th>Total</th>
+                  <th class="no-print"></th>
+                </tr>
+              </thead>
+              <tbody id="lista"></tbody>
+            </table>
+
+            <div class="totals">
+              <div class="kpi">
+                <div class="label">Total materiais</div>
+                <div class="val" id="totalVenda">R$ 0,00</div>
+              </div>
+              <div class="kpi">
+                <div class="label">Total ICMS (22%)</div>
+                <div class="val" id="totalICMS">R$ 0,00</div>
+              </div>
+              <div class="kpi">
+                <div class="label">Comissão</div>
+                <div class="val" id="totalComissao">R$ 0,00</div>
+              </div>
+              <div class="kpi">
+                <div class="label">Frete</div>
+                <div class="val" id="totalFrete">R$ 0,00</div>
+              </div>
+              <div class="kpi">
+                <div class="label">Lucro estimado (materiais)</div>
+                <div class="val" id="totalLucro">R$ 0,00</div>
+              </div>
+              <div class="kpi">
+                <div class="label">Total final (cliente paga)</div>
+                <div class="val" id="totalFinal">R$ 0,00</div>
+              </div>
+            </div>
+
+            <div class="note">
+              <b>Observações:</b> <span id="obsOut">—</span>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- DASHBOARD -->
+      <section class="section" id="sec-dashboard">
+        <div class="card">
+          <h3>📊 Vendas Mensal</h3>
+          <div class="muted">Resumo do mês selecionado (vendas fechadas).</div>
+
+          <div class="row2" style="margin-top:10px;">
+            <div>
+              <label>Mês/Ano</label>
+              <input id="mesRef" type="month">
+            </div>
+            <div style="display:flex; align-items:end;">
+              <button class="btn2 secondary" style="width:220px;" onclick="recalcularDashboard()">Atualizar</button>
+            </div>
+          </div>
+
+          <div class="totals" style="margin-top:12px;">
+            <div class="kpi"><div class="label">Faturamento (materiais)</div><div class="val" id="dashFat">R$ 0,00</div></div>
+            <div class="kpi"><div class="label">ICMS</div><div class="val" id="dashIcms">R$ 0,00</div></div>
+            <div class="kpi"><div class="label">Comissão</div><div class="val" id="dashCom">R$ 0,00</div></div>
+            <div class="kpi"><div class="label">Frete</div><div class="val" id="dashFrete">R$ 0,00</div></div>
+            <div class="kpi"><div class="label">Lucro estimado</div><div class="val" id="dashLucro">R$ 0,00</div></div>
+            <div class="kpi"><div class="label">Vendas fechadas</div><div class="val" id="dashQtd">0</div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- RELATÓRIO -->
+      <section class="section" id="sec-relatorios">
+        <div class="card">
+          <h3>📈 Relatório por Produto</h3>
+          <div class="muted">Produtos mais vendidos no mês selecionado.</div>
+
+          <div class="row2" style="margin-top:10px;">
+            <div>
+              <label>Mês/Ano</label>
+              <input id="mesRef2" type="month">
+            </div>
+            <div style="display:flex; align-items:end;">
+              <button class="btn2 secondary" style="width:220px;" onclick="renderRelatorioProduto()">Atualizar</button>
+            </div>
+          </div>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Produto</th>
+                <th>Qtd vendida</th>
+                <th>Faturamento</th>
+                <th>Lucro estimado</th>
+              </tr>
+            </thead>
+            <tbody id="relProdBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ESTOQUE -->
+      <section class="section" id="sec-estoque">
+        <div class="card">
+          <h3>📦 Estoque</h3>
+          <div class="muted">Baixa automática quando fecha venda. Ajuste manual pelo Admin.</div>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Produto</th>
+                <th>Em estoque</th>
+                <th>Custo</th>
+                <th>Venda</th>
+              </tr>
+            </thead>
+            <tbody id="estoqueBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- MODAL ADMIN -->
+  <div class="modalBack" id="adminBack">
+    <div class="modal">
+      <div class="modalTop">
+        <h3>🔐 Área Administrativa</h3>
+        <button class="close" onclick="fecharAdmin()">Fechar</button>
+      </div>
+
+      <div id="adminLogin" style="margin-top:12px;">
+        <div class="muted">Demo: senha simples (lado do navegador). Em produção, usar autenticação real.</div>
+        <label>Senha admin</label>
+        <input id="adminPass" type="password" placeholder="Digite a senha">
+        <div style="display:flex; gap:10px; margin-top:10px; flex-wrap:wrap;">
+          <button class="btn2" style="width:220px;" onclick="loginAdmin()">Entrar</button>
+          <div class="muted" style="align-self:center;">Senha demo: <b>admin123</b></div>
+        </div>
+      </div>
+
+      <div id="adminPanel" style="display:none; margin-top:12px;">
+        <h3>🏷️ Remetente (Etiqueta)</h3>
+
+        <div class="row2">
+          <div>
+            <label>Nome</label>
+            <input id="remNome" placeholder="Ex: Obras Tatuador LTDA">
+          </div>
+          <div>
+            <label>Contato</label>
+            <input id="remContato" placeholder="(21) 99999-9999">
+          </div>
+        </div>
+
+        <div class="row2">
+          <div>
+            <label>Rua</label>
+            <input id="remRua" placeholder="Rua...">
+          </div>
+          <div>
+            <label>Número</label>
+            <input id="remNumero" placeholder="Nº">
+          </div>
+        </div>
+
+        <div class="row2">
+          <div>
+            <label>Bairro</label>
+            <input id="remBairro" placeholder="Bairro">
+          </div>
+          <div>
+            <label>Cidade</label>
+            <input id="remCidade" placeholder="Cidade">
+          </div>
+        </div>
+
+        <div class="row3">
+          <div>
+            <label>UF</label>
+            <input id="remUF" maxlength="2" placeholder="RJ">
+          </div>
+          <div>
+            <label>CEP</label>
+            <input id="remCEP" placeholder="20770-000">
+          </div>
+          <div>
+            <label>Referência</label>
+            <input id="remRef" placeholder="Referência">
+          </div>
+        </div>
+
+        <hr style="border:none;border-top:1px solid var(--line); margin:14px 0;">
+
+        <h3>📦 Ajustar estoque</h3>
+        <div class="row2">
+          <div>
+            <label>Produto</label>
+            <select id="adminProd"></select>
+          </div>
+          <div>
+            <label>Novo estoque</label>
+            <input id="adminEstoque" type="number" step="1">
+          </div>
+        </div>
+
+        <div class="row2">
+          <div>
+            <label>Comissão padrão (%)</label>
+            <input id="adminComissao" type="number" min="0" max="100" step="1">
+          </div>
+          <div style="display:flex; align-items:end; gap:10px;">
+            <button class="btn2 secondary" style="width:220px;" onclick="salvarEstoqueAdmin()">Salvar estoque</button>
+            <button class="btn2 secondary" style="width:220px;" onclick="salvarComissaoAdmin()">Salvar comissão</button>
+          </div>
+        </div>
+
+        <div style="margin-top:14px;">
+          <button class="btn2" style="background:var(--red); width:260px;" onclick="zerarHistorico()">Zerar histórico (demo)</button>
+        </div>
+
+        <div class="note">Remetente é salvo automaticamente enquanto você digita.</div>
+      </div>
     </div>
   </div>
 
-  <div class="headerBottom">
-    <div class="tabs">
-      <button class="tabbtn active" id="tab-cotacao" onclick="setTab('cotacao')">Cotação</button>
-      <button class="tabbtn" id="tab-dashboard" onclick="setTab('dashboard')">Vendas Mensal</button>
-      <button class="tabbtn" id="tab-relatorios" onclick="setTab('relatorios')">Relatório</button>
-      <button class="tabbtn" id="tab-estoque" onclick="setTab('estoque')">Estoque</button>
-    </div>
-    <div class="muted" id="statusTop">Pronto.</div>
-  </div>
-</div>
+  <script>
+    /* ======================
+      CONFIG
+    ====================== */
+    const ICMS = 0.22;
+    const EMPRESA = "Obras Tatuador LTDA";
+    const ADMIN_PASSWORD = "admin123";
 
-<!-- SEÇÃO: COTAÇÃO -->
-<section id="sec-cotacao">
-  <div class="wrap">
+    // ✅ Materiais ajustados exatamente como você pediu:
+    const defaultProdutos = [
+      { id:"MAT-001", nome:"Cimento 50kg", custo:13.00, venda:60.00, estoque:100 },
+      { id:"MAT-002", nome:"Conduítes (Rolo 100m)", custo:20.00, venda:50.00, estoque:50 },
+      { id:"MAT-003", nome:"Fio 2mm (metro)", custo:1.00, venda:7.00, estoque:1000 },
+      { id:"MAT-004", nome:"Fio 4mm (metro)", custo:3.50, venda:10.00, estoque:800 },
+      { id:"MAT-005", nome:"Fio 15mm (metro)", custo:5.50, venda:17.00, estoque:500 },
+      { id:"MAT-006", nome:"Tijolo (unidade)", custo:0.10, venda:5.00, estoque:5000 }
+    ];
 
-    <!-- FORM -->
-    <div class="card no-print">
-      <h2>Dados do comprador</h2>
+    // storage keys
+    const LS_PROD = "ot_produtos_pro_v1";
+    const LS_SALES = "ot_vendas_pro_v1";
+    const LS_DRAFT = "ot_rascunho_pro_v1";
+    const LS_COMISSAO = "ot_comissao_pro_v1";
+    const LS_REM = "ot_remetente_pro_v1";
 
-      <div class="row2">
-        <div>
-          <label>Cliente / Empresa</label>
-          <input id="cliente" placeholder="Ex: João Silva / Construtora X">
-        </div>
-        <div>
-          <label>CPF ou CNPJ</label>
-          <input id="doc" placeholder="Ex: 123.456.789-00 ou 12.345.678/0001-00">
-        </div>
-      </div>
+    function brl(v){
+      return (Number(v)||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+    }
+    function hojeBR(){
+      const d = new Date();
+      return String(d.getDate()).padStart(2,"0") + "/" +
+        String(d.getMonth()+1).padStart(2,"0") + "/" + d.getFullYear();
+    }
+    function hojeISO(){
+      const d = new Date();
+      return d.getFullYear() + "-" +
+        String(d.getMonth()+1).padStart(2,"0") + "-" +
+        String(d.getDate()).padStart(2,"0");
+    }
 
-      <div style="margin-top:6px" class="muted"><b>Endereço de entrega</b></div>
+    function loadProdutos(){
+      const raw = localStorage.getItem(LS_PROD);
+      if(!raw){
+        localStorage.setItem(LS_PROD, JSON.stringify(defaultProdutos));
+        return structuredClone(defaultProdutos);
+      }
+      try { return JSON.parse(raw); } catch { return structuredClone(defaultProdutos); }
+    }
+    function saveProdutos(arr){ localStorage.setItem(LS_PROD, JSON.stringify(arr)); }
 
-      <div class="row2">
-        <div>
-          <label>Rua</label>
-          <input id="rua" placeholder="Ex: Rua Glaziou">
-        </div>
-        <div>
-          <label>Bairro</label>
-          <input id="bairro" placeholder="Ex: Pilares">
-        </div>
-      </div>
+    function loadSales(){
+      const raw = localStorage.getItem(LS_SALES);
+      if(!raw) return [];
+      try { return JSON.parse(raw); } catch { return []; }
+    }
+    function saveSales(arr){ localStorage.setItem(LS_SALES, JSON.stringify(arr)); }
 
-      <div class="row2">
-        <div>
-          <label>Cidade</label>
-          <input id="cidade" placeholder="Ex: Rio de Janeiro">
-        </div>
-        <div>
-          <label>UF</label>
-          <input id="uf" placeholder="Ex: RJ" maxlength="2">
-        </div>
-      </div>
+    function getComissaoPadrao(){
+      const v = localStorage.getItem(LS_COMISSAO);
+      if(!v) return 30;
+      const n = Number(v);
+      return Number.isFinite(n) ? n : 30;
+    }
+    function setComissaoPadrao(n){ localStorage.setItem(LS_COMISSAO, String(n)); }
 
-      <div class="row2">
-        <div>
-          <label>CEP</label>
-          <input id="cep" placeholder="Ex: 20770-000">
-        </div>
-        <div>
-          <label>Referência</label>
-          <input id="referencia" placeholder="Ex: Próximo ao mercado X">
-        </div>
-      </div>
+    function loadRemetente(){
+      const raw = localStorage.getItem(LS_REM);
+      if(!raw){
+        const base = { nome: EMPRESA, contato:"", rua:"", numero:"", bairro:"", cidade:"", uf:"", cep:"", ref:"" };
+        localStorage.setItem(LS_REM, JSON.stringify(base));
+        return base;
+      }
+      try { return JSON.parse(raw); } catch { return { nome: EMPRESA }; }
+    }
+    function saveRemetente(obj){ localStorage.setItem(LS_REM, JSON.stringify(obj)); }
 
-      <div class="row2">
-        <div>
-          <label>Número do local</label>
-          <input id="numero" placeholder="Ex: 30">
-        </div>
-        <div>
-          <label>Número de contato</label>
-          <input id="contato" placeholder="Ex: (21) 99999-9999">
-        </div>
-      </div>
+    /* ======================
+      STATE
+    ====================== */
+    let produtos = loadProdutos();
+    let itens = [];
 
-      <label>Observações (opcional)</label>
-      <textarea id="obsInput" placeholder="Ex: prazo, condições, validade do orçamento..."></textarea>
+    // Elements
+    const pageTitle = document.getElementById("pageTitle");
+    const pageSub = document.getElementById("pageSub");
+    const statusTop = document.getElementById("statusTop");
+    document.getElementById("dataOut").textContent = hojeBR();
 
-      <hr style="border:none;border-top:1px solid #eee;margin:14px 0;">
+    const selectProduto = document.getElementById("produto");
+    const adminProd = document.getElementById("adminProd");
 
-      <h2>Adicionar material</h2>
+    // buyer inputs
+    const clienteInput = document.getElementById("cliente");
+    const docInput = document.getElementById("doc");
+    const ruaInput = document.getElementById("rua");
+    const numeroInput = document.getElementById("numero");
+    const bairroInput = document.getElementById("bairro");
+    const cidadeInput = document.getElementById("cidade");
+    const ufInput = document.getElementById("uf");
+    const cepInput = document.getElementById("cep");
+    const refInput = document.getElementById("referencia");
+    const contatoInput = document.getElementById("contato");
+    const obsInput = document.getElementById("obsInput");
 
-      <label>Material</label>
-      <select id="produto"></select>
+    // outputs
+    const clienteOut = document.getElementById("clienteOut");
+    const docOut = document.getElementById("docOut");
+    const enderecoOut = document.getElementById("enderecoOut");
+    const cepOut = document.getElementById("cepOut");
+    const contatoOut = document.getElementById("contatoOut");
+    const refOut = document.getElementById("refOut");
+    const obsOut = document.getElementById("obsOut");
 
-      <div class="row3">
-        <div>
-          <label>Quantidade</label>
-          <input type="number" id="quantidade" min="1" value="1">
-        </div>
-        <div>
-          <label>Frete (R$)</label>
-          <input type="number" id="frete" value="20" step="0.01">
-        </div>
-        <div>
-          <label>Comissão (%)</label>
-          <input type="number" id="comissaoPct" value="30" step="1" min="0" max="100">
-        </div>
-      </div>
+    // totals
+    const totalVendaEl = document.getElementById("totalVenda");
+    const totalICMSEl = document.getElementById("totalICMS");
+    const totalComEl = document.getElementById("totalComissao");
+    const totalFreteEl = document.getElementById("totalFrete");
+    const totalLucroEl = document.getElementById("totalLucro");
+    const totalFinalEl = document.getElementById("totalFinal");
 
-      <div class="inlineBtns">
-        <button class="btn" onclick="adicionarItem()">Adicionar</button>
-        <button class="btn secondary" onclick="limpar()">Limpar</button>
-      </div>
+    // dashboard/report
+    const dashFat = document.getElementById("dashFat");
+    const dashIcms = document.getElementById("dashIcms");
+    const dashCom = document.getElementById("dashCom");
+    const dashFrete = document.getElementById("dashFrete");
+    const dashLucro = document.getElementById("dashLucro");
+    const dashQtd = document.getElementById("dashQtd");
 
-      <div class="inlineBtns">
-        <button class="btn warn" onclick="fecharVenda()">Fechar venda</button>
-        <button class="btn secondary" onclick="salvarRascunho()">Salvar rascunho</button>
-      </div>
+    const relBody = document.getElementById("relProdBody");
+    const estoqueBody = document.getElementById("estoqueBody");
 
-      <p class="muted" style="margin-top:12px;">
-        <b>Cliente paga:</b> Materiais + ICMS + Frete + Comissão.<br>
-        <b>Lucro estimado (materiais):</b> (Venda − ICMS − Custo).
-      </p>
-    </div>
+    // inputs of calc
+    const qtdInput = document.getElementById("quantidade");
+    const freteInput = document.getElementById("frete");
+    const comInput = document.getElementById("comissaoPct");
+    comInput.value = getComissaoPadrao();
 
-    <!-- ORÇAMENTO -->
-    <div class="card" id="areaOrcamento">
-      <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-start;">
-        <div>
-          <h2 style="margin-bottom:6px;">Orçamento</h2>
-          <div class="muted"><b>Empresa:</b> Obras Tatuador LTDA</div>
-          <div class="muted"><b>ICMS:</b> 22% (fixo)</div>
-        </div>
-        <div style="text-align:right;">
-          <div><b>Data:</b> <span id="dataOut"></span></div>
-        </div>
-      </div>
+    // month defaults
+    (function initMonths(){
+      const d = new Date();
+      const yyyy = d.getFullYear();
+      const mm = String(d.getMonth()+1).padStart(2,"0");
+      document.getElementById("mesRef").value = `${yyyy}-${mm}`;
+      document.getElementById("mesRef2").value = `${yyyy}-${mm}`;
+    })();
 
-      <div style="margin-top:10px" class="row2">
-        <div><b>Cliente:</b> <span id="clienteOut">—</span></div>
-        <div><b>CPF/CNPJ:</b> <span id="docOut">—</span></div>
-      </div>
+    function getProdutoById(id){ return produtos.find(p => p.id === id); }
 
-      <div style="margin-top:6px">
-        <b>Entrega:</b> <span id="enderecoOut">—</span>
-      </div>
+    function enderecoCompleto(){
+      const parts1 = [ruaInput.value.trim(), numeroInput.value.trim() ? `Nº ${numeroInput.value.trim()}` : ""].filter(Boolean).join(", ");
+      const parts2 = [bairroInput.value.trim(), cidadeInput.value.trim(), ufInput.value.trim()].filter(Boolean).join(" - ");
+      return [parts1, parts2].filter(Boolean).join(" | ") || "—";
+    }
 
-      <div style="margin-top:6px" class="row2">
-        <div><b>CEP:</b> <span id="cepOut">—</span></div>
-        <div><b>Contato:</b> <span id="contatoOut">—</span></div>
-      </div>
+    function syncBuyerOut(){
+      clienteOut.textContent = clienteInput.value.trim() || "—";
+      docOut.textContent = docInput.value.trim() || "—";
+      enderecoOut.textContent = enderecoCompleto();
+      cepOut.textContent = cepInput.value.trim() || "—";
+      contatoOut.textContent = contatoInput.value.trim() || "—";
+      refOut.textContent = refInput.value.trim() || "—";
+      obsOut.textContent = obsInput.value.trim() || "—";
+    }
 
-      <div style="margin-top:6px">
-        <b>Referência:</b> <span id="refOut">—</span>
-      </div>
+    [clienteInput, docInput, ruaInput, numeroInput, bairroInput, cidadeInput, ufInput, cepInput, refInput, contatoInput, obsInput]
+      .forEach(el => el.addEventListener("input", syncBuyerOut));
+    freteInput.addEventListener("input", atualizar);
+    comInput.addEventListener("input", atualizar);
 
-      <table>
-        <thead>
+    /* ======================
+      RENDER
+    ====================== */
+    function renderSelects(){
+      selectProduto.innerHTML = "";
+      adminProd.innerHTML = "";
+
+      produtos.forEach(p=>{
+        const opt = document.createElement("option");
+        opt.value = p.id;
+        opt.textContent = `${p.nome} • Venda: ${brl(p.venda)} • Estoque: ${p.estoque}`;
+        selectProduto.appendChild(opt);
+
+        const opt2 = document.createElement("option");
+        opt2.value = p.id;
+        opt2.textContent = p.nome;
+        adminProd.appendChild(opt2);
+      });
+    }
+
+    function calcularTotais(){
+      const frete = Number(freteInput.value)||0;
+      const comPct = (Number(comInput.value)||0)/100;
+
+      const totalVenda = itens.reduce((s,it)=>s+it.totalVenda,0);
+      const totalICMS = itens.reduce((s,it)=>s+it.icmsValor,0);
+      const totalLucro = itens.reduce((s,it)=>s+it.lucro,0);
+
+      const totalComissao = totalVenda * comPct;
+      const totalFinal = totalVenda + totalComissao + frete;
+
+      return { frete, comPct, totalVenda, totalICMS, totalLucro, totalComissao, totalFinal };
+    }
+
+    function atualizar(){
+      syncBuyerOut();
+
+      const lista = document.getElementById("lista");
+      lista.innerHTML = "";
+
+      itens.forEach((it,i)=>{
+        lista.innerHTML += `
           <tr>
-            <th>Material</th>
-            <th>Qtd</th>
-            <th>Preço Unit</th>
-            <th>Custo Unit</th>
-            <th>ICMS</th>
-            <th>Lucro</th>
-            <th>Total</th>
-            <th class="no-print"></th>
+            <td>${it.nome}</td>
+            <td>${it.qtd}</td>
+            <td>${brl(it.vendaUnit)}</td>
+            <td>${brl(it.custoUnit)}</td>
+            <td>${brl(it.icmsValor)}</td>
+            <td>${brl(it.lucro)}</td>
+            <td><b>${brl(it.totalVenda)}</b></td>
+            <td class="no-print"><button class="xbtn" onclick="removerItem(${i})">X</button></td>
           </tr>
-        </thead>
-        <tbody id="lista"></tbody>
-      </table>
-
-      <div class="totals">
-        <div class="box">
-          <div class="muted">Total materiais</div>
-          <div class="value" id="totalVenda">R$ 0,00</div>
-        </div>
-        <div class="box">
-          <div class="muted">Total ICMS (22%)</div>
-          <div class="value" id="totalICMS">R$ 0,00</div>
-        </div>
-        <div class="box">
-          <div class="muted">Comissão</div>
-          <div class="value" id="totalComissao">R$ 0,00</div>
-        </div>
-        <div class="box">
-          <div class="muted">Frete</div>
-          <div class="value" id="totalFrete">R$ 0,00</div>
-        </div>
-        <div class="box">
-          <div class="muted">Lucro estimado (materiais)</div>
-          <div class="value" id="totalLucro">R$ 0,00</div>
-        </div>
-        <div class="box">
-          <div class="muted">Total final (cliente paga)</div>
-          <div class="value" id="totalFinal">R$ 0,00</div>
-        </div>
-      </div>
-
-      <div class="muted" style="margin-top:12px;">
-        <b>Observações:</b> <span id="obsOut">—</span>
-      </div>
-
-      <div class="muted" style="margin-top:10px;">
-        Demonstração para apresentação. Em produção, usar backend + autenticação real.
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SEÇÃO: VENDAS MENSAL -->
-<section id="sec-dashboard" class="hidden">
-  <div class="card">
-    <h2>📊 Vendas Mensal</h2>
-    <div class="muted">Baseado nas vendas “Fechadas”.</div>
-
-    <div class="row2" style="margin-top:10px;">
-      <div>
-        <label>Mês/Ano</label>
-        <input id="mesRef" type="month">
-      </div>
-      <div style="display:flex; align-items:end; gap:10px;">
-        <button class="btn secondary" style="width:auto" onclick="recalcularDashboard()">Atualizar</button>
-      </div>
-    </div>
-
-    <div class="totals">
-      <div class="box"><div class="muted">Faturamento (materiais)</div><div class="value" id="dashFat">R$ 0,00</div></div>
-      <div class="box"><div class="muted">ICMS</div><div class="value" id="dashIcms">R$ 0,00</div></div>
-      <div class="box"><div class="muted">Comissão</div><div class="value" id="dashCom">R$ 0,00</div></div>
-      <div class="box"><div class="muted">Frete</div><div class="value" id="dashFrete">R$ 0,00</div></div>
-      <div class="box"><div class="muted">Lucro estimado (materiais)</div><div class="value" id="dashLucro">R$ 0,00</div></div>
-      <div class="box"><div class="muted">Vendas fechadas</div><div class="value" id="dashQtd">0</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- SEÇÃO: RELATÓRIO -->
-<section id="sec-relatorios" class="hidden">
-  <div class="card">
-    <h2>📈 Relatório por Produto</h2>
-    <div class="muted">Agrega as vendas fechadas no mês selecionado.</div>
-
-    <div class="row2" style="margin-top:10px;">
-      <div>
-        <label>Mês/Ano</label>
-        <input id="mesRef2" type="month">
-      </div>
-      <div style="display:flex; align-items:end; gap:10px;">
-        <button class="btn secondary" style="width:auto" onclick="renderRelatorioProduto()">Atualizar</button>
-      </div>
-    </div>
-
-    <table>
-      <thead>
-        <tr>
-          <th>Produto</th>
-          <th>Qtd vendida</th>
-          <th>Faturamento</th>
-          <th>Lucro estimado</th>
-        </tr>
-      </thead>
-      <tbody id="relProdBody"></tbody>
-    </table>
-  </div>
-</section>
-
-<!-- SEÇÃO: ESTOQUE -->
-<section id="sec-estoque" class="hidden">
-  <div class="card">
-    <h2>📦 Estoque</h2>
-    <div class="muted">Baixa automática ao “Fechar venda”. Ajuste manual no Admin.</div>
-
-    <table>
-      <thead>
-        <tr>
-          <th>Produto</th>
-          <th>Em estoque</th>
-          <th>Custo</th>
-          <th>Venda</th>
-        </tr>
-      </thead>
-      <tbody id="estoqueBody"></tbody>
-    </table>
-  </div>
-</section>
-
-<!-- MODAL ADMIN -->
-<div class="modalBack" id="adminBack">
-  <div class="modal">
-    <div class="modalTop">
-      <h3>Área Administrativa</h3>
-      <button class="xbtn" onclick="fecharAdmin()">Fechar</button>
-    </div>
-
-    <div id="adminLogin">
-      <p class="muted">Demo: senha simples (lado do navegador). Produção precisa backend.</p>
-      <label>Senha admin</label>
-      <input id="adminPass" type="password" placeholder="Digite a senha">
-      <button class="btn" style="margin-top:10px" onclick="loginAdmin()">Entrar</button>
-      <div class="muted" style="margin-top:8px;">Senha demo: <b>admin123</b></div>
-    </div>
-
-    <div id="adminPanel" class="hidden">
-      <h3 style="margin-top:12px; font-size:15px;">Remetente (Etiqueta)</h3>
-
-      <div class="row2">
-        <div>
-          <label>Nome</label>
-          <input id="remNome" placeholder="Ex: Obras Tatuador LTDA">
-        </div>
-        <div>
-          <label>Contato</label>
-          <input id="remContato" placeholder="Ex: (21) 99999-9999">
-        </div>
-      </div>
-
-      <div class="row2">
-        <div>
-          <label>Rua</label>
-          <input id="remRua" placeholder="Rua...">
-        </div>
-        <div>
-          <label>Número</label>
-          <input id="remNumero" placeholder="Nº">
-        </div>
-      </div>
-
-      <div class="row2">
-        <div>
-          <label>Bairro</label>
-          <input id="remBairro" placeholder="Bairro">
-        </div>
-        <div>
-          <label>Cidade</label>
-          <input id="remCidade" placeholder="Cidade">
-        </div>
-      </div>
-
-      <div class="row3">
-        <div>
-          <label>UF</label>
-          <input id="remUF" placeholder="UF" maxlength="2">
-        </div>
-        <div>
-          <label>CEP</label>
-          <input id="remCEP" placeholder="CEP">
-        </div>
-        <div>
-          <label>Referência</label>
-          <input id="remRef" placeholder="Referência">
-        </div>
-      </div>
-
-      <hr style="border:none;border-top:1px solid #eee;margin:14px 0;">
-
-      <h3 style="margin-top:12px; font-size:15px;">Ajustar estoque</h3>
-      <div class="row2">
-        <div>
-          <label>Produto</label>
-          <select id="adminProd"></select>
-        </div>
-        <div>
-          <label>Novo estoque</label>
-          <input id="adminEstoque" type="number" step="1">
-        </div>
-      </div>
-      <button class="btn secondary" style="margin-top:10px" onclick="salvarEstoqueAdmin()">Salvar estoque</button>
-
-      <hr style="border:none;border-top:1px solid #eee;margin:14px 0;">
-
-      <h3 style="margin-top:12px; font-size:15px;">Comissão padrão</h3>
-      <div class="row2">
-        <div>
-          <label>Comissão padrão (%)</label>
-          <input id="adminComissao" type="number" min="0" max="100" step="1">
-        </div>
-        <div style="display:flex; align-items:end;">
-          <button class="btn secondary" onclick="salvarComissaoAdmin()">Salvar</button>
-        </div>
-      </div>
-
-      <hr style="border:none;border-top:1px solid #eee;margin:14px 0;">
-      <button class="btn danger" onclick="zerarHistorico()">Zerar histórico de vendas (demo)</button>
-    </div>
-  </div>
-</div>
-
-<script>
-/* ======================
-   CONFIG / STORAGE
-====================== */
-const ICMS = 0.22;
-const EMPRESA = "Obras Tatuador LTDA";
-const ADMIN_PASSWORD = "admin123";
-
-const defaultProdutos = [
-  { id:"MAT-001", nome:"Cimento 50kg", custo:13.00, venda:60.00, estoque:100 },
-  { id:"MAT-002", nome:"Conduítes (Rolo 100m)", custo:20.00, venda:50.00, estoque:50 },
-  { id:"MAT-003", nome:"Fio 2mm (metro)", custo:1.00, venda:7.00, estoque:1000 },
-  { id:"MAT-004", nome:"Fio 4mm (metro)", custo:3.50, venda:10.00, estoque:800 },
-  { id:"MAT-005", nome:"Fio 15mm (metro)", custo:5.50, venda:17.00, estoque:500 },
-  { id:"MAT-006", nome:"Tijolo (unidade)", custo:0.10, venda:5.00, estoque:5000 }
-];
-
-// keys novos para evitar conflito com versões antigas
-const LS_PROD = "ot_produtos_v3";
-const LS_SALES = "ot_vendas_v3";
-const LS_DRAFT = "ot_rascunho_v3";
-const LS_COMISSAO = "ot_comissao_v3";
-const LS_REM = "ot_remetente_v3";
-
-function brl(v){ return (Number(v)||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"}); }
-
-function hojeBR(){
-  const d = new Date();
-  const dd = String(d.getDate()).padStart(2,"0");
-  const mm = String(d.getMonth()+1).padStart(2,"0");
-  const yyyy = d.getFullYear();
-  return `${dd}/${mm}/${yyyy}`;
-}
-function hojeISO(){
-  const d = new Date();
-  const yyyy = d.getFullYear();
-  const mm = String(d.getMonth()+1).padStart(2,"0");
-  const dd = String(d.getDate()).padStart(2,"0");
-  return `${yyyy}-${mm}-${dd}`;
-}
-
-function loadProdutos(){
-  const raw = localStorage.getItem(LS_PROD);
-  if (!raw){
-    localStorage.setItem(LS_PROD, JSON.stringify(defaultProdutos));
-    return structuredClone(defaultProdutos);
-  }
-  try { return JSON.parse(raw); } catch { return structuredClone(defaultProdutos); }
-}
-function saveProdutos(arr){ localStorage.setItem(LS_PROD, JSON.stringify(arr)); }
-
-function loadSales(){
-  const raw = localStorage.getItem(LS_SALES);
-  if (!raw) return [];
-  try { return JSON.parse(raw); } catch { return []; }
-}
-function saveSales(arr){ localStorage.setItem(LS_SALES, JSON.stringify(arr)); }
-
-function getComissaoPadrao(){
-  const v = localStorage.getItem(LS_COMISSAO);
-  if (!v) return 30;
-  const n = Number(v);
-  return Number.isFinite(n) ? n : 30;
-}
-function setComissaoPadrao(n){ localStorage.setItem(LS_COMISSAO, String(n)); }
-
-function loadRemetente(){
-  const raw = localStorage.getItem(LS_REM);
-  if (!raw){
-    const base = { nome: EMPRESA, contato:"", rua:"", numero:"", bairro:"", cidade:"", uf:"", cep:"", ref:"" };
-    localStorage.setItem(LS_REM, JSON.stringify(base));
-    return base;
-  }
-  try { return JSON.parse(raw); } catch { return { nome: EMPRESA }; }
-}
-function saveRemetente(obj){ localStorage.setItem(LS_REM, JSON.stringify(obj)); }
-
-/* ======================
-   STATE / ELEMENTOS
-====================== */
-let produtos = loadProdutos();
-let itens = [];
-
-const statusTop = document.getElementById("statusTop");
-
-const select = document.getElementById("produto");
-const adminSelect = document.getElementById("adminProd");
-
-const clienteInput = document.getElementById("cliente");
-const docInput = document.getElementById("doc");
-const ruaInput = document.getElementById("rua");
-const bairroInput = document.getElementById("bairro");
-const cidadeInput = document.getElementById("cidade");
-const ufInput = document.getElementById("uf");
-const cepInput = document.getElementById("cep");
-const refInput = document.getElementById("referencia");
-const numeroInput = document.getElementById("numero");
-const contatoInput = document.getElementById("contato");
-const obsInput = document.getElementById("obsInput");
-
-const clienteOut = document.getElementById("clienteOut");
-const docOut = document.getElementById("docOut");
-const enderecoOut = document.getElementById("enderecoOut");
-const cepOut = document.getElementById("cepOut");
-const contatoOut = document.getElementById("contatoOut");
-const refOut = document.getElementById("refOut");
-const obsOut = document.getElementById("obsOut");
-const dataOut = document.getElementById("dataOut");
-
-dataOut.textContent = hojeBR();
-
-document.getElementById("comissaoPct").value = getComissaoPadrao();
-
-// month default
-(function initMonths(){
-  const d = new Date();
-  const yyyy = d.getFullYear();
-  const mm = String(d.getMonth()+1).padStart(2,"0");
-  document.getElementById("mesRef").value = `${yyyy}-${mm}`;
-  document.getElementById("mesRef2").value = `${yyyy}-${mm}`;
-})();
-
-/* ======================
-   HELPERS
-====================== */
-function getProdutoById(id){ return produtos.find(p => p.id === id); }
-
-function enderecoCompleto(){
-  const rua = ruaInput.value.trim();
-  const num = numeroInput.value.trim();
-  const bairro = bairroInput.value.trim();
-  const cidade = cidadeInput.value.trim();
-  const uf = ufInput.value.trim();
-  const linha1 = [rua, num ? `Nº ${num}` : ""].filter(Boolean).join(", ");
-  const linha2 = [bairro, cidade, uf].filter(Boolean).join(" - ");
-  return [linha1, linha2].filter(Boolean).join(" | ") || "—";
-}
-
-function syncBuyerOut(){
-  clienteOut.textContent = clienteInput.value.trim() || "—";
-  docOut.textContent = docInput.value.trim() || "—";
-  enderecoOut.textContent = enderecoCompleto();
-  cepOut.textContent = cepInput.value.trim() || "—";
-  contatoOut.textContent = contatoInput.value.trim() || "—";
-  refOut.textContent = refInput.value.trim() || "—";
-  obsOut.textContent = obsInput.value.trim() || "—";
-}
-
-[
-  clienteInput, docInput, ruaInput, bairroInput, cidadeInput, ufInput, cepInput,
-  refInput, numeroInput, contatoInput, obsInput
-].forEach(el => el.addEventListener("input", syncBuyerOut));
-
-document.getElementById("frete").addEventListener("input", atualizar);
-document.getElementById("comissaoPct").addEventListener("input", atualizar);
-
-/* ======================
-   COTAÇÃO
-====================== */
-function renderSelects(){
-  select.innerHTML = "";
-  adminSelect.innerHTML = "";
-
-  produtos.forEach(p=>{
-    const opt = document.createElement("option");
-    opt.value = p.id;
-    opt.textContent = `${p.nome} • Estoque: ${p.estoque}`;
-    select.appendChild(opt);
-
-    const opt2 = document.createElement("option");
-    opt2.value = p.id;
-    opt2.textContent = p.nome;
-    adminSelect.appendChild(opt2);
-  });
-}
-
-function adicionarItem(){
-  const prodId = select.value;
-  const qtd = Math.max(1, Number(document.getElementById("quantidade").value)||1);
-  const p = getProdutoById(prodId);
-  if (!p) return;
-
-  const totalVenda = p.venda * qtd;
-  const icmsValor = totalVenda * ICMS;
-  const lucro = (p.venda - (p.venda * ICMS) - p.custo) * qtd;
-
-  itens.push({ prodId:p.id, nome:p.nome, qtd, vendaUnit:p.venda, custoUnit:p.custo, totalVenda, icmsValor, lucro });
-  atualizar();
-}
-
-function removerItem(i){ itens.splice(i,1); atualizar(); }
-function limpar(){ itens = []; atualizar(); }
-
-function calcularTotais(){
-  const frete = Number(document.getElementById("frete").value)||0;
-  const comPct = (Number(document.getElementById("comissaoPct").value)||0)/100;
-
-  const totalVenda = itens.reduce((s,it)=>s+it.totalVenda,0);
-  const totalICMS = itens.reduce((s,it)=>s+it.icmsValor,0);
-  const totalLucro = itens.reduce((s,it)=>s+it.lucro,0);
-
-  const totalComissao = totalVenda * comPct;
-  const totalFinal = totalVenda + totalComissao + frete;
-
-  return { frete, comPct, totalVenda, totalICMS, totalLucro, totalComissao, totalFinal };
-}
-
-function atualizar(){
-  try{
-    syncBuyerOut();
-
-    const lista = document.getElementById("lista");
-    lista.innerHTML = "";
-
-    itens.forEach((it,i)=>{
-      lista.innerHTML += `
-        <tr>
-          <td>${it.nome}</td>
-          <td>${it.qtd}</td>
-          <td>${brl(it.vendaUnit)}</td>
-          <td>${brl(it.custoUnit)}</td>
-          <td>${brl(it.icmsValor)}</td>
-          <td>${brl(it.lucro)}</td>
-          <td><b>${brl(it.totalVenda)}</b></td>
-          <td class="no-print"><button class="btn danger" onclick="removerItem(${i})" style="padding:7px 10px;border-radius:10px;">X</button></td>
-        </tr>
-      `;
-    });
-
-    const t = calcularTotais();
-    document.getElementById("totalVenda").textContent = brl(t.totalVenda);
-    document.getElementById("totalICMS").textContent = brl(t.totalICMS);
-    document.getElementById("totalComissao").textContent = brl(t.totalComissao);
-    document.getElementById("totalFrete").textContent = brl(t.frete);
-    document.getElementById("totalLucro").textContent = brl(t.totalLucro);
-    document.getElementById("totalFinal").textContent = brl(t.totalFinal);
-
-    renderEstoque();
-    recalcularDashboard();
-    renderRelatorioProduto();
-
-    statusTop.textContent = "Atualizado.";
-  } catch (e){
-    console.error(e);
-    statusTop.textContent = "Erro no sistema (ver Console).";
-  }
-}
-
-function gerarPDF(){ atualizar(); window.print(); }
-
-function copiarWhatsApp(){
-  atualizar();
-  const t = calcularTotais();
-
-  const cliente = clienteInput.value.trim() || "—";
-  const doc = docInput.value.trim() || "—";
-  const end = enderecoCompleto();
-  const cep = cepInput.value.trim() || "—";
-  const ref = refInput.value.trim() || "—";
-  const contato = contatoInput.value.trim() || "—";
-  const obs = obsInput.value.trim();
-
-  let texto = `*ORÇAMENTO - ${EMPRESA}*\n`;
-  texto += `Data: ${hojeBR()}\n`;
-  texto += `Cliente: ${cliente}\n`;
-  texto += `CPF/CNPJ: ${doc}\n`;
-  texto += `Entrega: ${end}\n`;
-  texto += `CEP: ${cep}\n`;
-  texto += `Referência: ${ref}\n`;
-  texto += `Contato: ${contato}\n`;
-  texto += `ICMS: 22% (fixo)\n`;
-  texto += `Comissão: ${Math.round(t.comPct*100)}%\n\n`;
-
-  if (itens.length === 0){
-    texto += `Nenhum item adicionado.\n`;
-  } else {
-    texto += `*Itens:*\n`;
-    itens.forEach((it,idx)=>{
-      texto += `${idx+1}) ${it.nome} | Qtd: ${it.qtd} | Unit: ${brl(it.vendaUnit)} | Total: ${brl(it.totalVenda)}\n`;
-    });
-  }
-
-  texto += `\n*Resumo:*\n`;
-  texto += `Materiais: ${brl(t.totalVenda)}\n`;
-  texto += `ICMS: ${brl(t.totalICMS)}\n`;
-  texto += `Comissão: ${brl(t.totalComissao)}\n`;
-  texto += `Frete: ${brl(t.frete)}\n`;
-  texto += `*Total final: ${brl(t.totalFinal)}*\n`;
-  texto += `Lucro estimado (materiais): ${brl(t.totalLucro)}\n`;
-  if (obs) texto += `\nObs: ${obs}\n`;
-
-  navigator.clipboard.writeText(texto)
-    .then(()=>alert("Copiado! Cole no WhatsApp."))
-    .catch(()=>alert("Não consegui copiar automaticamente."));
-}
-
-/* ======================
-   FECHAR VENDA / ESTOQUE / HISTÓRICO
-====================== */
-function fecharVenda(){
-  atualizar();
-  if (itens.length === 0){
-    alert("Adicione pelo menos 1 item antes de fechar a venda.");
-    return;
-  }
-
-  // valida estoque
-  for (const it of itens){
-    const p = getProdutoById(it.prodId);
-    if (p && p.estoque < it.qtd){
-      alert(`Estoque insuficiente: ${p.nome}\nEm estoque: ${p.estoque} | Necessário: ${it.qtd}`);
-      return;
+        `;
+      });
+
+      const t = calcularTotais();
+      totalVendaEl.textContent = brl(t.totalVenda);
+      totalICMSEl.textContent = brl(t.totalICMS);
+      totalComEl.textContent = brl(t.totalComissao);
+      totalFreteEl.textContent = brl(t.frete);
+      totalLucroEl.textContent = brl(t.totalLucro);
+      totalFinalEl.textContent = brl(t.totalFinal);
+
+      renderEstoque();
+      recalcularDashboard();
+      renderRelatorioProduto();
+
+      statusTop.textContent = "Atualizado.";
     }
-  }
 
-  // baixa estoque
-  produtos = produtos.map(p=>{
-    const usado = itens.filter(it=>it.prodId===p.id).reduce((s,it)=>s+it.qtd,0);
-    return { ...p, estoque: p.estoque - usado };
-  });
-  saveProdutos(produtos);
+    /* ======================
+      AÇÕES
+    ====================== */
+    function adicionarItem(){
+      const prodId = selectProduto.value;
+      const qtd = Math.max(1, Number(qtdInput.value)||1);
+      const p = getProdutoById(prodId);
+      if(!p) return;
 
-  // grava venda
-  const t = calcularTotais();
-  const vendas = loadSales();
-  vendas.push({
-    id: (crypto.randomUUID ? crypto.randomUUID() : String(Date.now())),
-    dateISO: hojeISO(),
-    cliente: clienteInput.value.trim() || "",
-    doc: docInput.value.trim() || "",
-    entrega:{
-      rua: ruaInput.value.trim(), bairro: bairroInput.value.trim(),
-      cidade: cidadeInput.value.trim(), uf: ufInput.value.trim(),
-      cep: cepInput.value.trim(), referencia: refInput.value.trim(),
-      numero: numeroInput.value.trim(), contato: contatoInput.value.trim()
-    },
-    obs: obsInput.value.trim() || "",
-    frete: t.frete,
-    comissaoPct: Math.round(t.comPct*100),
-    totalVenda: t.totalVenda,
-    totalICMS: t.totalICMS,
-    totalComissao: t.totalComissao,
-    totalFinal: t.totalFinal,
-    totalLucro: t.totalLucro,
-    itens: structuredClone(itens)
-  });
-  saveSales(vendas);
+      const totalVenda = p.venda * qtd;
+      const icmsValor = totalVenda * ICMS;
+      const lucro = (p.venda - (p.venda * ICMS) - p.custo) * qtd;
 
-  // limpa
-  itens = [];
-  atualizar();
-  alert("Venda fechada! Estoque atualizado e venda registrada.");
-}
-
-function salvarRascunho(){
-  const d = {
-    cliente: clienteInput.value, doc: docInput.value,
-    rua: ruaInput.value, bairro: bairroInput.value,
-    cidade: cidadeInput.value, uf: ufInput.value,
-    cep: cepInput.value, referencia: refInput.value,
-    numero: numeroInput.value, contato: contatoInput.value,
-    obs: obsInput.value,
-    frete: document.getElementById("frete").value,
-    comissaoPct: document.getElementById("comissaoPct").value,
-    itens
-  };
-  localStorage.setItem(LS_DRAFT, JSON.stringify(d));
-  alert("Rascunho salvo.");
-}
-
-function carregarRascunho(){
-  const raw = localStorage.getItem(LS_DRAFT);
-  if (!raw) return;
-  try{
-    const d = JSON.parse(raw);
-    clienteInput.value = d.cliente || "";
-    docInput.value = d.doc || "";
-    ruaInput.value = d.rua || "";
-    bairroInput.value = d.bairro || "";
-    cidadeInput.value = d.cidade || "";
-    ufInput.value = d.uf || "";
-    cepInput.value = d.cep || "";
-    refInput.value = d.referencia || "";
-    numeroInput.value = d.numero || "";
-    contatoInput.value = d.contato || "";
-    obsInput.value = d.obs || "";
-    document.getElementById("frete").value = d.frete ?? 20;
-    document.getElementById("comissaoPct").value = d.comissaoPct ?? getComissaoPadrao();
-    itens = Array.isArray(d.itens) ? d.itens : [];
-  }catch{}
-}
-
-/* ======================
-   DASHBOARD / RELATÓRIO
-====================== */
-function filtrarVendasPorMes(yyyyMM){
-  const vendas = loadSales();
-  return vendas.filter(v => (v.dateISO || "").startsWith(yyyyMM));
-}
-
-function recalcularDashboard(){
-  const yyyyMM = document.getElementById("mesRef").value;
-  const vendas = filtrarVendasPorMes(yyyyMM);
-
-  const fat = vendas.reduce((s,v)=>s+(Number(v.totalVenda)||0),0);
-  const icms = vendas.reduce((s,v)=>s+(Number(v.totalICMS)||0),0);
-  const com = vendas.reduce((s,v)=>s+(Number(v.totalComissao)||0),0);
-  const frete = vendas.reduce((s,v)=>s+(Number(v.frete)||0),0);
-  const lucro = vendas.reduce((s,v)=>s+(Number(v.totalLucro)||0),0);
-
-  document.getElementById("dashFat").textContent = brl(fat);
-  document.getElementById("dashIcms").textContent = brl(icms);
-  document.getElementById("dashCom").textContent = brl(com);
-  document.getElementById("dashFrete").textContent = brl(frete);
-  document.getElementById("dashLucro").textContent = brl(lucro);
-  document.getElementById("dashQtd").textContent = String(vendas.length);
-}
-
-function renderRelatorioProduto(){
-  const yyyyMM = document.getElementById("mesRef2").value;
-  const vendas = filtrarVendasPorMes(yyyyMM);
-
-  const map = new Map(); // id -> agg
-  for (const v of vendas){
-    for (const it of (v.itens || [])){
-      const key = it.prodId || it.nome;
-      if (!map.has(key)) map.set(key, { nome: it.nome, qtd:0, fat:0, lucro:0 });
-      const agg = map.get(key);
-      agg.qtd += Number(it.qtd)||0;
-      agg.fat += Number(it.totalVenda)||0;
-      agg.lucro += Number(it.lucro)||0;
+      itens.push({ prodId:p.id, nome:p.nome, qtd, vendaUnit:p.venda, custoUnit:p.custo, totalVenda, icmsValor, lucro });
+      atualizar();
     }
-  }
+    function removerItem(i){ itens.splice(i,1); atualizar(); }
+    function limpar(){ itens = []; atualizar(); }
 
-  const rows = Array.from(map.values()).sort((a,b)=>b.fat-a.fat);
-  const body = document.getElementById("relProdBody");
-  body.innerHTML = "";
+    function gerarPDF(){ atualizar(); window.print(); }
 
-  if (rows.length === 0){
-    body.innerHTML = `<tr><td colspan="4" class="muted">Nenhuma venda fechada neste mês.</td></tr>`;
-    return;
-  }
+    // ✅ abre WhatsApp com a mensagem pronta (sem copiar/colar)
+    function enviarWhatsApp(){
+      atualizar();
+      const t = calcularTotais();
 
-  rows.forEach(r=>{
-    body.innerHTML += `
-      <tr>
-        <td>${r.nome}</td>
-        <td>${r.qtd}</td>
-        <td>${brl(r.fat)}</td>
-        <td>${brl(r.lucro)}</td>
-      </tr>
-    `;
-  });
-}
+      const cliente = clienteInput.value.trim() || "—";
+      const doc = docInput.value.trim() || "—";
+      const end = enderecoCompleto();
+      const cep = cepInput.value.trim() || "—";
+      const ref = refInput.value.trim() || "—";
+      const contato = contatoInput.value.trim() || "—";
+      const obs = obsInput.value.trim();
 
-/* ======================
-   ESTOQUE
-====================== */
-function renderEstoque(){
-  const body = document.getElementById("estoqueBody");
-  body.innerHTML = "";
-  produtos.forEach(p=>{
-    body.innerHTML += `
-      <tr>
-        <td>${p.nome}</td>
-        <td><b>${p.estoque}</b></td>
-        <td>${brl(p.custo)}</td>
-        <td>${brl(p.venda)}</td>
-      </tr>
-    `;
-  });
-}
+      let texto = `ORÇAMENTO - ${EMPRESA}\n`;
+      texto += `Data: ${hojeBR()}\n`;
+      texto += `Cliente: ${cliente}\n`;
+      texto += `CPF/CNPJ: ${doc}\n`;
+      texto += `Entrega: ${end}\n`;
+      texto += `CEP: ${cep}\n`;
+      texto += `Referência: ${ref}\n`;
+      texto += `Contato: ${contato}\n`;
+      texto += `ICMS: 22% (fixo)\n`;
+      texto += `Comissão: ${Math.round(t.comPct*100)}%\n\n`;
 
-/* ======================
-   ETIQUETA
-====================== */
-function gerarEtiqueta(){
-  syncBuyerOut();
-  const r = loadRemetente();
+      if(itens.length===0){
+        texto += `Nenhum item adicionado.\n`;
+      } else {
+        texto += `Itens:\n`;
+        itens.forEach((it,idx)=>{
+          texto += `${idx+1}) ${it.nome} | Qtd: ${it.qtd} | Unit: ${brl(it.vendaUnit)} | Total: ${brl(it.totalVenda)}\n`;
+        });
+      }
 
-  const dest = {
-    nome: clienteInput.value.trim() || "—",
-    doc: docInput.value.trim() || "—",
-    rua: ruaInput.value.trim() || "—",
-    numero: numeroInput.value.trim() || "",
-    bairro: bairroInput.value.trim() || "—",
-    cidade: cidadeInput.value.trim() || "—",
-    uf: ufInput.value.trim() || "—",
-    cep: cepInput.value.trim() || "—",
-    ref: refInput.value.trim() || "—",
-    contato: contatoInput.value.trim() || "—"
-  };
+      texto += `\nResumo:\n`;
+      texto += `Materiais: ${brl(t.totalVenda)}\n`;
+      texto += `ICMS: ${brl(t.totalICMS)}\n`;
+      texto += `Comissão: ${brl(t.totalComissao)}\n`;
+      texto += `Frete: ${brl(t.frete)}\n`;
+      texto += `TOTAL FINAL: ${brl(t.totalFinal)}\n`;
+      texto += `Lucro estimado (materiais): ${brl(t.totalLucro)}\n`;
+      if(obs) texto += `\nObs: ${obs}\n`;
 
-  if (!dest.cep || dest.cep === "—"){
-    alert("Preencha o CEP do comprador para gerar a etiqueta.");
-    return;
-  }
+      const url = "https://wa.me/?text=" + encodeURIComponent(texto);
+      window.open(url, "_blank");
+    }
 
-  const linhaDest1 = `${dest.rua}${dest.numero ? ", Nº " + dest.numero : ""}`;
-  const linhaDest2 = `${dest.bairro} • ${dest.cidade} - ${dest.uf}`;
+    function fecharVenda(){
+      atualizar();
+      if(itens.length===0){
+        alert("Adicione pelo menos 1 item antes de fechar a venda.");
+        return;
+      }
 
-  const linhaRem1 = `${(r.rua||"")}${(r.numero ? ", Nº " + r.numero : "")}`.trim() || "—";
-  const linhaRem2 = `${(r.bairro||"")} • ${(r.cidade||"")} - ${(r.uf||"")}`.replace(/^ • /,"").trim() || "—";
+      // validar estoque
+      for(const it of itens){
+        const p = getProdutoById(it.prodId);
+        if(p && p.estoque < it.qtd){
+          alert(`Estoque insuficiente: ${p.nome}\nEm estoque: ${p.estoque} | Necessário: ${it.qtd}`);
+          return;
+        }
+      }
 
-  const pedido = String(Date.now()).slice(-6);
+      // baixar estoque
+      produtos = produtos.map(p=>{
+        const usado = itens.filter(it=>it.prodId===p.id).reduce((s,it)=>s+it.qtd,0);
+        return { ...p, estoque: p.estoque - usado };
+      });
+      saveProdutos(produtos);
 
-  const html = `
-<!doctype html>
-<html lang="pt-BR">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+      // gravar venda
+      const t = calcularTotais();
+      const vendas = loadSales();
+      vendas.push({
+        id: (crypto.randomUUID ? crypto.randomUUID() : String(Date.now())),
+        dateISO: hojeISO(),
+        cliente: clienteInput.value.trim() || "",
+        doc: docInput.value.trim() || "",
+        entrega:{
+          rua: ruaInput.value.trim(),
+          numero: numeroInput.value.trim(),
+          bairro: bairroInput.value.trim(),
+          cidade: cidadeInput.value.trim(),
+          uf: ufInput.value.trim(),
+          cep: cepInput.value.trim(),
+          referencia: refInput.value.trim(),
+          contato: contatoInput.value.trim()
+        },
+        obs: obsInput.value.trim() || "",
+        frete: t.frete,
+        comissaoPct: Math.round(t.comPct*100),
+        totalVenda: t.totalVenda,
+        totalICMS: t.totalICMS,
+        totalComissao: t.totalComissao,
+        totalFinal: t.totalFinal,
+        totalLucro: t.totalLucro,
+        itens: structuredClone(itens)
+      });
+      saveSales(vendas);
+
+      // limpar
+      itens = [];
+      renderSelects();
+      atualizar();
+      alert("Venda fechada! Estoque atualizado e venda registrada.");
+    }
+
+    function salvarRascunho(){
+      const d = {
+        cliente: clienteInput.value, doc: docInput.value,
+        rua: ruaInput.value, numero: numeroInput.value,
+        bairro: bairroInput.value, cidade: cidadeInput.value,
+        uf: ufInput.value, cep: cepInput.value,
+        referencia: refInput.value, contato: contatoInput.value,
+        obs: obsInput.value,
+        frete: freteInput.value,
+        comissaoPct: comInput.value,
+        itens
+      };
+      localStorage.setItem(LS_DRAFT, JSON.stringify(d));
+      alert("Rascunho salvo.");
+    }
+
+    function carregarRascunho(){
+      const raw = localStorage.getItem(LS_DRAFT);
+      if(!raw) return;
+      try{
+        const d = JSON.parse(raw);
+        clienteInput.value = d.cliente || "";
+        docInput.value = d.doc || "";
+        ruaInput.value = d.rua || "";
+        numeroInput.value = d.numero || "";
+        bairroInput.value = d.bairro || "";
+        cidadeInput.value = d.cidade || "";
+        ufInput.value = d.uf || "";
+        cepInput.value = d.cep || "";
+        refInput.value = d.referencia || "";
+        contatoInput.value = d.contato || "";
+        obsInput.value = d.obs || "";
+        freteInput.value = d.frete ?? 20;
+        comInput.value = d.comissaoPct ?? getComissaoPadrao();
+        itens = Array.isArray(d.itens) ? d.itens : [];
+      } catch {}
+    }
+
+    /* ======================
+      DASH / REL
+    ====================== */
+    function filtrarVendasPorMes(yyyyMM){
+      const vendas = loadSales();
+      return vendas.filter(v => (v.dateISO || "").startsWith(yyyyMM));
+    }
+
+    function recalcularDashboard(){
+      const yyyyMM = document.getElementById("mesRef").value;
+      const vendas = filtrarVendasPorMes(yyyyMM);
+
+      const fat = vendas.reduce((s,v)=>s+(Number(v.totalVenda)||0),0);
+      const icms = vendas.reduce((s,v)=>s+(Number(v.totalICMS)||0),0);
+      const com = vendas.reduce((s,v)=>s+(Number(v.totalComissao)||0),0);
+      const frete = vendas.reduce((s,v)=>s+(Number(v.frete)||0),0);
+      const lucro = vendas.reduce((s,v)=>s+(Number(v.totalLucro)||0),0);
+
+      dashFat.textContent = brl(fat);
+      dashIcms.textContent = brl(icms);
+      dashCom.textContent = brl(com);
+      dashFrete.textContent = brl(frete);
+      dashLucro.textContent = brl(lucro);
+      dashQtd.textContent = String(vendas.length);
+    }
+
+    function renderRelatorioProduto(){
+      const yyyyMM = document.getElementById("mesRef2").value;
+      const vendas = filtrarVendasPorMes(yyyyMM);
+
+      const map = new Map();
+      for(const v of vendas){
+        for(const it of (v.itens||[])){
+          const key = it.prodId || it.nome;
+          if(!map.has(key)) map.set(key, { nome: it.nome, qtd:0, fat:0, lucro:0 });
+          const agg = map.get(key);
+          agg.qtd += Number(it.qtd)||0;
+          agg.fat += Number(it.totalVenda)||0;
+          agg.lucro += Number(it.lucro)||0;
+        }
+      }
+
+      const rows = Array.from(map.values()).sort((a,b)=>b.fat-a.fat);
+      relBody.innerHTML = "";
+      if(rows.length===0){
+        relBody.innerHTML = `<tr><td colspan="4" class="muted">Nenhuma venda fechada neste mês.</td></tr>`;
+        return;
+      }
+
+      for(const r of rows){
+        relBody.innerHTML += `
+          <tr>
+            <td>${r.nome}</td>
+            <td>${r.qtd}</td>
+            <td>${brl(r.fat)}</td>
+            <td>${brl(r.lucro)}</td>
+          </tr>
+        `;
+      }
+    }
+
+    function renderEstoque(){
+      estoqueBody.innerHTML = "";
+      produtos.forEach(p=>{
+        estoqueBody.innerHTML += `
+          <tr>
+            <td>${p.nome}</td>
+            <td><b>${p.estoque}</b></td>
+            <td>${brl(p.custo)}</td>
+            <td>${brl(p.venda)}</td>
+          </tr>
+        `;
+      });
+    }
+
+    /* ======================
+      ETIQUETA
+    ====================== */
+    function gerarEtiqueta(){
+      syncBuyerOut();
+      const r = loadRemetente();
+
+      const dest = {
+        nome: clienteInput.value.trim() || "—",
+        doc: docInput.value.trim() || "—",
+        rua: ruaInput.value.trim() || "—",
+        numero: numeroInput.value.trim() || "",
+        bairro: bairroInput.value.trim() || "—",
+        cidade: cidadeInput.value.trim() || "—",
+        uf: ufInput.value.trim() || "—",
+        cep: cepInput.value.trim() || "—",
+        ref: refInput.value.trim() || "—",
+        contato: contatoInput.value.trim() || "—"
+      };
+
+      if(!dest.cep || dest.cep==="—"){
+        alert("Preencha o CEP do comprador para gerar a etiqueta.");
+        return;
+      }
+
+      const linhaDest1 = `${dest.rua}${dest.numero ? ", Nº " + dest.numero : ""}`;
+      const linhaDest2 = `${dest.bairro} • ${dest.cidade} - ${dest.uf}`;
+      const linhaRem1 = `${(r.rua||"")}${(r.numero ? ", Nº " + r.numero : "")}`.trim() || "—";
+      const linhaRem2 = `${(r.bairro||"")} • ${(r.cidade||"")} - ${(r.uf||"")}`.replace(/^ • /,"").trim() || "—";
+      const pedido = String(Date.now()).slice(-6);
+
+      const html = `
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Etiqueta</title>
 <style>
-  body { font-family: Arial, sans-serif; margin: 0; padding: 10mm; }
-  .label { border: 2px solid #000; padding: 8mm; }
-  .top { display:flex; justify-content:space-between; gap:8mm; align-items:flex-start; }
-  h1 { font-size: 14pt; margin: 0 0 3mm; }
-  .line { font-size: 11pt; margin: 1.2mm 0; }
-  .small { font-size: 10pt; }
-  .hr { border-top: 2px solid #000; margin: 6mm 0; }
-  .row { display:flex; justify-content:space-between; gap:8mm; }
-  .box { border: 1px solid #000; padding: 6mm; width: 100%; }
-  .tag { font-weight: 900; text-transform: uppercase; font-size: 10pt; margin-bottom: 2mm; }
-  .barcode { border:1px solid #000; padding:4mm; margin-top:5mm; font-family: monospace; letter-spacing:2px; }
-  @media print { body { padding: 0; } .label { border:0; } }
-</style>
-</head>
-<body>
-  <div class="label">
-    <div class="top">
-      <div>
-        <h1>ETIQUETA DE ENVIO</h1>
-        <div class="line small"><b>Data:</b> ${hojeBR()}</div>
-        <div class="line small"><b>Pedido:</b> ${pedido}</div>
-      </div>
-      <div style="text-align:right">
-        <div class="line"><b>CEP:</b> ${dest.cep}</div>
-        <div class="barcode">||| ${dest.cep.replace(/\\D/g,"").padEnd(8,"0")} |||</div>
-      </div>
+  body{font-family:Arial,sans-serif;margin:0;padding:10mm;}
+  .label{border:2px solid #000;padding:8mm;}
+  .top{display:flex;justify-content:space-between;gap:8mm;align-items:flex-start;}
+  h1{font-size:14pt;margin:0 0 3mm;}
+  .line{font-size:11pt;margin:1.2mm 0;}
+  .small{font-size:10pt;}
+  .hr{border-top:2px solid #000;margin:6mm 0;}
+  .row{display:flex;justify-content:space-between;gap:8mm;}
+  .box{border:1px solid #000;padding:6mm;width:100%;}
+  .tag{font-weight:900;text-transform:uppercase;font-size:10pt;margin-bottom:2mm;}
+  .barcode{border:1px solid #000;padding:4mm;margin-top:5mm;font-family:monospace;letter-spacing:2px;}
+  @media print{body{padding:0}.label{border:0}}
+</style></head><body>
+<div class="label">
+  <div class="top">
+    <div>
+      <h1>ETIQUETA DE ENVIO</h1>
+      <div class="line small"><b>Data:</b> ${hojeBR()}</div>
+      <div class="line small"><b>Pedido:</b> ${pedido}</div>
     </div>
-
-    <div class="hr"></div>
-
-    <div class="row">
-      <div class="box">
-        <div class="tag">REMETENTE</div>
-        <div class="line"><b>${(r.nome||"${EMPRESA}")}</b></div>
-        <div class="line">${linhaRem1}</div>
-        <div class="line">${linhaRem2}</div>
-        <div class="line"><b>CEP:</b> ${(r.cep||"—")}</div>
-        <div class="line"><b>Contato:</b> ${(r.contato||"—")}</div>
-        <div class="line small"><b>Ref:</b> ${(r.ref||"—")}</div>
-      </div>
-
-      <div class="box">
-        <div class="tag">DESTINATÁRIO</div>
-        <div class="line"><b>${dest.nome}</b></div>
-        <div class="line">${linhaDest1}</div>
-        <div class="line">${linhaDest2}</div>
-        <div class="line"><b>CEP:</b> ${dest.cep}</div>
-        <div class="line"><b>Contato:</b> ${dest.contato}</div>
-        <div class="line small"><b>Ref:</b> ${dest.ref}</div>
-        <div class="line small"><b>Doc:</b> ${dest.doc}</div>
-      </div>
+    <div style="text-align:right">
+      <div class="line"><b>CEP:</b> ${dest.cep}</div>
+      <div class="barcode">||| ${dest.cep.replace(/\\D/g,"").padEnd(8,"0")} |||</div>
     </div>
   </div>
 
-<script>
-  window.onload = () => { window.print(); };
-</script>
-</body>
-</html>
-  `;
+  <div class="hr"></div>
 
-  const w = window.open("", "_blank");
-  if (!w){
-    alert("Pop-up bloqueado. Permita pop-ups para gerar a etiqueta.");
-    return;
-  }
-  w.document.open();
-  w.document.write(html);
-  w.document.close();
-}
+  <div class="row">
+    <div class="box">
+      <div class="tag">REMETENTE</div>
+      <div class="line"><b>${(r.nome||EMPRESA)}</b></div>
+      <div class="line">${linhaRem1}</div>
+      <div class="line">${linhaRem2}</div>
+      <div class="line"><b>CEP:</b> ${(r.cep||"—")}</div>
+      <div class="line"><b>Contato:</b> ${(r.contato||"—")}</div>
+      <div class="line small"><b>Ref:</b> ${(r.ref||"—")}</div>
+    </div>
 
-/* ======================
-   ADMIN
-====================== */
-function abrirAdmin(){
-  document.getElementById("adminBack").style.display = "flex";
-  document.getElementById("adminPass").value = "";
-  document.getElementById("adminLogin").classList.remove("hidden");
-  document.getElementById("adminPanel").classList.add("hidden");
+    <div class="box">
+      <div class="tag">DESTINATÁRIO</div>
+      <div class="line"><b>${dest.nome}</b></div>
+      <div class="line">${linhaDest1}</div>
+      <div class="line">${linhaDest2}</div>
+      <div class="line"><b>CEP:</b> ${dest.cep}</div>
+      <div class="line"><b>Contato:</b> ${dest.contato}</div>
+      <div class="line small"><b>Ref:</b> ${dest.ref}</div>
+      <div class="line small"><b>Doc:</b> ${dest.doc}</div>
+    </div>
+  </div>
+</div>
+<script>window.onload=()=>{window.print();};</script>
+</body></html>`;
 
-  renderSelects();
-  document.getElementById("adminComissao").value = getComissaoPadrao();
+      const w = window.open("", "_blank");
+      if(!w){ alert("Pop-up bloqueado. Permita pop-ups para gerar a etiqueta."); return; }
+      w.document.open();
+      w.document.write(html);
+      w.document.close();
+    }
 
-  const r = loadRemetente();
-  document.getElementById("remNome").value = r.nome || EMPRESA;
-  document.getElementById("remContato").value = r.contato || "";
-  document.getElementById("remRua").value = r.rua || "";
-  document.getElementById("remNumero").value = r.numero || "";
-  document.getElementById("remBairro").value = r.bairro || "";
-  document.getElementById("remCidade").value = r.cidade || "";
-  document.getElementById("remUF").value = r.uf || "";
-  document.getElementById("remCEP").value = r.cep || "";
-  document.getElementById("remRef").value = r.ref || "";
-}
-function fecharAdmin(){ document.getElementById("adminBack").style.display = "none"; }
+    /* ======================
+      ADMIN
+    ====================== */
+    function abrirAdmin(){
+      document.getElementById("adminBack").style.display = "flex";
+      document.getElementById("adminPass").value = "";
+      document.getElementById("adminLogin").style.display = "block";
+      document.getElementById("adminPanel").style.display = "none";
 
-function loginAdmin(){
-  const pass = document.getElementById("adminPass").value;
-  if (pass !== ADMIN_PASSWORD){ alert("Senha incorreta."); return; }
+      renderSelects();
+      document.getElementById("adminComissao").value = getComissaoPadrao();
 
-  document.getElementById("adminLogin").classList.add("hidden");
-  document.getElementById("adminPanel").classList.remove("hidden");
+      const r = loadRemetente();
+      document.getElementById("remNome").value = r.nome || EMPRESA;
+      document.getElementById("remContato").value = r.contato || "";
+      document.getElementById("remRua").value = r.rua || "";
+      document.getElementById("remNumero").value = r.numero || "";
+      document.getElementById("remBairro").value = r.bairro || "";
+      document.getElementById("remCidade").value = r.cidade || "";
+      document.getElementById("remUF").value = r.uf || "";
+      document.getElementById("remCEP").value = r.cep || "";
+      document.getElementById("remRef").value = r.ref || "";
 
-  onAdminProdChange();
-  adminSelect.addEventListener("change", onAdminProdChange);
+      onAdminProdChange();
+    }
+    function fecharAdmin(){ document.getElementById("adminBack").style.display = "none"; }
 
-  // autosave remetente
-  ["remNome","remContato","remRua","remNumero","remBairro","remCidade","remUF","remCEP","remRef"].forEach(id=>{
-    document.getElementById(id).addEventListener("input", ()=>{
-      saveRemetente({
-        nome: document.getElementById("remNome").value.trim() || EMPRESA,
-        contato: document.getElementById("remContato").value.trim(),
-        rua: document.getElementById("remRua").value.trim(),
-        numero: document.getElementById("remNumero").value.trim(),
-        bairro: document.getElementById("remBairro").value.trim(),
-        cidade: document.getElementById("remCidade").value.trim(),
-        uf: document.getElementById("remUF").value.trim(),
-        cep: document.getElementById("remCEP").value.trim(),
-        ref: document.getElementById("remRef").value.trim()
+    function loginAdmin(){
+      const pass = document.getElementById("adminPass").value;
+      if(pass !== ADMIN_PASSWORD){ alert("Senha incorreta."); return; }
+
+      document.getElementById("adminLogin").style.display = "none";
+      document.getElementById("adminPanel").style.display = "block";
+
+      adminProd.addEventListener("change", onAdminProdChange);
+
+      // autosave remetente
+      ["remNome","remContato","remRua","remNumero","remBairro","remCidade","remUF","remCEP","remRef"].forEach(id=>{
+        document.getElementById(id).addEventListener("input", ()=>{
+          saveRemetente({
+            nome: document.getElementById("remNome").value.trim() || EMPRESA,
+            contato: document.getElementById("remContato").value.trim(),
+            rua: document.getElementById("remRua").value.trim(),
+            numero: document.getElementById("remNumero").value.trim(),
+            bairro: document.getElementById("remBairro").value.trim(),
+            cidade: document.getElementById("remCidade").value.trim(),
+            uf: document.getElementById("remUF").value.trim(),
+            cep: document.getElementById("remCEP").value.trim(),
+            ref: document.getElementById("remRef").value.trim()
+          });
+        });
       });
-    });
-  });
-}
+    }
 
-function onAdminProdChange(){
-  const id = adminSelect.value;
-  const p = getProdutoById(id);
-  document.getElementById("adminEstoque").value = p ? p.estoque : 0;
-}
+    function onAdminProdChange(){
+      const p = getProdutoById(adminProd.value);
+      document.getElementById("adminEstoque").value = p ? p.estoque : 0;
+    }
 
-function salvarEstoqueAdmin(){
-  const id = adminSelect.value;
-  const novo = Math.max(0, Math.floor(Number(document.getElementById("adminEstoque").value)||0));
-  produtos = produtos.map(p => p.id === id ? { ...p, estoque: novo } : p);
-  saveProdutos(produtos);
-  renderSelects();
-  renderEstoque();
-  alert("Estoque atualizado.");
-}
+    function salvarEstoqueAdmin(){
+      const id = adminProd.value;
+      const novo = Math.max(0, Math.floor(Number(document.getElementById("adminEstoque").value)||0));
+      produtos = produtos.map(p => p.id===id ? { ...p, estoque: novo } : p);
+      saveProdutos(produtos);
+      renderSelects();
+      renderEstoque();
+      alert("Estoque atualizado.");
+    }
 
-function salvarComissaoAdmin(){
-  const n = Math.max(0, Math.min(100, Math.floor(Number(document.getElementById("adminComissao").value)||0)));
-  setComissaoPadrao(n);
-  document.getElementById("comissaoPct").value = n;
-  atualizar();
-  alert("Comissão padrão atualizada.");
-}
+    function salvarComissaoAdmin(){
+      const n = Math.max(0, Math.min(100, Math.floor(Number(document.getElementById("adminComissao").value)||0)));
+      setComissaoPadrao(n);
+      comInput.value = n;
+      atualizar();
+      alert("Comissão padrão atualizada.");
+    }
 
-function zerarHistorico(){
-  if (!confirm("Tem certeza que deseja zerar o histórico de vendas?")) return;
-  localStorage.removeItem(LS_SALES);
-  recalcularDashboard();
-  renderRelatorioProduto();
-  alert("Histórico zerado.");
-}
+    function zerarHistorico(){
+      if(!confirm("Tem certeza que deseja zerar o histórico de vendas?")) return;
+      localStorage.removeItem(LS_SALES);
+      recalcularDashboard();
+      renderRelatorioProduto();
+      alert("Histórico zerado.");
+    }
 
-/* ======================
-   TABS
-====================== */
-function setTab(tab){
-  const tabs = ["cotacao","dashboard","relatorios","estoque"];
-  tabs.forEach(t=>{
-    document.getElementById(`tab-${t}`).classList.toggle("active", t===tab);
-    document.getElementById(`sec-${t}`).classList.toggle("hidden", t!==tab);
-  });
-}
+    /* ======================
+      NAVEGAÇÃO
+    ====================== */
+    function setSection(name){
+      const all = ["cotacao","dashboard","relatorios","estoque"];
+      all.forEach(s=>{
+        document.getElementById("sec-"+s).classList.toggle("active", s===name);
+        document.getElementById("nav-"+s).classList.toggle("active", s===name);
+      });
 
-/* ======================
-   START
-====================== */
-renderSelects();
-carregarRascunho();
-atualizar();
-</script>
+      if(name==="cotacao"){
+        pageTitle.textContent = "Cotação";
+        pageSub.textContent = "Monte um orçamento e gere PDF / WhatsApp.";
+      }
+      if(name==="dashboard"){
+        pageTitle.textContent = "Vendas Mensal";
+        pageSub.textContent = "Resumo do mês selecionado (vendas fechadas).";
+      }
+      if(name==="relatorios"){
+        pageTitle.textContent = "Relatório";
+        pageSub.textContent = "Ranking por produto (mês selecionado).";
+      }
+      if(name==="estoque"){
+        pageTitle.textContent = "Estoque";
+        pageSub.textContent = "Controle automático e ajuste via Admin.";
+      }
+      statusTop.textContent = "Pronto.";
+    }
 
+    /* ======================
+      START
+    ====================== */
+    renderSelects();
+    carregarRascunho();
+    atualizar();
+  </script>
 </body>
 </html>
